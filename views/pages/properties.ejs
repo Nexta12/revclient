@@ -1,0 +1,132 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left py-3 mx-5 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/properties/property">Properties</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="container mx-auto">
+                    <%- include('../partials/flash_messages') %>
+                    </div>
+                    <div class="conatiner customer-search-header bg-white p-3 mx-4 fixed">
+                       
+                        <div class="c-title">
+                            <h5 class="text-capitalize text-center">All Properties</h5>
+                        </div>
+                        <div class="c-search">
+                            <div class="search-wrapper text-center">
+                                <input type="text" id="search-box" class="search-box" placeholder="Search property">
+                                <!-- <span class="las la-search"></span> -->
+                            </div>
+                        </div>
+                        <% if(user.role != "Customer"){ %>
+                            <div class="c-add-new text-center">
+                                <a href="/api/v2/properties/add_new_property" class="btn btn-outline-secondary-button w-50 py-2"> <i
+                                        class="las la-plus"></i> Add
+                                    New</a>
+                            </div>
+
+                       <% } %>
+                       
+                    </div>
+
+                    <!-- customers table list -->
+
+
+                    <section class="table ">
+                        <div class="row py-3 mx-3 custable-height">
+                            <div class="col overflow-auto mb-3">
+                                <table class="table bg-white shadow table-stri">
+                                    <thead>
+                                        <tr>
+                                            <th>No:</th>
+                                            <th>Property Name</th>
+                                            <th>Location</th>
+                                            <th>Type</th>
+                                            <th>Price &#x20A6;</th>
+                                            <th>Status</th>
+                                            <% if(user.role==="Admin" || user.role==="Staff" ){ %>
+                                                <th>Action</th>
+                                                <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <%  properties.forEach((property, index)=>{ %>
+                                            <tr>
+                                                <td><%= index + 1 %></td>
+                                                <td>
+                                                <a href="/api/v2/properties/<%= property.id %>">
+                                                 <%= property.name.toUpperCase() %>(<% if(property.typeOfpro=="Plots of Land" ){%>
+                                                    <span class="fw-1">Land</span> 
+                                                    <%}else{ %>
+                                                        <span class="fw-6">House</span>
+                                                        <% } %>)
+                                                </a>
+                                                </td>
+                                                <td><%= property.address %></td>
+                                                <td>
+                                                    <% if(property.typeOfpro == "Plots of Land"){%>
+                                                        Land
+                                                    <%}else{ %>
+                                                        House
+                                                   <% } %>
+                                                </td>
+
+                                                <td><% if(property.typeOfpro==="Plots of Land" ){ %>
+                                                    <%= numFomatter(property.pricePerPlot) %>/Plot
+                                                        <% } else{ %>
+                                                            <%= numFomatter(property.pricePerPlot) %>/Unit
+                                                                <% } %></td>
+
+                                                <% if(property.status=="For Sale" ){ %>
+                                                    <td class="text-success px-2"> On Sale </td>
+                                              <% }else{%>
+                                                <td> <span class="btn btn-danger py-0">Sold Out</span></td>
+                                              <% } %>
+                                                 
+                                                <% if(user.role==="Admin" || user.role==="Staff" ){ %>
+                                                <td class="d-flex justify-content-around">
+                                                    <a href="/api/v2/properties/<%= property.id%>"><i class="las la-eye la-2x-size "></i></a>
+                                                    <a href="/api/v2/properties/edit/<%= property.id%>"><i class="las la-edit  mx-2 la-2x-size"></i></a>
+                                                    <form action="/api/v2/properties/delete/<%= property.id %>?_method=DELETE" method="POST">
+                                                        <a class="deletConfirm"><i class="las la-trash  la-2x-size"></i></a>
+                                                        <input type="submit" value="delete" class="d-none " id="deleteInput">
+                                                    </form>
+                                                    
+                                                     <a href="/api/v2/assign/<%= property.id %>">Assign</a>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+
+                                       <% }) %>
+                                       
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

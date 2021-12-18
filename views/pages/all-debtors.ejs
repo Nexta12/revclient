@@ -1,0 +1,104 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left py-3 mx-5 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/stats/statistics">Statistics</a>>>
+                                <a href="/api/v2/stats/all-debtors">All Debtors</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="conatiner customer-search-header mt-3  bg-white p-3 mx-4 fixed">
+                        <div class="c-title">
+                            <h5 class="text-capitalize text-center text-revplus">All Owing Customers</h5>
+                        </div>
+                        <div class="c-search">
+                            <div class="search-wrapper text-center">
+                                <input type="text" id="search-box" class="search-box" placeholder="Search Debtors">
+                                <!-- <span class="las la-search"></span> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- customers table list -->
+
+
+                    <section class="table ">
+                        <div class="row py-3 mx-3 custable-height">
+                                <div class="col overflow-auto mb-3">
+                                    <table class="table table-stri bg-white shadow" id="customersTable">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Name</th>
+                                                <th>Address</th>
+                                                <th>Phone</th>
+                                                <th>Property Purchased</th>
+                                                <th>Debt</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% sortedDebtors.forEach((customer, index)=>{ %>
+                                                 <% if(customer.properties.grandDebt != 0){ %>
+
+                                                    <tr>
+                                                        <td>
+                                                    
+                                                            <%= (index + 1) %>
+                                                    
+                                                        </td>
+                                                        <td class="text-uppercase">
+                                                            <a href="/api/v2/customers/<%= customer._id%>">
+                                                                <%= customer.name %>
+                                                            </a>
+                                                    
+                                                        </td>
+                                                        <td>
+                                                            <%= customer.address %>
+                                                        </td>
+                                                        <td>
+                                                            <%= customer.phone %>
+                                                        </td>
+                                                        <td>
+                                                            <%= customer.properties.name %>
+                                                        </td>
+                                                        <td class="text-danger text-left">
+                                                            &#x20A6; <%=numFomatter(customer.properties.grandDebt) %>
+                                                        </td>
+                                                    
+                                                    </tr>
+
+                                                <% } %>
+                                                <% }) %>
+
+                                        </tbody>
+                                    </table>
+                                    <!-- New Pagination -->
+
+
+                                    <!-- pagination stops -->
+
+
+
+
+                                </div>
+                        </div>
+
+                    </section>
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

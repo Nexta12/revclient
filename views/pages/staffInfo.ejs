@@ -1,0 +1,252 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/users/staff">Customer</a>>>
+                                <a href="/api/v2/users/<%= userNow.id %>">
+                                    <%= userNow.firstname %>
+                                        <%= userNow.lastname %>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="container mx-auto py-3">
+                        <%- include('../partials/flash_messages') %>
+                    </div>
+
+                    <% if(user.role=="Admin" || user.role=="Staff" ){ %>
+                        <div class="container">
+                            <div class="row">
+                            <div class=" col-sm-6 col-md-4 col-lg-3 image bg-revplus me-2 mb-2  p-3 text-center shadow-sm rounded-3 ">
+
+                                    <img src="/img/uploads/<%= userNow.profilePic %>" alt="" width="130" height="130"
+                                        class="rounded-circle img-center bg-white">
+
+                                    <p class="m-2 text-uppercase text-center lead">
+                                        <%= userNow.firstname %>
+                                            <%= userNow.lastname %> <br>
+                                                <span class=" text-capitalize fs-6">
+                                                    <%= userNow.position %>,
+                                                        <%= userNow.branch %>
+                                                </span>
+
+                                    </p>
+
+                                </div>
+
+                                <div class="user-details col mb-2 bg-white shadow-sm rounded-3 p-2 staffinfo">
+                                    <div class="d-flex justify-content-between">
+
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <p class="text-black text-uppercase">Department:</p>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="text-capitalize">
+                                                        <%= userNow.dept %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-between">
+                                            <div class="col">
+                                                <p class="text-black text-uppercase">Email:</p>
+                                            </div>
+                                            <div class="col">
+                                                <span class="text-lowercase">
+                                                    <%= userNow.email %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-between">
+                                            <div class="col">
+                                                <p class="text-black text-uppercase">Phone:</p>
+                                            </div>
+                                            <div class="col">
+                                                <span class="text-uppercase">
+                                                    <%= userNow.phone %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-between">
+                                            <div class="col">
+                                                <p class="text-black text-primary"><i
+                                                        class="lab la-facebook la-2x"></i>:</p>
+                                            </div>
+                                            <div class="col">
+                                                <span class="text-lowercase text-primary">
+                                                    <%= userNow.facebook %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-between">
+                                            <div class="col">
+                                                <p class="text-black text-lowercase"><i
+                                                        class="lab la-twitter la-2x"></i>:</p>
+                                            </div>
+                                            <div class="col">
+                                                <span class="text-info text-lowercase">
+                                                    <%= userNow.twitter %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row justify-content-between">
+                                            <div class="col">
+                                                <p class="text-lowercase text-danger"><i
+                                                        class="lab la-instagram la-2x"></i>:</p>
+                                            </div>
+                                            <div class="col">
+                                                <span class="text-lowercase text-danger">
+                                                    <%= userNow.instagram %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <% }else{ %>
+
+                            <div class="container">
+                                <div class="row">
+                                    <div class="image col  bg-revplus me-2 mb-2  p-3 text-center shadow-sm rounded-3">
+                                        <img src="/img/uploads/<%= userNow.profilePic %>" alt="" width="150" height="150" class="rounded-circle">
+                                        <p class="m-2 text-uppercase text-center lead">
+                                            <%= userNow.name %> <br>
+                                            <span class="text-capitalize fs-6">
+                                                <%= userNow.address %>
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <div class="user-details col mb-2 bg-white shadow-sm rounded-3 p-2">
+                                        <div class="d-flex justify-content-between">
+
+                                            <div class="container-fluid">
+                                                <div class="row justify-content-between">
+                                                    <div class="col">
+                                                        <p class="text-black text-uppercase">Name:</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <span class="text-uppercase ">
+                                                            <%= userNow.name %>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <p class="text-black text-uppercase">Email:</p>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="text-uppercase">
+                                                        <%= userNow.email %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <p class="text-black text-uppercase">Phone:</p>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="text-uppercase">
+                                                        <%= userNow.phone %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <p class="text-black text-uppercase">Next of Kin:</p>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="text-uppercase">
+                                                        <%= userNow.nameOfKin %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <p class="text-black text-uppercase">Next of Address:</p>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="text-uppercase">
+                                                        <%= userNow.kinAddress %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-between">
+                                                <div class="col">
+                                                    <p class="text-black text-uppercase">Phone of Kin:</p>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="text-uppercase">
+                                                        <%= userNow.phoneOfKin %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <% } %>
+                                <div class="container">
+                                    <div class="row ">
+                                        <div class="col bg-white text-center text-capitalize text-muted py-2 fs-3 staffinfo">
+                                            <p>About Me</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col bg-white text-center text-capitalize text-muted py-2 staffinfo">
+                                            <p>
+                                                <%- userNow.description %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

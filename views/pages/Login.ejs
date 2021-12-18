@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/form.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+       
+    <div class="container mt-5">
+         <div class="row">
+             <div class="col text-center">
+                <img src="/img/Revplus.webp" alt="Revplus-Logo">
+             </div>
+         </div>
+        <form action="/api/v2/secure/login" method="POST">
+            <h2 class="text-center text-muted my-2">Login</h2>
+            <%- include('../partials/flash_messages') %>
+                <div class="mb-2 form-group">
+                    <label for="username" class="form-label">Username or Email</label>
+                    <input type="username" class="form-control" id="username" name="username"
+                        value="<%= typeof username != 'undefined' ? username : '' %>" placeholder="username or Email"
+                        required>
+                </div>
+                <div class="mb-2 form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control password" id="password"
+                        value="<%= typeof password != 'undefined' ? password : '' %>" name="password"
+                        placeholder="strong password" required> <i class=" icon las la-eye"></i>
+                </div>
+                <div>
+                    <a href="/" class="btn btn-warning">Cancel</a>
+                    <button type="submit" class="btn btn-outline-info fs-6 px-4">Login</button>
+                    <p class="text-right text-muted my-2">Forgotten Password ? <a href="/api/v2/secure/forgot-password">Click Here</a>
+                    </p>
+                </div>
+                <p class="text-muted my-2">Don't have an account ? <a href="/api/v2/secure/register"
+                        class="text-secondary">Register</a></p>
+        </form>
+    </div>
+
+
+    
+    <script src="/js/form.js"></script>
+
+</body>
+
+</html>

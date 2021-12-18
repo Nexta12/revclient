@@ -1,0 +1,113 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height mt-2">
+                            <p class="text-muted text-left py-3 mx-5 align-items-center"> <a
+                                    href="/api/v2/index/dashboard">Dashboard</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col bg-revplus py-2">
+                                <Marquee>
+                                  <span class="mx-5 fs-5">Welcome to RevolutionPlus Properties LLC</span>  
+                                  <span class="mx-5 text-revplus">.</span>  
+                                  <span class="mx-5 fs-5">For any Inquiries call us on 09034647488 or visit our office at 1 Olufimilayo, Opebi Ikeja Lagos</span>  
+                                  <span class="mx-5 text-revplus">.</span>  
+                                  <span class="mx-5 fs-5">Check Out Our New Properties On Sale</span>  
+                                <span class="mx-5 text-revplus">.</span>
+                                <span class="mx-5 fs-5"> We are 24/7 at your Service</span>
+                                </Marquee>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row custome-dash">
+                    
+                                <% properties.slice(-6).forEach(prop=>{ %>
+
+                                    <% if(prop.status == "For Sale"){ %>
+
+                                        <div class="col-md-6 col-lg-3 my-3">
+                                        
+                                            <div class="card shadow">
+                                                <div class="card-header">
+                                                    <div class="d-flex justify-content-between">
+                                                        <span class="bg-revplus px-2 py-1 rounded-3"> &#x20A6;<%=prop.pricePerPlot.toLocaleString() %>
+                                                        
+                                                          <% if(prop.typeOfpro == "Plots of Land"){ %>
+                                                              /Plot
+                                                         <% }else if(prop.typeOfpro == "Duplex"){%>
+                                                             /Unit
+                                                       <%  }else if(prop.typeOfpro == "Block of Flats"){ %>
+                                                            /Flat
+                                                      <% } else{%>
+                                                          /CornerPiece
+                                                     <% } %>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        </span>
+                                                       <span class="bg-success text-white py-2 px-3 rounded-3 "> On Sale </span>
+                                                    </div>
+                                                </div>
+                                                <img src="/img/uploads/<%= prop.image %>" alt="" class="card-img-top" height="150">
+                                        
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-capitalize text-revplus text-center fs-4">
+                                                        <%= prop.name %>
+                                                    </h5>
+                                                    <p class="card-text">
+                                                        Location: <span class="mx-1 text-muted font-address">
+                                                            <%= prop.address %>
+                                                        </span>
+                                                            
+                                                         <br>
+                                                        Details: <span class="mx-1">
+                                                            <%= prop.snippet %>
+                                                        </span>
+                                                    </p>
+                                                    <a href="/api/v2/properties/<%= prop.id %>"
+                                                        class="btn btn-outlin-revplus w-100 text-uppercase">Read More</a>
+                                                </div>
+                                                <div class="card-footer bg-revplus d-flex justify-content-around">
+                                                    <p class="fs-6"> All rights reserved RevolutionPlus properties LLC</p>
+                                                </div>
+                                            </div>
+                                        
+                                        
+                                        </div>
+
+                                   <% } %>
+                                   
+                                    <% }) %>
+                    
+                                    
+                    
+                    
+                    
+                        </div>
+                    </div>
+
+
+
+                    
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

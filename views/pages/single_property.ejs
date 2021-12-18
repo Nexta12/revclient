@@ -1,0 +1,267 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="colshadow-sm breadcrumb-height my-2 bg-light">
+                            <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a> <span>>></span>
+                                <a href="/api/v2/properties/property">Properties</a><span>>></span>
+                                <a href="/api/v2/properties/<%= singleProperty.id %>">
+                                    <%= singleProperty.name %>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="container px-5">
+                        <div class="row">
+                            <div class="image col-sm-6 col-md-4  col-lg-4  bg-revplus text-white me-2 mb-2 text-center shadow-sm rounded-3 p-0">
+                                  <img src="/img/uploads/<%= singleProperty.image %>" alt="" class="w-100" height="180" >
+                            
+                                <p class="m-2 text-uppercase text-center lead">
+                                    <%= singleProperty.name %> <br>
+                                    <span class="text-capitalize fs-6">
+                                        <%= singleProperty.address %>
+                                    </span>
+                                   
+                                </p>
+                               
+                            </div>
+
+                            <div class=" col bg-white me-2 mb-2 text-center shadow-sm rounded-3 p-0">
+                                 <h5 class="p-2">Description</h5>
+                                <p><%- singleProperty.description %></p>
+                               
+                            </div>
+
+                 <div class="user-details col-sm-6 col-md-7 col-lg-4 mb-2 bg-white shadow-sm   rounded-3 p-2">
+                     
+                                  <div class="row">
+                                      <div class="col">
+                                        <p class="text-black text-capitalize">Title Document:</p>
+                                      </div>
+                                      <div class="col">
+                                        <%= singleProperty.titleDoc %>
+                                      </div>
+                                  </div>
+
+                               
+
+
+                                <% if(singleProperty.typeOfpro==="Plots of Land" ){ %>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="text-black text-capitalize">Size of Plots:</p>
+                                        </div>
+                                        <div class="col">
+                                            <%= singleProperty.sizeOfPlot %>
+                                        </div>
+                                    </div>
+
+                                    <% } %>
+
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="text-black text-capitalize">Price:</p>
+                                        </div>
+                                        <div class="col">
+                                        <span class="text-capitalize">
+                                            &#x20A6; <%= singleProperty.pricePerPlot.toLocaleString() %>
+                                                <% if(singleProperty.typeOfpro==="Plots of Land" || singleProperty.typeOfpro==="CornerPiece" ){%>
+                                                    per Plot
+                                                    <% }else if(singleProperty.typeOfpro==="Duplex" ){ %>
+                                                        per Unit
+                                                        <% }else{ %>
+                                                            per Flat
+                                                            <% } %>
+                                        </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="text-black text-capitalize">Status:</p>
+                                        </div>
+                                        <% if(singleProperty.status=="For Sale" ){ %>
+                                            <div class="col">
+                                                <span class="btn btn-success px-2 py-0">
+                                                    On Sale
+                                                </span>
+                                            </div>
+                                            <% }else{%>
+                                                <div class="col">
+                                                    <span class="btn btn-danger px-2 py-0">
+                                                        Sold Out
+                                                    </span>
+                                                </div>
+                                                
+                                                <%} %>
+                                    </div>
+
+                                       
+                                        <% if(user.role != "Customer"){ %>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="text-black text-capitalize">Total Investors:</p>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="text-capitalize">
+                                                        <%= totalBuyers%>
+                                                            <% if(totalBuyers !=0){ %>
+                                                                Customers
+                                                                <% } %>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="text-black text-capitalize">Total Debt:</p>
+                                                </div>
+                                                <div class="col">
+                                                    <span class="text-capitalize text-danger">
+                                                        &#x20A6; <span class="mx-1 ">
+                                                            <%= allDebts %>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                     
+                                        <% if(singleProperty.status == "For Sale"){ %>
+                                            <div class="container-fluid">
+                                                <div class="row justify-content-between">
+                                                    <div class="col">
+                                                        <p class="text-black text-capitalize"></p>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+
+                                       <% } %>
+
+                                       
+                                    <div class="col">
+                                    
+                                        <div class="col">
+                                            <a href="/api/v2/assign/<%=singleProperty.id %>" class="btn btn-outline-success">Assign to Customer
+                                            </a>
+                                        </div>
+                                    
+                                    </div>
+                                        <% } %>  
+                                    
+                 </div>
+                            
+
+                        </div>
+                    </div>
+
+
+
+
+
+                    <!-- customers table list -->
+
+                 <% if (user.role !== "Customer" && Object.keys(singlePropertyOwners).length != 0 ){ %>
+
+              
+                    <section class="table">
+
+                        <div class="row py-3 mx-3">
+                            <div class="col overflow-auto mb-3">
+                                <table class="table table-striped bg-white">
+                                    <div class="row">
+                                        <div class="col bg-revplus text-light text-center">
+                                            <p class=" text-capitalize"> List of <%= singleProperty.name %> Customers</p>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="c-search my-2">
+                                                <div class="search-wrapper text-center">
+                                                    <input type="text" id="search-box" class="search-box" placeholder="Search">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+
+                                    <thead>
+                                        <tr>
+                                            <th>No:</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Quantity Purchased</th>
+                                            <th>Amount Paid &#x20A6;</th>
+                                            <th>Debt &#x20A6; </th>
+                                            <th>Allocation status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <% singlePropertyOwners.forEach((owner, index)=>{ %>
+                                            <tr>
+                                                <td>
+                                                    <%= index + 1 %>
+                                                </td>
+                                                <td>
+                                                    <%= owner.name.toUpperCase() %>
+                                                </td>
+                                                <td>
+                                                    <%= owner.address %>
+                                                </td>
+                                                <td>
+                                                    <%= owner.properties.n_plots %>
+                                                </td>
+                                                <td>
+                                                    <%= owner.properties.grandPaid.toLocaleString() %>
+                                                </td>
+                                                <% if(owner.properties.grandDebt != 0){ %>
+                                                <td class="text-danger">
+                                                    <%= owner.properties.grandDebt.toLocaleString() %>
+                                                </td>
+                                               <% }else{ %>
+
+                                                <td class="text-success fw-5">
+                                                    NILL
+                                                </td>
+
+                                              <% } %>
+                                               
+                                                <td>
+                                                    <%= owner.properties.allocation %>
+                                                </td>
+                                            </tr>
+
+                                            <% }) %>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+                    <% } %>
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

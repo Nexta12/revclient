@@ -1,0 +1,27 @@
+<%- include('../partials/_header') %>
+<%- include('../partials/_sidebar') %>
+<div class="main-content">
+
+    <%- include('../partials/_main_content_header') %>
+    
+        <main>
+            <div class="conatiner">
+                <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                    <p class="text-muted text-left py-3 mx-5 align-items-center"> <a
+                            href="/api/v2/index/dashboard">Dashboard</a>
+                    </p>
+                </div>
+            </div>
+            <%- include('../partials/_cards') %>
+                <!-- recent purchases table -->
+                <%- include('../partials/_recent_table') %>
+    
+        </main>
+
+
+
+</div>
+  
+
+</body>
+</html>

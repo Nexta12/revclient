@@ -1,0 +1,65 @@
+<% if(typeof errors !='undefined' ){ %>
+
+    <% errors.forEach(error=>{ %>
+        <div class="alert alert-warning  alert-dismissible fade show text-center" role="alert">
+            <%= error.msg %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <% }) %>
+
+            <%} %>
+
+            <% if(success_msg !='' ){ %>
+                <div class=" alert alert-success  alert-dismissible fade show text-center" role="alert">
+                    <%= success_msg %>
+                        <button type="button" class="btn-close close_btn" data-bs-dismiss="alert"
+                            aria-label="Close">&times;</button>
+                </div>
+                <% } %>
+
+                <% if(error_msg !='' ){ %>
+                    <div class="alert alert-warning  alert-dismissible fade show text-center" role="alert">
+                        <%= error_msg %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                
+                    <% } %>
+
+                    <% if(error !='' ){ %>
+                        <div class="alert alert-warning  alert-dismissible fade show text-center" role="alert">
+                            <%= error %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    
+                        <% } %>
+
+                        <% if(typeof errorAlert !='undefined' ){ %>
+                        
+                            <% errorAlert.forEach(eror=>{ %>
+                                <div class="dismissa alert alert-warning  alert-dismissible fade show text-center"
+                                    role="alert">
+                                    <%= eror.msg %>
+                                        <button type="button" class="btn-close close_btn" data-bs-dismiss="alert"
+                                            aria-label="Close">&times;</button>
+                                </div>
+                        
+                                <% }) %>
+                        
+                                    <%} %>
+
+                                    <% if( typeof msg !='undefined' ){ %>
+                                        <div class=" alert alert-success  alert-dismissible fade show text-center" role="alert">
+                                            <%= msg %>
+                                                <button type="button" class="btn-close close_btn" data-bs-dismiss="alert"
+                                                    aria-label="Close">&times;</button>
+                                        </div>
+                                        <% } %>
+
+                                    <% if( typeof msgerror !='undefined' ){ %>
+                                        <div class=" alert alert-warning  alert-dismissible fade show text-center" role="alert">
+                                            <%= msgerror %>
+                                                <button type="button" class="btn-close close_btn" data-bs-dismiss="alert"
+                                                    aria-label="Close">&times;</button>
+                                        </div>
+                                        <% } %>

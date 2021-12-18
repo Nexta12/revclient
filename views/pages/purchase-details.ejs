@@ -1,0 +1,280 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main class="pb-5">
+
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/customers/<%= propertyOwner.id %>">Customer</a>>>Purchase Details
+                            </p>
+                        </div>
+                    </div>
+                    <div class="container mx-auto py-3">
+                        <%- include('../partials/flash_messages') %>
+                    </div>
+
+                    <!-- New  starts here -->
+
+                    <div class="container shadow-sm ">
+                        <div class="row">
+                           <div class="col text-center bg-revplus custome-dash">
+                               <img src="/img/uploads/<%= propertyOwner.profilePic %>" alt="" width="100" height="100" class="rounded-circle bg-white mt-2">
+                               <p class=" text-capitalize"><%= propertyOwner.name %> <br>
+                                <small>
+                                    <%= propertyOwner.address %>
+                                </small> <br>
+                                   <small>
+                                       Outstanding Debt:  <span class="mx-5 text-danger bg-light px-2 fs-5"> &#x20A6; <%= numFomatter(proDetail.grandDebt) %> </span>
+                                   </small>
+                                   <small>
+                                       Payment Option:  <span class="ms-5"> <%=proDetail.payOptions %> </span>
+                                   </small>
+                               </p>
+                                <div class="float-end">
+                                    <% if(user.role==="Admin" || user.role==="Staff" ){ %>
+                                        <div class="col mb-2">
+                                            <a href="/api/v2/assign/edit/<%=propertyOwner.id %>/<%= proDetail.propeId %>/<%= proDetail.uuid %>" class="btn btn-info">Update Details</a>
+                                        </div>
+                                        <% } %>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="container shadow-sm ">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Item</th>
+                                        <th>cost per Unit (&#x20A6;)</th>
+                                        <th>Quantity Purchased</th>
+                                        <th>Amount Due (&#x20A6;)</th>
+                                        <th>Amount Paid (&#x20A6;)</th>
+                                        <th>Balance (&#x20A6;)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td><%= proDetail.name %></td>
+                                        <td> <%=numFomatter(proDetail.p_p_plot) %></td>
+                                        <td><%= proDetail.n_plots %>
+                                            <span class="mx-1">
+                                                <%= proDetail.detail %>
+                                            </span>
+                                         
+                                        </td>
+                                        <td> <%= numFomatter(proDetail.landTotal) %></td>
+                                        <td> <%= numFomatter(proDetail.a_p_f_plots) %></td>
+                                        <td> <%= numFomatter(proDetail.landStatus) %></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Registration Fee</td>
+                                        <td> <%= proDetail.reg_fee.toLocaleString() %></td>
+                                        <td>-</td>
+                                        <td> <%= proDetail.reg_fee.toLocaleString() %></td>
+                                        <td> <%= proDetail.reg_paid.toLocaleString() %></td>
+                                        <td><%= proDetail.regisStatus.toLocaleString()%></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Survey Fee</td>
+                                        <td>
+                                        <%= numFomatter(proDetail.surv_fee) %>
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                             <%= numFomatter(proDetail.surv_fee) %>
+                                        </td>
+                                        <td>
+                                        <%= numFomatter(proDetail.surv_paid) %>
+                                        </td>
+                                        <td>
+                                        <%= numFomatter(proDetail.surveStatus) %>
+                                        </td>
+                                    
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Legal Fee</td>
+                                        <td>
+                                            <%= proDetail.legal_fee.toLocaleString() %>
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <%= proDetail.legal_fee.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.legal_paid.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.legalStatus.toLocaleString() %>
+                                        </td>
+                                    
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Development Fee</td>
+                                        <td>
+                                            <%= proDetail.dev_fee.toLocaleString() %>
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <%= proDetail.dev_fee.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.dev_paid.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.develStatus.toLocaleString() %>
+                                        </td>
+                                    
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Electrification Fee</td>
+                                        <td>
+                                            <%= proDetail.elec_fee.toLocaleString() %>
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <%= proDetail.elec_fee.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.elec_paid.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.electStatus.toLocaleString() %>
+                                        </td>
+                                    
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Ratification Fee</td>
+                                        <td>
+                                            <%= proDetail.rat_fee.toLocaleString() %>
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <%= proDetail.rat_fee.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.rat_paid.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.ratifStatus.toLocaleString() %>
+                                        </td>
+                                    
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Defaultee Fee</td>
+                                        <td>
+                                            <%= proDetail.defau_fee.toLocaleString() %>.
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <%= proDetail.defau_fee.toLocaleString() %>.
+                                        </td>
+                                        <td>
+                                            <%= proDetail.defau_paid.toLocaleString() %>.
+                                        </td>
+                                        <td>
+                                            <%= proDetail.defauStatus.toLocaleString() %>
+                                        </td>
+                                    
+                                    </tr>
+
+                                    <tr>
+                                        <td>9</td>
+                                        <td>Service Charge</td>
+                                        <td>
+                                            <%= proDetail.service_fee.toLocaleString() %>
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <%= proDetail.service_fee.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.service_paid.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.serviceStatus.toLocaleString() %>
+                                        </td>
+                                    
+                                    </tr>
+
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Deed of Assignment</td>
+                                        <td>
+                                            <%= proDetail.deed_fee.toLocaleString() %>
+                                        </td>
+                                        <td>-</td>
+                                        <td>
+                                            <%= proDetail.deed_fee.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.deed_paid.toLocaleString() %>
+                                        </td>
+                                        <td>
+                                            <%= proDetail.deedStatus.toLocaleString() %>
+                                        </td>
+                                    
+                                    </tr>
+
+
+
+
+                                </tbody>
+                                
+                            </table>
+                            <div class="container">
+                                <div class="row  fs-6">
+                                    <div class="col">Gross Total to Pay</div>
+                                    <div class="col text-end">&#x20A6; <%= numFomatter(proDetail.grandTopay) %></div>
+                                </div>
+                                <div class="row  fs-6">
+                                    <div class="col">Total Amount Paid</div>
+                                    <div class="col text-end">&#x20A6; <%=numFomatter(proDetail.grandPaid) %></div>
+                                </div>
+                                <div class="row  fs-6">
+                                    <div class="col">Total Debt</div>
+                                    <div class="col text-end">&#x20A6; <%= numFomatter(proDetail.grandDebt) %></div>
+                                </div>
+                                <div class="row  fs-6">
+                                    <div class="col">Payment Option </div>
+                                    <div class="col text-end"><%= proDetail.payOptions %></div>
+                                </div>
+                                <div class="row  fs-6">
+                                    <div class="col">Allocation Status</div>
+                                    <div class="col text-end"><%= proDetail.allocation %></div>
+                                </div>
+                                <div class="row  fs-6 mb-4">
+                                    <div class="col">Plot Number/Block Num</div>
+                                    <div class="col text-end"><%= proDetail.plotNum %> /<%= proDetail.blockNum %></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                   
+
+                </main>
+
+
+        </div>
+
+
+        </body>
+
+        </html>

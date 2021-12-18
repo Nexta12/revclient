@@ -1,0 +1,121 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/customers/customers">Customer</a>>>
+                                <a href="/api/v2/customers/<%= singleUserContent.id %>"> Editing <%= singleUserContent.name %></a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="container py-3 mt-2 shadow custonm-bg">
+                        <form action="/api/v2/customers/<%= singleUserContent.id %>?_method=PUT" method="POST"
+                            class="m-5 p-4 shadow bg-white form-detail">
+                            <%- include('../partials/flash_messages') %>
+                                <div class="row">
+                                    <div class="col text-center text-muted fw-4">
+                                        <h4>Customer Details</h4>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="username">Username*</label>
+                                        <input type="text" class="form-control" name="username" value="<%= singleUserContent.username %>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="email">Email*</label>
+                                            <input type="email" class="form-control" name="email" value="<%= singleUserContent.email %>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="username">Full Name*</label>
+                                            <input type="text"class="form-control" name="name" value="<%= singleUserContent.name %>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="email">Address*</label>
+                                            <input type="text" class="form-control" name="address" value="<%= singleUserContent.address %>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="username">Phone</label>
+                                            <input type="text" id="phone" class="form-control" name="phone" value="<%= singleUserContent.phone %>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                       
+                                    </div>
+                                </div>
+                                <div class="row my-2">
+                                    <div class="col text-center text-muted fw-4">
+                                        <h4>Next of Kin Details</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="username">Next of Kin </label>
+                                            <input type="text" class="form-control" name="nameOfKin" value="<%= singleUserContent.nameOfKin %>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="email">Email </label>
+                                            <input type="email" class="form-control" name="emailOfKin" value="<%= singleUserContent.emailOfKin %>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="username">Address</label>
+                                        <input type="text" class="form-control" name="kinAddress" value="<%= singleUserContent.kinAddress %>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="email">Phone</label>
+                                            <input type="text" class="form-control" name="phoneOfKin" value="<%= singleUserContent.phoneOfKin %>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <button type="submit"
+                                        class="btn btn-outline-secondary-button w-100 mt-4 py-2">Submit</button>
+                                </div>
+
+
+                        </form>
+                    </div>
+
+
+
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

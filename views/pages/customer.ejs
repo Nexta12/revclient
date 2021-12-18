@@ -1,0 +1,112 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left py-3 mx-5 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/customers/customers">Customer</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="conatiner customer-search-header mt-3  bg-white p-3 mx-4 fixed">
+                        <div class="c-title">
+                            <h5 class="text-capitalize text-center">All Customers</h5>
+                        </div>
+                        <div class="c-search">
+                            <div class="search-wrapper text-center">
+                                <input type="text" id="search-box" class="search-box" placeholder="Search customers">
+                                <!-- <span class="las la-search"></span> -->
+                            </div>
+                        </div>
+                        <div class="c-add-new text-center">
+                            <a href="/api/v2/customers/add_new_customer"
+                                class="btn btn-outline-secondary-button w-50 py-2"> <i class="las la-plus"></i> Add
+                                New</a>
+                        </div>
+                    </div>
+
+                    <!-- customers table list -->
+
+
+                    <section class="table" >
+                        
+                        <div class="row py-3 mx-3 custable-height ">
+                            <%- include('../partials/flash_messages') %>
+                            
+                                <div class="col overflow-auto mb-3">
+                                    <table class="table table-stri bg-white shadow " id="customersTable">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Name</th>
+                                                <th>Address</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% customers.forEach((customer, index)=>{ %>
+                                                <tr>
+                                                    <td>
+                                
+                                                        <%= (index + 1) %>
+                                
+                                                    </td>
+                                                    <td class="text-uppercase">
+                                                        <a href="/api/v2/customers/<%= customer.id%>">
+                                                            <%= customer.name %>
+                                                        </a>
+                                
+                                                    </td>
+                                                    <td>
+                                                        <%= customer.address %>
+                                                    </td>
+                                                    <td>
+                                                        <%= customer.email %>
+                                                    </td>
+                                                    <td>
+                                                        <%= customer.phone %>
+                                                    </td>
+                                                    <td class="d-flex justify-content-around">
+                                                        <a href="/api/v2/customers/<%= customer.id %>"><i class="las la-eye la-2x-size"></i></a>
+                                                        <a href="/api/v2/customers/edit/<%= customer.id %>"><i
+                                                                class="las la-edit mx-2 la-2x-size"></i></a>
+                                
+                                                        <form action="/api/v2/customers/delete/<%= customer.id %>?_method=DELETE" method="POST">
+                                                            <a class="deletConfirm"><i class="las la-trash la-2x-size"></i></a>
+                                                            <input type="submit" value="delete" class="d-none " id="deleteInput">
+                                                        </form>
+                                                        <p> <a href="/api/v2/assign/cust/<%= customer.id %>">Assign </a></p>
+                                
+                                                    </td>
+                                                </tr>
+                                
+                                                <% }) %>
+                                
+                                        </tbody>
+                                    </table>
+                                
+                                
+                                </div>
+                        </div>
+
+                    </section>
+
+                    
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

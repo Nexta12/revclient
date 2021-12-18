@@ -1,0 +1,83 @@
+<input type="checkbox" id="nav-toggle">
+<div class="sidebar">
+
+    <div class="sidebar-brand d-flex justify-content-center align-items-center">
+        <img src="/img/logo.webp" alt="revolutionPlus Logo" class="mt-4 ">
+    </div>
+
+    <div class="sidebar-menu">
+        <ul>
+            <li>
+                <a href="/api/v2/index/dashboard">
+                    <span class="icon"><span class="las la-igloo"></span></span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+            <% if(user.role != "Customer"){ %>
+                <li>
+                    <a href="/api/v2/customers/customers">
+                        <span class="icon"><span class="las la-users"></span></span>
+                        <span class="title">Customers</span>
+                    </a>
+                </li>
+                <% if(user.role =="Admin" ){ %>
+                <li>
+                
+                    <a href="/api/v2/stats/add-debtors">
+                        <span class="icon"><span class="las la-exclamation-triangle"></span></span>
+                        <span class="title">All Debtors</span>
+                    </a>
+                </li>
+                    <% } %>
+
+           <% } %>
+         
+            <li>
+                <a href="/api/v2/properties/property">
+                    <span class="icon"><span class="las la-home"></span></span>
+                    <span class="title"> Properties</span>
+                </a>
+            </li>
+            <% if(user.role =="Customer" ){ %>
+            <li>
+                <a href="/api/v2/customers/<%= user.id %>">
+                    <span class="icon"><span class="las la-clipboard-list"></span></span>
+                    <span class="title">My Properties</span>
+                </a>
+            </li>
+            <% } %>
+            <% if(user.role !="Customer" ){ %>
+            <li>
+                <a href="/api/v2/statutories/statutory">
+                    <span class="icon"><span class="las la-clipboard-list"></span></span>
+                    <span class="title">Statutory Fees</span>
+                </a>
+            </li>
+            <% } %>
+            <% if(user.role !="Customer" ){ %>
+            <li>
+                <a href="/api/v2/users/staff">
+                    <span class="icon"><span class="las la-users"></span></span>
+                    <span class="title">Staff</span>
+                </a>
+            </li>
+            <% } %>
+
+            <% if(user.role == "Admin" && (user.dept == "ED" || user.dept == "MD" )){ %>
+            <li>
+                <a href="/api/v2/stats/statistics">
+                    <span class="icon"><span class="las la-cog"></span></span>
+                    <span class="title">Analytics</span>
+                </a>
+            </li>
+            <% } %>
+            <li>
+                <a href="/api/v2/secure/logout">
+                    <span class="icon"><span class="las la-sign-out-alt"></span></span>
+                    <span class="title">Sign Out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>

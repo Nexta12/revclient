@@ -1,0 +1,315 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="#">Edit Profile</a>
+                            </p>
+                        </div>
+                    </div>
+                    <% if(user.role != "Customer"){ %>
+                    <div class="container rounded-3 shadow mx-auto bg-white mt-5 p-3">
+
+                        <form action="/api/v2/users/edit/<%=userId.id %>?_method=PUT" method="POST" class="text-dark " enctype="multipart/form-data">
+                            <%- include('../partials/flash_messages') %>
+                                <h4 class="text-center text-muted fw-5">Edit Profile</h4>
+
+                                <div class="row">
+                                    <div class="col-lg-3 text-center">
+                                        <p>Profile Picture </p>
+
+                                        <img id="profileImage" src="/img/uploads/<%= userId.profilePic %>" alt="photo" width="120"
+                                            height="120" class="rounded-circle bg-secondary profileImage">
+
+                                        <input id="imageUploadBtn" type="file" name="profilePic"
+                                            accept="image/jpeg, image/png, image/jpg, image/svg+xml"
+                                            class="imageUploadBtn d-none">
+
+                                        <p>upload image</p>
+
+                                    </div>
+
+                                    <div class="col-lg-9">
+                                        <div class="row">
+                                            <div class="col-sm-6 ">
+                                                <p><label for="username">Username*</label></p>
+                                                <p>
+                                                    <input type="text" name="username"
+                                                        value="<%= userId.username %>"
+                                                        placeholder="UserName" class="form-control" required>
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                                <p> <label for="email">Email*</label></p>
+                                                <p>
+                                                <p>
+                                                    <input type="email" name="email"
+                                                        value="<%= userId.email %>"
+                                                        class="form-control" placeholder="Email" required>
+                                                </p>
+                                                </p>
+                                            </div>
+                                            
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-4 col-lg-3 ">
+                                                <p> <label for="firstname">First Name*</label></p>
+                                                <p>
+                                                    <input type="text" name="firstname"
+                                                        value="<%= userId.firstname %>"
+                                                        class="form-control" placeholder="First Name" required>
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 ">
+                                                <p><label for="lastname">Last Name</label></p>
+                                                <p>
+                                                    <input type="text" name="lastname"
+                                                        value="<%=  userId.lastname %>"
+                                                        class="form-control" placeholder="Last Name">
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3  duplT flatT">
+                                                <p> <label for="othernames">Other Names</label></p>
+                                                <p>
+                                                    <input type="text"
+                                                        value="<%=  userId.othernames %>"
+                                                        name="othernames" class="form-control"
+                                                        placeholder="Other Names">
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 ">
+                                                <p> <label for="phone">Phone</label></p>
+                                                <p>
+                                                    <input type="text" name="phone"
+                                                        value="<%=  userId.phone %>"
+                                                        class="form-control">
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                           
+                                            <div class="col-sm-6 col-md-4 col-lg-3 ">
+                                                <p><label for="position">Position</label></p>
+                                                <div>
+                                                    <input type="text" name="position"
+                                                        value="<%=userId.position  %>"
+                                                        placeholder="Eg. Head of Marketing" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 ">
+                                                <p><label for="facebook"><i class="lab la-facebook"></i> Facebook Handle</label></p>
+                                                <div>
+                                                    <input type="text" name="facebook"
+                                                        value="<%= userId.facebook %>"
+                                                        placeholder="Eg. @Nexta12" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 ">
+                                                <p><label for="twitter"><i class="lab la-twitter"></i> Twitter Handle</label></p>
+                                                <div>
+                                                    <input type="text" name="twitter"
+                                                        value="<%= userId.twitter %>"
+                                                        placeholder="Eg. @Nexta12" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 ">
+                                                <p><label for="instagram"><i class="lab la-instagram"></i> Instagram Handle</label></p>
+                                                <div>
+                                                    <input type="text" name="instagram"
+                                                        value="<%= userId.instagram %>"
+                                                        placeholder="Eg. @Nexta12" class="form-control">
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="row">
+                                        
+                                            <div class="col mt-2 ">
+                                                <p class="text-center">
+                                                    <label for="description" class="lead fw-2">About Me</label>
+                                                </p>
+                                                <textarea name="description" id="description" cols="30%" rows="5%">
+                                             <%= userId.description %>
+                                                                                                                                                              </textarea>
+                                            </div>
+                                        
+                                        </div>
+
+                                        <div class="d-flex py-4">
+                                        
+                                            <a href="/api/v2/users/<%= userId.id %>" class="btn btn-warning w-50 me-2">Cancel</a>
+                                        
+                                            <button type="submit" class="btn btn-outline-secondary-button w-50 ms-2">Submit</button>
+                                        
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                        </form>
+
+                    </div>
+                   <% }else{ %>
+                    <div class="container py-3 mt-2">
+                        <form action="/api/v2/users/edit/<%=userId.id %>?_method=PUT" method="POST" class="m-5 p-4 shadow bg-white form-detail" enctype="multipart/form-data">
+
+                            <%- include('../partials/flash_messages') %>
+                                <!-- Start -->
+                    
+                                
+                    
+                                <div class="row">
+                                    
+                                    <div class="col-lg-3 text-center">
+                    
+                                        <img id="profileImage" src="/img/uploads/<%=userId.profilePic %>" alt="photo" width="200" height="200"
+                                            class="rounded-circle bg-secondary profileImage">
+                    
+                                        <input id="imageUploadBtn" type="file" name="profilePic"
+                                            accept="image/jpeg, image/png, image/jpg, image/svg+xml" class="imageUploadBtn d-none">
+                    
+                                        <p>Image Upload</p>
+                    
+                                    </div>
+                    
+                                    <div class="col-lg-9">
+                                        <h4 class="text-left text-revplus fw-5">Edit Profile</h4>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-4 col-lg-4 ">
+                                                <p><label for="username">Username*</label></p>
+                                                <p>
+                                                    <input type="text" class="form-control" name="username"
+                                                        value="<%= userId.username %>">
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-4 ">
+                                                <p> <label for="email">Email*</label></p>
+                                                <p>
+                                                <p>
+                                                    <input type="email" class="form-control" name="email"
+                                                        value="<%= userId.email %>"">
+                                                </p>
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                                <p><label for="lastname">Phone Number</label></p>
+                                                <p>
+                                                    <input type="text" id="phone" class="form-control" name="phone" value="<%= userId.phone %>">
+                                                </p>
+                                            </div>
+                    
+                                        </div>
+                    
+                    
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p> <label for="firstname">Full Name*</label></p>
+                                                <p>
+                                                    <input type="text" class="form-control" name="name"
+                                                        value="<%= userId.name %>">
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p> <label for="firstname">Address*</label></p>
+                                                <p>
+                                                    <input type="text" class="form-control" name="address" value="<%= userId.address %>">
+                                                </p>
+                                            </div>
+                                        </div>
+                    
+                    
+                                    <h4 class="text-left text-revplus fw-5">Next of Kin Details</h4>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p> <label for="firstname">Next of Kin</label></p>
+                                                <p>
+                                                    <input type="text" class="form-control" name="nameOfKin"
+                                                        value="<%= userId.nameOfKin %>">
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p><label for="lastname">Email</label></p>
+                                                <p>
+                                                    <input type="email" class="form-control" name="emailOfKin"
+                                                        value="<%= userId.emailOfKin %>">
+                                                </p>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                           
+                                            <div class="col-sm-6 duplT flatT">
+                                                <p> <label for="othernames">Address</label></p>
+                                                <p>
+                                                    <input type="kinAddress" class="form-control" name="kinAddress"
+                                                        value="<%= userId.kinAddress %>">
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                                <p> <label for="phoneOfKin">Phone</label></p>
+                                                <p>
+                                                    <input type="text" name="phoneOfKin"
+                                                        value="<%= userId.phoneOfKin %>"
+                                                        class="form-control">
+                                                </p>
+                                            </div>
+                                        </div>
+                                         <div class="row">
+                                        
+                                            <div class="col mt-2 ">
+                                                <p class="text-center">
+                                                    <label for="description" class="lead fw-2">About Me</label>
+                                                </p>
+                                                <textarea name="description" id="description" cols="30%" rows="5%">
+                                             <%= userId.description %>
+                                                                                                                                                              </textarea>
+                                            </div>
+                                        
+                                        </div>
+                    
+                    
+                                        <div class="d-flex py-4">
+                                        
+                                            <a href="/api/v2/users/<%= userId.id %>" class="btn btn-warning w-50 me-2">Cancel</a>
+                                        
+                                            <button type="submit" class="btn btn-outline-secondary-button w-50 ms-2">Submit</button>
+                                        
+                                        </div>
+                                    </div>
+                    
+                                   
+                    
+                                </div>
+                                <!-- Stop -->
+                    
+                    
+                        </form>
+                    </div>
+                    <% } %>
+
+                </main>
+
+
+
+        </div>
+
+        <script>
+            CKEDITOR.replace("description", {
+                Plugins: "wysiwygarea, toolbar, basicstyles, link",
+            });
+
+        </script>
+
+
+        </body>
+
+        </html>

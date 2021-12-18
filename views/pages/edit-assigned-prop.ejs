@@ -1,0 +1,605 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/customers/<%= propertyOwner.id %>" class="text-capitalize"> 
+                                    <%= propertyOwner.name %>
+                                </a>>>
+                                <a href="#"> Edit Assigned Property</a>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <form action="/api/v2/assign/edit/<%= propertyOwner.id %>/<%=reqProperty.propeId %>/<%= reqProperty.uuid%>?_method=PUT" method="post">
+                        <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
+                            <%- include('../partials/flash_messages') %>
+
+                                <p class="text-center lead mb-2 text-revplus text-capitalize">You're Editing:
+
+                                    <label for="properties">
+                                        <%= reqProperty.name %>
+                                    </label>
+                                    <input type="checkbox" name="name" value="<%= propertyOwner.name %>" checked
+                                        class="d-none">
+                                    assigned to <%= propertyOwner.name %>
+                                </p>
+   
+                                <div class="row">
+                                    <div class="col-lg-3 text-center">
+                                        <p>Property Image</p>
+
+                                        <img id="profileImage" src="/img/uploads/<%= reqProperty.image %>" alt="photo" width="200"
+                                            height="200" class="rounded-circle bg-secondary profileImage">
+
+                                        <input id="imageUploadBtn" type="file" name="image"
+                                            accept="image/jpeg, image/png, image/jpg, image/svg+xml"
+                                            class="imageUploadBtn d-none" disabled>
+
+                                        <p><small>Image upload disabled</small></p>
+
+                                    </div>
+
+                                    <div class="col-lg-9">
+
+
+                                        <div class="row">
+                                            <div class="col small-screen">
+                                                <p><label for="customer">Choose Customer *</label></p>
+                                                <select id="customer" name="id" class="form-select">
+
+                                                    <option value="<%= propertyOwner.id %>" selected>
+                                                        <%= propertyOwner.name %>
+                                                    </option>
+
+                                                </select>
+                                            </div>
+                                            <div class="col small-screen">
+                                                <p><label for="o_branch">Opening branch</label></p>
+                                                <p><input type="text" id="o_branch" name="o_branch"
+                                                        value="<%=reqProperty.o_branch %>" class="form-control">
+
+                                                </p>
+                                            </div>
+                                            <div class="col small-screen">
+
+                                                <p><label for="date">Date of Purchase</label></p>
+                                                <p>
+                                                    <input type="text" placeholder="dd/mm/yy" name="p_date"
+                                                        value="<%= reqProperty.p_date %>" class="form-control">
+                                                </p>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col small-screen">
+                                                <p><label for="n_plots"> Quantity Purchased * </label></p>
+                                                <p>
+                                                    <input type="number" placeholder="" name="n_plots" id="n_plots"
+                                                        value="<%= reqProperty.n_plots %>" required
+                                                        class="form-control">
+                                                </p>
+                                            </div>
+                                            <div class="col small-screen">
+                                                <p><label for="n_plots"> Description </label></p>
+                                                <p>
+                                                    <input type="text" placeholder="Eg. Units of 3 bedroom" name="detail" id="detail"
+                                                        value="<%= reqProperty.detail %>" class="form-control" required>
+                                                </p>
+                                            </div>
+
+                                            <div class="col duplT flatT small-screen">
+                                                <p><label for="p_p_plot">Price per Each </label></p>
+                                                <p><input type="number" placeholder="" name="p_p_plot" id="plotp"
+                                                        value="<%= reqProperty.p_p_plot %>" class="form-control">
+                                                </p>
+                                            </div>
+                                            <div class="col small-screen">
+                                                <p><label for="a_p_f_plots">Amount Paid</label></p>
+                                                <p>
+                                                    <input type="number" placeholder="" name="a_p_f_plots" id="amtpd"
+                                                        value="<%= reqProperty.a_p_f_plots %>"
+                                                        class="form-control">
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                        <div class="col small-screen">
+                                            <p><label for="p_purchase">Purpose of Purchase</label></p>
+                                            <p><input type="text" placeholder="Eg. Residential" name="p_purchase"
+                                                    value="<%= reqProperty.p_purchase %>" class="form-control">
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                        </div>
+
+                        <!-- statutory starts -->
+                        <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
+
+                            <p class="text-center text-uppercase lead py-2"> statutory Fees </p>
+
+                            <div class="row">
+
+
+                                <div class="col table-responsive">
+
+                                    <!-- borderless table starts -->
+
+
+                                    <table class="table table-borderless equalCells">
+                                        <thead>
+                                            <tr>
+
+                                                <th>statutory Name</th>
+                                                <th>Cost</th>
+                                                <th>Amount Paid</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- single Roll starts -->
+                                            <tr>
+
+
+                                                <td>
+                                                    <p>
+                                                        Registration Fee
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="reg_fee"
+                                                            class="fee form-control"
+                                                            value="<%= reqProperty.reg_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="text" placeholder="" name="reg_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.reg_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+                                            <!-- single Roll starts -->
+                                            <tr>
+
+
+                                                <td>
+                                                    <p>
+                                                        Survey Fee
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="surv_fee"
+                                                            class="fee form-control"
+                                                            value="<%= reqProperty.surv_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="surv_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.surv_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+                                            <!-- single Roll starts -->
+                                            <tr>
+
+
+                                                <td>
+                                                    <p>
+                                                        Legal Fee
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+
+                                                        <input type="number" placeholder="" name="legal_fee"
+                                                            class="fee form-control"
+                                                            value="<%= reqProperty.legal_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="legal_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.legal_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+                                            <!-- single Roll starts -->
+                                            <tr>
+
+                                                <td>
+                                                    <p>
+                                                        Development Fee
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="dev_fee"
+                                                            class="fee form-control"
+                                                            value="<%= reqProperty.dev_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="dev_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.dev_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+                                            <!-- single Roll starts -->
+                                            <tr>
+
+                                                <td>
+                                                    <p>
+                                                        Electrification Fee
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="elec_fee"
+                                                            class="fee form-control"
+                                                            value="<%= reqProperty.elec_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="elec_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.elec_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <!-- borderless table stops -->
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+                        <!-- statutory stops -->
+
+
+                        <!-- statutory starts -->
+                        <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
+
+                            <div class="row">
+
+
+                                <div class="col table-responsive">
+
+                                    <!-- borderless table starts -->
+
+
+                                    <table class="table table-borderless equalCells">
+                                        <thead>
+                                            <tr>
+
+                                                <th>statutory Name</th>
+                                                <th>Cost</th>
+                                                <th>Amount Paid</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>
+                                                    <p>
+                                                        Ratification Fee
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="rat_fee"
+                                                            class="fee form-control w-100"
+                                                            value="<%= reqProperty.rat_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="rat_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.rat_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+                                            <!-- single Roll starts -->
+                                            <tr>
+
+                                                <td>
+                                                    <p>
+                                                        Service Charge
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="service_fee"
+                                                            class="fee form-control"
+                                                            value="<%= reqProperty.service_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="service_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.service_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+                                            <!-- single Roll starts -->
+                                            <tr>
+
+                                                <td>
+                                                    <p>
+                                                        Deed of Assignment
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="deed_fee"
+                                                            class="fee form-control"
+                                                            value="<%= reqProperty.deed_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="deed_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.deed_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+                                            <!-- single Roll starts -->
+                                            <tr>
+
+                                                <td>
+                                                    <p>
+                                                        Defaultee Fee
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="defau_fee"
+                                                            class="fee form-control"
+                                                            value="<%= reqProperty.defau_fee %>">
+                                                    </p>
+                                                </td>
+
+                                                <td>
+                                                    <p>
+                                                        <input type="number" placeholder="" name="defau_paid"
+                                                            class="paid form-control"
+                                                            value="<%= reqProperty.defau_paid %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="status">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+
+
+
+
+                                        </tbody>
+                                    </table>
+
+                                    <!-- borderless table stops -->
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <!-- statutory stops -->
+
+                        <!-- Allocation Starts -->
+                        <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
+
+                            <div class="row">
+
+
+                                <div class="col table-responsive">
+
+                                    <!-- borderless table starts -->
+
+
+                                    <table class="table table-borderless equalCells">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Allocation</th>
+                                                <th>Status</th>
+                                                <th>Plot Number</th>
+                                                <th>Block Number</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>
+                                                    <p>
+
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <select name="allocation" class="form-select">
+                                                            <option disabled selected>Choose Option</option>
+                                                            <option value="Allocated"
+                                                                <%=reqProperty.allocation=='Allocated'
+                                                                ? 'selected' :'' %>>Allocated</option>
+                                                            <option value="Refunded"
+                                                                <%=reqProperty.allocation=='Refunded'
+                                                                ? 'selected' :'' %>>Refunded</option>
+                                                            <option value="Pending"
+                                                                <%=reqProperty.allocation=='Pending' ? 'selected'
+                                                                :'' %>>Pending</option>
+                                                            <option value="In Process"
+                                                                <%=reqProperty.allocation=='In Process'
+                                                                ? 'selected' :'' %>>In Process</option>
+                                                        </select>
+                                                    </p>
+                                                </td>
+
+
+                                                <td>
+                                                    <p>
+                                                        <input type="text" placeholder="" name="plotNum"
+                                                            class="form-control"
+                                                            value="<%= reqProperty.plotNum %>">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p>
+
+                                                        <input type="text" placeholder="" name="blockNum"
+                                                            class="form-control"
+                                                            value="<%= reqProperty.blockNum %>">
+
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <!-- single row stops -->
+                                            <!-- single Roll starts -->
+
+
+
+                                        </tbody>
+                                    </table>
+
+                                    <!-- borderless table stops -->
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- Allocation Stops -->
+
+
+                        <div class=" form-group modal-footer justify-content-center">
+                            <a href="/api/v2/properties/property" class="btn btn-warning">Cancel</a>
+                            <button type="submit" class="btn-outline-secondary px-3 py-2 ">Submit</button>
+                        </div>
+
+                    </form>
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

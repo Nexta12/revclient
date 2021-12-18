@@ -1,0 +1,62 @@
+<section class="table">
+    <div class="row  mx-3">
+        <div class="col-lg-8 w-70 overflow-auto mb-3">
+            <h5 class="text-capitalize text-center">Recent Purchases</h5>
+            <table class="table table-striped bg-white shadow">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Customer</th>
+                        <th>property</th>
+                        <th>Payment (&#x20A6;)</th>
+                        <th>Debt(&#x20A6;)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% newPurchases.slice(-15).forEach((newPur,index)=>{ %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td ><a href="/api/v2/customers/<%= newPur._id %>"><%= newPur.name.toUpperCase() %></a></td>
+                        <td><%= newPur.properties.name %></td>
+                        <td><%= numFomatter(newPur.properties.grandPaid) %></td>
+                        <% if(newPur.properties.grandDebt != 0){%>
+                        <td class="text-danger"><%=numFomatter(newPur.properties.grandDebt) %></td>
+                       <% }else{ %>
+                        <td class="text-success">
+                            NILL
+                        </td>
+                      <% } %>
+                    </tr>
+
+                    <% }) %>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-lg-4 mb-3 overflow-auto w-30">
+            <h5 class="text-capitalize text-center">New Customers</h5>
+            <table class="table table-borderless bg-white shadow mb-0">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <% latestCustomers.slice(-15).forEach((customer, index)=>{ %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= customer.name %></td>
+                        <td><%= customer.phone %></td>
+                       
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>

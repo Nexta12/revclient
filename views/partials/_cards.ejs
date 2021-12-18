@@ -1,0 +1,57 @@
+<div class="row py-5 mx-3">
+    <div class="col-sm-6 col-md-4 col-lg-3 my-2">
+        <a href="/api/v2/customers/customers">
+            <div class="card dashboard-card shadow">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-around">
+                        <h4><%= totalCustomers %></h4>
+                        <span class="las la-users la-2x "></span>
+                    </div>
+                </div>
+                <h6 class="mx-auto">Customers</h6>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-3 my-2">
+        <a href="/api/v2/properties/Property">
+            <div class="card dashboard-card shadow">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-around">
+                        <h4><%= totalProp %></h4>
+                        <span class="las la-home la-2x "></span>
+                    </div>
+                </div>
+                <h6 class="mx-auto">Properties</h6>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-3 my-2">
+        <a href="/api/v2/users/Staff">
+            <div class="card dashboard-card shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-around">
+                        <h4><%= totalStaf %></h4>
+                        <span class="las la-user la-2x"></span>
+                    </div>
+                </div>
+                <h6 class="mx-auto">Management Staff</h6>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-3 my-2">
+        <a href="/api/v2/statutories/Statutory">
+            <div class="card dashboard-card shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-around">
+                        <h4><%= totalStatu %></h4>
+                        <span class="las la-clipboard-list la-2x"></span>
+                    </div>
+                </div>
+                <h6 class="mx-auto">Statutory fees</h6>
+            </div>
+        </a>
+    </div>
+</div>

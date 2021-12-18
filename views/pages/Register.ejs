@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/form.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <img src="/img/Revplus.webp" alt="Revplus-Logo" class="mb-4">
+            </div>
+        </div>
+        <form action="/api/v2/secure/register" method="POST">
+            <h2 class="text-center text-muted">Register</h2>
+            <%- include('../partials/flash_messages') %>
+                <div class="mb-2 form-group">
+                    <label for="username" class="form-label">Username or Phone</label>
+                    <input type="username" class="form-control" id="username" name="username"
+                        value="<%= typeof username != 'undefined' ? username : '' %>" placeholder="username or Phone"
+                        >
+                </div>
+                <div class="mb-2 form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="name" class="form-control" id="name" name="name"
+                        value="<%= typeof name != 'undefined' ? name : '' %>" placeholder="Full Name " required>
+                </div>
+                <div class="mb-2 form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                        value="<%= typeof email != 'undefined' ? email : '' %>" placeholder="email" required>
+                </div>
+                <div class="mb-2 form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control password" id="password"
+                        value="<%= typeof password != 'undefined' ? password : '' %>" name="password"
+                        placeholder="strong password" required> <i class=" icon las la-eye"></i>
+                </div>
+                <div class="mb-2 form-group">
+                    <label for="password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control password" id="password2" name="password2"
+                        value="<%= typeof password2 != 'undefined' ? password2 : '' %>" placeholder="Confirm Password"
+                        required><i class=" icon las la-eye"></i>
+                </div>
+                <a href="/" class="btn btn-warning">Cancel</a>
+                <button type="submit" class="btn btn-primary">Register</button>
+                <p class="text-muted my-2">Already have an account ? <a href="/api/v2/secure/login"
+                        class="text-secondary">Login</a></p>
+        </form>
+    </div>
+
+
+    <script src="/js/form.js"></script>
+
+</body>
+
+</html>

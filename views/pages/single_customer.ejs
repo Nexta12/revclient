@@ -1,0 +1,229 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <% if(user.role != "Customer"){ %>
+                                <a href="/api/v2/customers/customers">Customer</a>>>
+                               <% }else{ %>
+                                 <a href="/api/v2/customers/<%= singleUser.id %>">My Properties</a>
+                              <% } %>
+                            <% if(user.role !="Customer" ){ %>
+                                <a href="/api/v2/customers/<%= singleUser.id %>"><%= singleUser.name %></a>
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                   <% if(user.role != "Customer"){ %>
+
+                
+                    <div class="container px-5">
+                        <div class="row">
+                            <div class="image col-sm-6 col-md-4  col-lg-4 bg-revplus me-2 mb-2  p-3 text-center shadow-sm rounded-3 text-white">
+                                
+                                <img src="/img/uploads/<%= singleUser.profilePic %>" alt="" width="100" height="100" class="rounded-circle bg-white">
+
+                                <p class="m-2 text-uppercase text-center lead "><%= singleUser.name %></p>
+                                <span class="text-capitalize">
+                                    <%= singleUser.address %>
+                                </span>
+                            </div>
+
+                            <div class="user-details col-sm-6 col-md-7 col-lg-7 mb-2 bg-white shadow-sm rounded-3 p-2">
+                                <div class="d-flex justify-content-between">
+
+                                    <div class="container-fluid">
+                                    <div class="row justify-content-between">
+                                        <div class="col">
+                                            <p class="text-black text-uppercase small-screen-font">Name:</p>
+                                        </div>
+                                        <div class="col">
+                                            <span class="text-capitalize small-screen-font">
+                                                <%= singleUser.name %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                   
+                                </div>
+                                 
+                                 <div class="container-fluid">
+                                     <div class="row justify-content-between">
+                                         <div class="col">
+                                            <p class="text-black text-uppercase small-screen-font">Email:</p>
+                                         </div>
+                                         <div class="col">
+                                            <span class="text-capitalize small-screen-font">
+                                                <%= singleUser.email %>
+                                            </span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                
+                                 <div class="container-fluid">
+                                     <div class="row justify-content-between">
+                                         <div class="col">
+                                            <p class="text-black text-uppercase small-screen-font">Phone:</p>
+                                         </div>
+                                         <div class="col">
+                                            <span class="text-capitalize small-screen-font">
+                                                <%= singleUser.phone %>
+                                            </span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="container-fluid">
+                                     <div class="row justify-content-between">
+                                         <div class="col">
+                                            <p class="text-black text-uppercase small-screen-font">Next of Kin:</p>
+                                         </div>
+                                         <div class="col">
+                                            <span class="text-capitalize small-screen-font">
+                                                <%= singleUser.nameOfKin %>
+                                            </span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                
+                                 <div class="container-fluid">
+                                     <div class="row justify-content-between">
+                                         <div class="col">
+                                            <p class="text-black text-uppercase small-screen-font">Next of Kin Address:</p>
+                                         </div>
+                                         <div class="col">
+                                            <span class="text-capitalize small-screen-font">
+                                                <%= singleUser.kinAddress %>
+                                            </span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="container-fluid">
+                                     <div class="row justify-content-between">
+                                         <div class="col">
+                                            <p class="text-black text-uppercase small-screen-font">Phone of Kin:</p>
+                                         </div>
+                                         <div class="col">
+                                            <span class="text-capitalize small-screen-font">
+                                                <%= singleUser.phoneOfKin %>
+                                            </span>
+                                         </div>
+                                     </div>
+                                 </div>
+
+                               
+                              
+                            </div>
+                        </div>
+                    </div>
+                   
+                   <% if (typeof objJson1 == "undefined"){ %>
+                       
+                        <div class="container mx-auto">
+                            <div class="row breadcrumb-height align-items-center justify-content-center">
+                                <div class="col-sm-8 text-center text-capitalize fs-5 text-warning fs-6 my-3">
+                                    <p class="pt-2">No Property Has been assigned to this customer</p>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    
+ 
+                  <% }else{ %>
+
+                    <div class="container">
+                        <div class="row breadcrumb-height align-items-center justify-content-center">
+                            <div class="col-sm-8 bg-revplus text-center text-capitalize fs-4">
+                                <p>Purchased Properties</p>
+                            </div>
+                        </div>
+                    
+                    </div>
+
+                 <% } %>
+
+
+                    <% } %>
+                    <!-- property purchased card -->
+                    <div class="container">
+                        <div class="row">
+
+                            <% if(typeof objJson1 !== "undefined"){ %>
+
+                                <% objJson1.forEach(prop=>{ %>
+                                    <div class="col-md-5 col-lg-3 my-3">
+                                
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between">
+                                                <p>Outstanding Debt</p>
+                                                <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/" class="btn btn-danger"> &#x20A6;<%= prop.grandDebt !='0' ? numFomatter(prop.grandDebt) : '0' %></a>
+                                            </div>
+                                            <img src="/img/uploads/<%= prop.image %>" alt="" class="card-img-top" height="150">
+                                
+                                            <div class="card-body">
+                                                <h5 class="card-title text-capitalize">
+                                                    <%= prop.name %>
+                                                </h5>
+                                                <p class="card-text">
+                                                    Volume Purchased: <span class="mx-1 lead">
+                                                        <%= prop.n_plots %>
+                                                    </span> <span class="mx-1"><%= prop.detail %></span> <br>
+                                                    Date of Purchase: <span class="mx-1">
+                                                        <%= prop.p_date%>
+                                                    </span><br>
+                                                    Payment Option: <span class="mx-1 lead">
+                                                        <%= prop.payOptions %>
+                                                    </span>
+                                                </p>
+                                                <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/"
+                                                    class="btn btn-outlin-revplus w-100 text-uppercase">View More</a>
+                                            </div>
+                                            <div class="card-footer bg-revplus d-flex justify-content-around">
+                                                <p class="fs-6"> All rights reserved RevolutionPlus properties LLC</p>
+                                            </div>
+                                        </div>
+                                
+                                
+                                    </div>
+                                
+                                    <% }) %>
+
+                          <%  }else if(user.id === singleUser.id) { %>
+
+                            <div class="container-fluid">
+                                <div class="row breadcrumb-height align-items-center">
+                                    <div class="col bg-warning text-center text-capitalize fs-6 py-3 m-5 shadow">
+                                        <p class="display-5">No Property has been assigned to You !!! </p>
+                                        <h3 class="text-capitalize fs-6">This might be due to the on-going server upgrade or because you haven't purchased any properties, please check back later or contact Admin for more details</h3>
+
+                                    </div>
+                                </div>
+                            
+                            </div>
+
+                         <% } %>
+                            
+                           
+
+                        </div>
+                    </div>
+
+                   
+
+
+
+                </main>
+
+
+
+        </div>
+
+
+        </body>
+
+        </html>

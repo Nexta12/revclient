@@ -1,0 +1,132 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left py-3 mx-5 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/users/staff">Management Staff</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="container mx-auto py-3">
+                        <%- include('../partials/flash_messages') %>
+                    </div>
+                    <div class="conatiner customer-search-header  bg-white p-3 mx-4 fixed">
+                        <div class="c-title">
+                            <h5 class="text-capitalize text-center lead">Management Team</h5>
+                        </div>
+                        <div class="c-search">
+                            <div class="search-wrapper text-center">
+                                <input type="text" id="search-box" class="search-box" placeholder="Search for a Staff">
+                                <!-- <span class="las la-search"></span> -->
+                            </div>
+                        </div>
+                        <% if( user.role != "Staff"){ %>
+                            <div class="c-add-new text-center">
+                                <a href="/api/v2/users/add_new_staff" class="btn btn-outline-secondary-button w-50 py-2"> <i
+                                        class="las la-plus"></i> Add New</a>
+                            </div>
+
+                       <% } %>
+                       
+                    </div>
+
+                    <!-- customers table list -->
+
+
+                    <section class="table ">
+                        <div class="row py-3 mx-3 custable-height">
+                            <div class="col overflow-auto mb-3">
+                                <table class="table table-stri bg-white shadow">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Branch</th>
+                                            <th>Department</th>
+                                            <th>Position</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <% staffList.forEach((staff, index)=>{ %>
+                                           
+
+                                            <tr>
+                                                <td>
+                                                    <%= index + 1 %>
+                                                </td>
+                                                <td class="text-uppercase">
+                                                    <a href="/api/v2/users/<%= staff.id %>">
+                                                        <%= staff.lastname %>
+                                                            <%= staff.firstname %>
+                                                                <%= staff.othernames %>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <%= staff.branch %>
+                                                </td>
+                                                <td>
+                                                    <%= staff.dept %>
+                                                </td>
+                                                <td>
+                                                    <%= staff.position %>
+                                                </td>
+                                                <td>
+                                                    <%= staff.email %>
+                                                </td>
+                                                <td>
+                                                    <%= staff.phone %>
+                                                </td>
+                                                <td class="d-flex justify-content-start">
+                                                    <a href="/api/v2/users/<%= staff.id %>"><i class="las la-eye la-2x-size "></i></a>
+                                                    <% if(user.role==="Admin" || user.id===staff.id){%>
+                                                        <a href="/api/v2/users/edit/<%= staff.id %>"><i class="las la-edit  mx-2 la-2x-size"></i></a>
+                                            
+                                            
+                                                        <form action="/api/v2/users/del/<%= staff.id %>?_method=DELETE" method="POST">
+                                                            <a class="deletConfirm"><i class="las la-trash mx-2 la-2x-size"></i></a>
+                                                            <input type="submit" value="delete" class="d-none " id="deleteInput">
+                                                        </form>
+                                            
+                                                        <% } %>
+                                            
+                                            
+                                                </td>
+                                            </tr>
+
+                                         
+                                           
+                                       <% }) %>
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+
+                </main>
+
+
+
+        </div>
+
+
+
+        
+        </body>
+
+        </html>

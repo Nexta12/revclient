@@ -1,0 +1,137 @@
+<%- include('../partials/_header') %>
+    <%- include('../partials/_sidebar') %>
+        <div class="main-content">
+
+            <%- include('../partials/_main_content_header') %>
+
+                <main>
+                    <div class="conatiner">
+                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
+                            <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
+                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
+                                <a href="/api/v2/properties/property">Properties</a>>>
+                                <a href="/api/v2/properties/add_new_property">Add New</a>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                   <div class="container rounded-3 shadow mx-auto bg-white my-5 p-3">
+
+
+                       <form action="/api/v2/Properties/add_property" method="POST" enctype="multipart/form-data">
+                            <%- include('../partials/flash_messages') %>
+                          <h4 class="text-center text-muted fw-5">Create a Property</h4>
+
+                        <div class="row">
+                            <div class="col-lg-3 text-center">
+                                <p>Property Image</p>
+                                
+                                 <img id="profileImage" src="/img/default Image.png"  alt="photo" width="150" height="150" class="rounded-circle bg-secondary profileImage">
+
+                                    <input id="imageUploadBtn" type="file" name="image"
+                                        accept="image/jpeg, image/png, image/jpg, image/svg+xml" class="imageUploadBtn d-none">
+                               
+                                <p>upload image</p>
+                            
+                            </div>
+
+                            <div class="col-lg-9">
+                                 <div class="row">
+                                     <div class="col-md-4">
+                                        <p><label for="name">Property Name *</label></p>
+                                        <p>
+                                            <input type="text" name="name" placeholder="Eg. Lekki Garden"
+                                                value="<%= typeof name != 'undefined' ? name : '' %>" class="form-control">
+                                        </p>
+                            
+                                     </div>
+                                     <div class="col-md-4">
+                                        <p> <label for="titleDoc">Document Title</label></p>
+                                        <p><input type="text" placeholder="Eg. C of O " name="titleDoc"
+                                                value="<%= typeof titleDoc != 'undefined' ? titleDoc : '' %>" class="form-control">
+                                        </p>
+                                     </div>
+                                     <div class="col-md-4">
+                                        <p> <label for="typeOfpro">Property Type *</label></p>
+                                        <select id="typeOfpro" class="typeOfpro form-select" name="typeOfpro"  aria-label="Default select example">
+                                                <option value="" disabled selected>Choose Option</option>
+                                                <option value="Plots of Land">Land</option>
+                                                <option value="Duplex" id="ttext">House</option>
+                                                <!-- <option value="Block of Flats">Block of Flats</option>
+                                                <option value="CornerPiece">CornerPiece</option> -->
+                                            </select>
+                                        
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-md-4">
+                                        <p> <label for="address">Location*</label></p>
+                                        <p>
+                                            <input type="text" placeholder="Enter Address of property" name="address"
+                                                value="<%= typeof address != 'undefined' ? address : '' %>" class="form-control">
+                                        </p>
+                                     </div>
+                                     <div class="col-md-4">
+                                        <p><label for="status">Status</label></p>
+                                        <p><select id="Status" name="status" class="form-select">
+                                                <option aria-readonly="true">Choose</option>
+                                                <option value="For Sale">For Sale </option>
+                                                <option value="Sold Out">Sold Out</option>
+                                        
+                                            </select>
+                                        </p>
+                                     </div>
+                                     <div class="col-md-4 duplT flatT">
+                                        <p> <label for="sizeOfPlot">Size Of Plot</label></p>
+                                        <p><input type="text" name="sizeOfPlot" placeholder="Eg. 600 sqm"
+                                                value="<%= typeof  sizeOfPlot != 'undefined' ?  sizeOfPlot : '' %>" class="form-control">
+                                        </p>
+                                     </div>
+                                     <div class="col-md-4">
+                                        <p> <label for="numOfFlats">Price*</label></p>
+                                        <p>
+                                            <input type="number" name="pricePerPlot" placeholder="Price/plot or flats or duplex"
+                                                value="<%= typeof   pricePerPlot != 'undefined' ?   pricePerPlot : '' %>" class="form-control" required>
+                                        </p>
+                                     </div>
+
+                                   
+                                 </div>
+                                <h4>Property Description</h4>
+                                <textarea name="description" id="description" cols="100%" rows="8%">
+                                    <%= typeof description !='undefined' ? description : '' %>
+                                </textarea>
+
+                                                                                                                                            <div class=" form-group modal-footer justify-content-center">
+                                                                                                                                                <a href="/api/v2/properties/property" class="btn btn-warning">Cancel</a>
+                                                                                                                                                <button type="submit" class="btn-outline-secondary px-3 py-2 ">Submit</button>
+                                                                                                                                            </div>
+                            </div>
+                           
+                        </div>
+
+                        </form>
+
+
+
+
+                   </div>
+                  
+                    
+                </main>
+
+
+
+        </div>
+<script>
+    CKEDITOR.replace("description", {
+        Plugins: "wysiwygarea, toolbar, basicstyles, link",
+    });
+
+</script> 
+    
+        </body>
+
+        </html>

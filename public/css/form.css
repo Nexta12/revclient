@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --main-color1: #a50462;
+  --main-color2: #A3238E;
+  --main-color: #632264;
+  font-size: 70%;
+}
+
+body {
+  background: var(--main-color);
+}
+
+label {
+  font-size: 1rem;
+  color: var(--main-color);
+}
+
+form {
+  width: 30% !important;
+  background: #fff;
+  padding: 2rem;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+form .icon {
+  position: absolute;
+  right: 35px;
+  font-size: 26px;
+  margin-top: -28px;
+  color: #777;
+  cursor: pointer;
+}
+form .icon:hover {
+  color: var(--main-color);
+}
+
+.form-control:focus {
+  border: 2px solid var(--main-color);
+  background: #eee;
+}
+
+/* responsive */
+
+@media only screen and (max-width: 1200px) {
+  form {
+    width: 50% !important;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  form {
+    width: 50% !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  form {
+    width: 60% !important;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  form {
+    width: 80% !important;
+  }
+}
