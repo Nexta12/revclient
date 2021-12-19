@@ -42,7 +42,6 @@
                         </div>
                     </div>
 
-
                     <form action="/api/v2/assign/cust/<%= customer.id %>/assign/?_method=PUT" method="post" method="POST">
 
                         <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
@@ -58,10 +57,10 @@
                                 </p>
 
                                 <div class="row">
-                                    <div class="col-lg-2 text-center">
+                                    <div class="col-lg-3 text-center">
                                        
-                                        <img id="profileImage" src="/img/default Image.png" alt="photo" width="200"
-                                            height="200" class="rounded-circle bg-secondary profileImage">
+                                        <img id="profileImage" src="/img/default Image.png" alt="photo" width="120"
+                                            height="120" class="rounded-circle bg-secondary profileImage">
 
                                         <input id="imageUploadBtn" type="file" name="image"
                                             accept="image/jpeg, image/png, image/jpg, image/svg+xml"
@@ -71,12 +70,12 @@
 
                                     </div>
 
-                                    <div class="col-lg-10">
+                                    <div class="col-lg-9">
 
 
                                         <div class="row">
 
-                                            <div class="col small-screen">
+                                            <div class="col-sm-6 col-lg-4">
                                                 <p><label for="customer">Choose Property *</label></p>
                                                 <select id="propper" name="id" class="form-select">
 
@@ -97,14 +96,14 @@
 
 
 
-                                            <div class="col small-screen">
+                                            <div class="col-md-6 col-lg-4">
                                                 <p><label for="o_branch">Opening branch</label></p>
                                                 <p><input type="text" id="o_branch" name="o_branch"
                                                         value="<%= typeof o_branch != 'undefined' ? o_branch : '' %>"
                                                         class="form-control">
                                                 </p>
                                             </div>
-                                            <div class="col small-screen">
+                                            <div class="col-md-6 col-lg-4">
 
                                                 <p><label for="date">Date of Purchase</label></p>
                                                 <p>
@@ -114,7 +113,11 @@
                                                 </p>
 
                                             </div>
-                                            <div class="col small-screen">
+                                           
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
                                                 <p><label for="p_purchase">Purpose of Purchase</label></p>
                                                 <p><input type="text" placeholder="Eg. Residential" name="p_purchase"
                                                         value="<%= typeof p_purchase != 'undefined' ? p_purchase : '' %>" class="form-control">
@@ -123,7 +126,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col small-screen">
+                                            <div class="col-sm-6 col-lg-4">
                                                 <p><label for="n_plots"> Quantity Purchased * </label></p>
                                                 <p>
                                                     <input type="number" placeholder="" name="n_plots" id="n_plotsT"
@@ -131,7 +134,7 @@
                                                         required class="form-control">
                                                 </p>
                                             </div>
-                                            <div class="col small-screen">
+                                            <div class="col-sm-6 col-lg-4">
                                                 <p><label for="n_plots"> Description </label></p>
                                                 <p>
                                                     <input type="text" placeholder="Eg. Units of 3 bedroom" name="detail" id="detail"
@@ -139,38 +142,43 @@
                                                 </p>
                                             </div>
 
-                                            <div class="col duplT flatT small-screen">
+                                            <div class="col-sm-6 col-lg-4 duplT flatT">
                                                 <p><label for="p_p_plot">Price per Unit </label></p>
                                                 <p><input type="number" placeholder="" name="p_p_plot" id="plotpT"
                                                         value="<%= typeof p_p_plot != 'undefined' ? p_p_plot : '' %>"
                                                         class="form-control">
                                                 </p>
                                             </div>
-                                            <div class="col small-screen">
+                                           
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
                                                 <p><label for="a_p_f_plots">Amount Paid</label></p>
                                                 <p>
                                                     <input type="number" placeholder="" name="a_p_f_plots" id="amtpdT"
-                                                        value="<%= typeof a_p_f_plots != 'undefined' ? a_p_f_plots : '' %>"
-                                                        class="form-control">
+                                                        value="<%= typeof a_p_f_plots != 'undefined' ? a_p_f_plots : '' %>" class="form-control">
                                                 </p>
                                             </div>
 
+                                            <div class="col-sm-6">
+                                                <p><label for="payOptions">Payment Options</label></p>
+                                                <p>
+                                                    <select name="payOptions" class="form-select">
+                                                        <option disabled selected>Choose Option</option>
+                                                        <option value="Outright Payment">Outright Payment</option>
+                                                        <option value="3 Months Plan ">3 Months Plan </option>
+                                                        <option value="6 Months Plan">6 Months Plan</option>
+                                                        <option value="12 Months Plan">12 Months Plan</option>
+                                                        <option value="18 Months Plan">18 Months Plan</option>
+                                                        <option value="24 Months Plan">24 Months Plan</option>
+                                                    </select>
+                                                </p>
+                                            
+                                            </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <p><label for="payOptions">Payment Options</label></p>
-                                            <p>
-                                                <select name="payOptions" class="form-select">
-                                                    <option disabled selected>Choose Option</option>
-                                                    <option value="Outright Payment">Outright Payment</option>
-                                                    <option value="3 Months Plan ">3 Months Plan </option>
-                                                    <option value="6 Months Plan">6 Months Plan</option>
-                                                    <option value="12 Months Plan">12 Months Plan</option>
-                                                    <option value="18 Months Plan">18 Months Plan</option>
-                                                    <option value="24 Months Plan">24 Months Plan</option>
-                                                </select>
-                                            </p>
                                         
-                                        </div>
                                         <div class="col text-end">
                                             <h6 class="text-success"> <span class="ms-5" id="totalT"></span></h6>
                                             <h6 class="text-danger"><span class="ms-5" id="balanceT"></span></h6>
@@ -203,7 +211,7 @@
                                                 <th>statutory Name</th>
                                                 <th>Cost</th>
                                                 <th>Amount Paid</th>
-                                                <th>Status</th>
+                                               
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -233,11 +241,7 @@
                                                             value="<%= typeof reg_paid != 'undefined' ? reg_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -266,11 +270,7 @@
                                                             value="<%= typeof surv_paid != 'undefined' ? surv_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -300,11 +300,7 @@
                                                             value="<%= typeof legal_paid != 'undefined' ? legal_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -332,11 +328,7 @@
                                                             value="<%= typeof dev_paid != 'undefined' ? dev_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -364,11 +356,7 @@
                                                             value="<%= typeof elec_paid != 'undefined' ? elec_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
 
                                         </tbody>
@@ -408,7 +396,7 @@
                                                 <th>statutory Name</th>
                                                 <th>Cost</th>
                                                 <th>Amount Paid</th>
-                                                <th>Status</th>
+                                            
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -436,11 +424,7 @@
                                                             value="<%= typeof rat_paid != 'undefined' ? rat_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -468,11 +452,7 @@
                                                             value="<%= typeof service_paid != 'undefined' ? service_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -500,11 +480,7 @@
                                                             value="<%= typeof deed_paid != 'undefined' ? deed_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -532,11 +508,7 @@
                                                             value="<%= typeof defau_paid != 'undefined' ? defau_paid : '' %>">
                                                     </p>
                                                 </td>
-                                                <td>
-                                                    <p class="status">
-
-                                                    </p>
-                                                </td>
+                                               
                                             </tr>
                                             <!-- single row stops -->
 

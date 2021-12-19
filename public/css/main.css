@@ -68,12 +68,13 @@ a {
   margin-top: 6rem !important;
 }
 
-/* .img-width {
-  width: 50%;
-  margin-top: 15rem;
-  background: red;
-} */
-
+ .la-bars {
+    font-size: 23px;
+  }
+   .dashboard-title {
+    font-size: 23px;
+    font-weight: 600;
+  }
 
 /* new home */
  .new-home-height{
@@ -299,9 +300,10 @@ header .user-wrapper {
 
 main {
   background: #eee;
-  margin-top: 50px;
+  margin-top: 70px;
   min-width: calc(100vw - 250px);
   min-height: 100vh;
+  
 }
 
 main .card {
@@ -679,16 +681,6 @@ position: relative;
 
 } 
 
- /* .small-screen label {
-   font-size: 12px;
- }
-  .small-screen input,
-  .small-screen .form-select */
-  /* {
-     padding: 3px 0;
-    font-size: 12px;
-
-   } */
 
    .user-details {
      font-size: 12px;
@@ -732,10 +724,31 @@ position: relative;
     margin: 0 10px !important;
   
   }
+  .sidebar {
+   display: none !important;
 
- /* .small-screen-font{
-   font-size: 10px !important;
-  text-transform: capitalize !important;
- } */
+   
+  }
+
+   .main-content {
+    margin-left: 0px !important;
+  }
+
+   .main-content header {
+    left: 0px;
+    min-width: calc(100vw - 0px);
+       transition: 0.5s !important;
+  }
+
+   #nav-toggle:checked + .sidebar {
+     display: block !important;
+     width: 200px !important;
+    transition: 0.5s;
+  }
+  #nav-toggle:checked ~ .main-content {
+    margin-left: 200px;
+  }
+
+ 
 
 }
