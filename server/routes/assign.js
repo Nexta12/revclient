@@ -2,8 +2,9 @@ const router = require("express").Router();
 const User = require("../models/User");
 const crypto = require("crypto");
 const Property = require("../models/Property");
-const { ensureLoggedin, mustBeAdminOrStaff } = require("../middleware/authe");
+const { ensureLoggedin, mustBeAdminOrStaff, sendSms } = require("../middleware/authe");
 const { check, validationResult } = require("express-validator");
+const axios = require('axios')
 
 
 
@@ -54,188 +55,199 @@ router.get("/cust/:id",ensureLoggedin, mustBeAdminOrStaff, async (req, res)=>{
 
 // property assignment handler for Customer
 
-router.put(
-  "/cust/:id/assign",
-  ensureLoggedin,
-  mustBeAdminOrStaff,
-  [
-    check("o_branch")
-      .trim()
-      .notEmpty()
-      .withMessage("Please Enter Account Opening branch !!! "),
-  ],
-  async (req, res) => {
-     try {
+router
+  .put(
+    "/cust/:id/assign",
+    ensureLoggedin,
+    mustBeAdminOrStaff,
+    [
+      check("o_branch")
+        .trim()
+        .notEmpty()
+        .withMessage("Please Enter Account Opening branch !!! "),
+    ],
+    async (req, res) => {
+      try {
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+          const customer = await User.findById(req.params.id);
+          const property = await Property.findById(req.body.id);
+          const image = property.image;
+          const name = property.name;
+          const id = customer.id;
+          const propeId = property.id;
+          const uuid = crypto.randomBytes(32).toString("hex");
 
-       const errors = validationResult(req);
-       if (errors.isEmpty()) {
-         const customer = await User.findById(req.params.id);
-         const property = await Property.findById(req.body.id);
-         const image = property.image;
-         const name = property.name;
-         const id = customer.id;
-         const propeId = property.id;
-        const uuid = crypto.randomBytes(32).toString("hex");
+          let {
+            n_plots,
+            o_branch,
+            p_purchase,
+            p_date,
+            detail,
+            p_p_plot,
+            a_p_f_plots,
+            reg_fee,
+            reg_paid,
+            surv_fee,
+            surv_paid,
+            legal_fee,
+            legal_paid,
+            dev_fee,
+            dev_paid,
+            elec_fee,
+            allocation,
+            payOptions,
+            plotNum,
+            blockNum,
+            elec_paid,
+            rat_fee,
+            rat_paid,
+            defau_fee,
+            defau_paid,
+            service_fee,
+            service_paid,
+            deed_fee,
+            deed_paid,
+          } = req.body;
 
-         let {
-           n_plots,
-           o_branch,
-           p_purchase,
-           p_date,
-           detail,
-           p_p_plot,
-           a_p_f_plots,
-           reg_fee,
-           reg_paid,
-           surv_fee,
-           surv_paid,
-           legal_fee,
-           legal_paid,
-           dev_fee,
-           dev_paid,
-           elec_fee,
-           allocation,
-           payOptions,
-           plotNum,
-           blockNum,
-           elec_paid,
-           rat_fee,
-           rat_paid,
-           defau_fee,
-           defau_paid,
-           service_fee,
-           service_paid,
-           deed_fee,
-           deed_paid,
-         } = req.body;
+          // land analysis
+          const landTotal = n_plots * p_p_plot;
+          const landStatus = n_plots * p_p_plot - a_p_f_plots;
+          const regisStatus = reg_fee - reg_paid;
+          // survey analysis
+          const surveStatus = surv_fee - surv_paid;
+          // legal analysis
+          const legalStatus = legal_fee - legal_paid;
+          // service Status
+          const serviceStatus = service_fee - service_paid;
+          // deed Status
+          const deedStatus = deed_fee - deed_paid;
+          // devlop fee analysis
+          const develStatus = dev_fee - dev_paid;
+          // electri fee analysis
+          const electStatus = elec_fee - elec_paid;
+          //  ratif analysis
+          const ratifStatus = rat_fee - rat_paid;
+          // defaultee fee analysis
+          const defauStatus = defau_fee - defau_paid;
 
-         // land analysis
-         const landTotal = n_plots * p_p_plot;
-         const landStatus = n_plots * p_p_plot - a_p_f_plots;
-         const regisStatus = reg_fee - reg_paid;
-         // survey analysis
-         const surveStatus = surv_fee - surv_paid;
-         // legal analysis
-         const legalStatus = legal_fee - legal_paid;
-         // service Status
-         const serviceStatus = service_fee - service_paid;
-         // deed Status
-         const deedStatus = deed_fee - deed_paid;
-         // devlop fee analysis
-         const develStatus = dev_fee - dev_paid;
-         // electri fee analysis
-         const electStatus = elec_fee - elec_paid;
-         //  ratif analysis
-         const ratifStatus = rat_fee - rat_paid;
-         // defaultee fee analysis
-         const defauStatus = defau_fee - defau_paid;
+          let grandTotalToPay = [
+            landTotal,
+            Number(reg_fee),
+            Number(surv_fee),
+            Number(legal_fee),
+            Number(dev_fee),
+            Number(elec_fee),
+            Number(rat_fee),
+            Number(defau_fee),
+            Number(service_fee),
+            Number(deed_fee),
+          ];
+          // calculate grand total to pay
+          let grandTopay = 0;
+          for (let i = 0; i < grandTotalToPay.length; i++) {
+            grandTopay += grandTotalToPay[i];
+          }
 
-         let grandTotalToPay = [
-           landTotal,
-           Number(reg_fee),
-           Number(surv_fee),
-           Number(legal_fee),
-           Number(dev_fee),
-           Number(elec_fee),
-           Number(rat_fee),
-           Number(defau_fee),
-           Number(service_fee),
-           Number(deed_fee),
-         ];
-         // calculate grand total to pay
-         let grandTopay = 0;
-         for (let i = 0; i < grandTotalToPay.length; i++) {
-           grandTopay += grandTotalToPay[i];
-         }
+          const grandTotalPaid = [
+            Number(a_p_f_plots),
+            Number(reg_paid),
+            Number(surv_paid),
+            Number(legal_paid),
+            Number(dev_paid),
+            Number(elec_paid),
+            Number(rat_paid),
+            Number(defau_paid),
+            Number(service_paid),
+            Number(deed_paid),
+          ];
+          //  calculate grand paid
+          let grandPaid = 0;
+          for (let i = 0; i < grandTotalPaid.length; i++) {
+            grandPaid += grandTotalPaid[i];
+          }
+          const grandDebt = grandTopay - grandPaid;
 
-         const grandTotalPaid = [
-           Number(a_p_f_plots),
-           Number(reg_paid),
-           Number(surv_paid),
-           Number(legal_paid),
-           Number(dev_paid),
-           Number(elec_paid),
-           Number(rat_paid),
-           Number(defau_paid),
-           Number(service_paid),
-           Number(deed_paid),
-         ];
-         //  calculate grand paid
-         let grandPaid = 0;
-         for (let i = 0; i < grandTotalPaid.length; i++) {
-           grandPaid += grandTotalPaid[i];
-         }
-         const grandDebt = grandTopay - grandPaid;
+          if (!customer.properties.includes(propeId)) {
+            await customer.updateOne({
+              $push: {
+                properties: {
+                  uuid,
+                  propeId,
+                  id,
+                  name,
+                  image,
+                  n_plots,
+                  o_branch,
+                  p_purchase,
+                  detail,
+                  p_date,
+                  p_p_plot,
+                  a_p_f_plots,
+                  reg_fee,
+                  reg_paid,
+                  surv_fee,
+                  surv_paid,
+                  legal_fee,
+                  legal_paid,
+                  dev_fee,
+                  dev_paid,
+                  elec_fee,
+                  allocation,
+                  payOptions,
+                  plotNum,
+                  blockNum,
+                  elec_paid,
+                  rat_fee,
+                  rat_paid,
+                  defau_fee,
+                  defau_paid,
+                  service_fee,
+                  service_paid,
+                  deed_fee,
+                  deed_paid,
+                  landTotal,
+                  landStatus,
+                  regisStatus,
+                  surveStatus,
+                  legalStatus,
+                  develStatus,
+                  electStatus,
+                  ratifStatus,
+                  defauStatus,
+                  serviceStatus,
+                  deedStatus,
+                  grandTopay,
+                  grandPaid,
+                  grandDebt,
+                },
+              },
+            });
+            await customer.updateOne({ $push: { properties: propeId } });
+            req.flash("success_msg", "Property was successfully asigned");
 
-         if (!customer.properties.includes(propeId)) {
-           await customer.updateOne({
-             $push: {
-               properties: {
-                 uuid,
-                 propeId,
-                 id,
-                 name,
-                 image,
-                 n_plots,
-                 o_branch,
-                 p_purchase,
-                 detail,
-                 p_date,
-                 p_p_plot,
-                 a_p_f_plots,
-                 reg_fee,
-                 reg_paid,
-                 surv_fee,
-                 surv_paid,
-                 legal_fee,
-                 legal_paid,
-                 dev_fee,
-                 dev_paid,
-                 elec_fee,
-                 allocation,
-                 payOptions,
-                 plotNum,
-                 blockNum,
-                 elec_paid,
-                 rat_fee,
-                 rat_paid,
-                 defau_fee,
-                 defau_paid,
-                 service_fee,
-                 service_paid,
-                 deed_fee,
-                 deed_paid,
-                 landTotal,
-                 landStatus,
-                 regisStatus,
-                 surveStatus,
-                 legalStatus,
-                 develStatus,
-                 electStatus,
-                 ratifStatus,
-                 defauStatus,
-                 serviceStatus,
-                 deedStatus,
-                 grandTopay,
-                 grandPaid,
-                 grandDebt,
-               },
-             },
-           });
-           await customer.updateOne({ $push: { properties: propeId } });
-           req.flash("success_msg", "Property was successfully asigned");
-           res.redirect("/api/v2/customers/customers");
-         } else {
-           req.flash(
-             "error_msg",
-             "This property has previously been assigned to this customer"
-           );
-           res.redirect(`/api/v2/assign/cust/${req.params.id}`);
-         }
-       } else {
-
-         const errorAlert = errors.array();
-         const properties = await Property.find();
+            // const loginLink = '<a href="/api/v2/secure/login target="_blanck">Login</a>'
+             if (customer.phone) {
+                sendSms(
+                 customer.phone,
+                 `Dear ${customer.name}, We appreciate the sacrifice of your patronage. This is to notify you that we have received a total payment of &#x20A6; ${customer.properties[0].grandPaid} from you for ${customer.properties[0].name} to portal View more`
+               ); // send SMS alert to Customer
+               req.flash(
+                 "success_msg",
+                 "SMS sent to the client's Phone Number"
+               );
+                res.redirect("/api/v2/customers/customers");
+             }
+          } else {
+            req.flash(
+              "error_msg",
+              "This property has previously been assigned to this customer"
+            );
+            res.redirect(`/api/v2/assign/cust/${req.params.id}`);
+          }
+        } else {
+          const errorAlert = errors.array();
+          const properties = await Property.find();
           const customer = await User.findById(req.params.id);
           res.render("assign_customer", {
             layout: "../layouts/dashboardLayout",
@@ -245,17 +257,15 @@ router.put(
             properties,
             customer,
           });
-      
-       }
-       
-     } catch (error) {
+        }
+      } catch (error) {
         res.render("errors/500", {
           title: "Error",
         });
-     }
-    
-  }
-);
+      }
+    }
+  )
+
 
 // Property Assignment Handler for Property (Respect Me here)
 router.put(
@@ -427,6 +437,13 @@ router.put(
           });
           await user.updateOne({ $push: { properties: req.params.id } });
            req.flash("success_msg", "Property was successfully asigned");
+            if (user.phone) {
+              sendSms(
+                user.phone,
+                `Dear Esteemed Client, <br>We appreciate the sacrifice of your patronage. <br> This is to notify you that we received your payment of ${user.grandPaid}`
+              ); // send SMS alert to Customer
+              req.flash("success_msg", "SMS sent to the client's Phone Number");
+            }
            res.redirect("/api/v2/properties/property");
         } else {
           req.flash(
@@ -501,6 +518,8 @@ router.get(
 
 // Update Assigned Property Handler
 router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
+    const user = await User.findById(req.params.id); // so to get the user's phone number
+          
   try {
     // declare variables
     let {
@@ -586,7 +605,7 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
     const grandDebt = grandTopay - grandPaid;
     
     // 3. call the update function
-
+     
       await User.findOneAndUpdate(
         { "properties.uuid": req.params.uuid },
         {
@@ -643,6 +662,16 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
          (err, data) => {
            if (!err) {
              req.flash("success_msg", "Property Successfully Updated");
+             if (user.phone) {
+               sendSms(
+                 user.phone,
+                 `Dear Esteemed Client, <br>We appreciate the sacrifice of your patronage. <br> This is to notify you that we received your payment of ${user.grandPaid}`
+               ); // send SMS alert to Customer
+               req.flash(
+                 "success_msg",
+                 "SMS sent to the client's Phone Number"
+               );
+             }
              res.redirect(
                `/api/v2/customers/single/${req.params.id}/${req.params.propeId}`
              );

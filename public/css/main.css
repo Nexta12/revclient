@@ -165,10 +165,9 @@ a {
   white-space: nowrap;
 }
 
-/* li.active {
-  background: #a50462;
-  color: #fff;
-} */
+.activee {
+  background: var(--color-dark);
+}
 
 #nav-toggle:checked + .sidebar .sidebar-menu ul {
   padding-top: 5.5rem;
@@ -203,6 +202,7 @@ header {
   align-items: center;
   background: #fff;
   transition: 0.5s;
+  z-index: 100;
 }
 
 .show-in-mobile {

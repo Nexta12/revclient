@@ -13,6 +13,7 @@ const assignSchema = new mongoose.Schema(
     },
     p_purchase: {
       type: String,
+      enum: ["Residential", "Commercial"]
     },
     description: {
       type: String,

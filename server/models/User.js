@@ -40,6 +40,10 @@ const userSchema = new mongoose.Schema(
       //for customers
       type: String,
     },
+    file_num: {
+      //for customers
+      type: String,
+    },
     twitter: {
       type: String,
     },
@@ -54,7 +58,6 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      max: 15,
     },
     role: {
       type: String,
@@ -82,7 +85,7 @@ const userSchema = new mongoose.Schema(
     branch: {
       type: String,
       default: "Ikeja",
-      enum: ["Ikeja", "Lekki", "Abuja", "Port Harcourt", "Ibadan"],
+      enum: ["Ikeja", "Lekki", "abuja", "Port Harcourt", "ibadan"],
     },
     profilePic: {
       type: String,
@@ -90,7 +93,7 @@ const userSchema = new mongoose.Schema(
     },
     properties: {
       type: Array,
-      default: []
+      default: [],
     },
     country: {
       type: String,

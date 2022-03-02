@@ -4,6 +4,8 @@ const profileImage = document.querySelectorAll(".profileImage");
 const imageUpload = document.querySelectorAll(".imageUploadBtn");
 const propType = document.querySelectorAll(".typeOfpro");
 const searchBox = document.querySelectorAll(".search-box");
+const lighter = document.querySelectorAll('.lighter')
+
 
 
 
@@ -146,6 +148,21 @@ searchBox.forEach((box) => {
         
       });
     }
-
      }getstat()
+
+
+//  Set active menu
+
+ for(let i = 0; i < lighter.length; i++) {
+
+   lighter[i].addEventListener('click', ()=>{
+    //  var a = document.querySelector('.lighter.activee')
+      //  a.classList.remove('activee')
+       lighter[i].classList.toggle("activee");
+     
+    
+  
+
+   })
+ }
 

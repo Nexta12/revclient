@@ -23,6 +23,8 @@ connectDB()
 
 const PORT = process.env.PORT || 5000
 
+
+
 // load passport
 initialize(passport)
 
@@ -50,7 +52,7 @@ app.use(
     tempFileDir: path.join(__dirname, "tmp"),
     createParentPath: true,
     limits: {
-      fileSize: 1024 * 1024 * 8
+      fileSize: 1024 * 1024 * 20
     },
   })
 );
@@ -128,9 +130,11 @@ app.use("/api/v2/users", require("./server/routes/user"))
 app.use("/api/v2/assign", require("./server/routes/assign"))
 app.use("/api/v2/stats", require("./server/routes/statistics"));
 app.use('/', require('./server/routes/emailing'))
+app.use('/', require('./server/routes/excelhandler'))
+// app.use('/', require('./server/routes/dataexporter'))
 
 
 
 app.listen(PORT, ()=>{
-    console.log(`Server Running on http://localhost:${PORT}`)
+    console.log(`Server Running on ${process.env.BASEURL}`)
 })

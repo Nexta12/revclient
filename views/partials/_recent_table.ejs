@@ -13,22 +13,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                <% newPurchases.slice(-15).forEach((newPur,index)=>{ %>
-                    <tr>
-                        <td><%= index + 1 %></td>
-                        <td ><a href="/api/v2/customers/<%= newPur._id %>"><%= newPur.name.toUpperCase() %></a></td>
-                        <td><%= newPur.properties.name %></td>
-                        <td><%= numFomatter(newPur.properties.grandPaid) %></td>
-                        <% if(newPur.properties.grandDebt != 0){%>
-                        <td class="text-danger"><%=numFomatter(newPur.properties.grandDebt) %></td>
-                       <% }else{ %>
-                        <td class="text-success">
-                            NILL
-                        </td>
-                      <% } %>
-                    </tr>
+                  
 
-                    <% }) %>
+                        <% newPurchases.slice(-15).forEach((newPur,index)=>{ %>
+                            <tr>
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td><a href="/api/v2/customers/<%= newPur._id %>">
+                                        <%= newPur.name.toUpperCase() %>
+                                    </a></td>
+                                <td>
+                                    <%= newPur.properties.name %>
+                                </td>
+                                <td>
+                                    <%= numFomatter(newPur.properties.grandPaid) %>
+                                </td>
+                                <% if(newPur.properties.grandDebt !=0){%>
+                                    <td class="text-danger">
+                                        <%=numFomatter(newPur.properties.grandDebt) %>
+                                    </td>
+                                    <% }else{ %>
+                                        <td class="text-success">
+                                            NILL
+                                        </td>
+                                        <% } %>
+                            </tr>
+                        
+                          <% }) %>
+
+                 
 
                 </tbody>
             </table>

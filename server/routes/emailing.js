@@ -1,11 +1,17 @@
 const router = require("express").Router();
 const nodemailer = require("nodemailer");
 const User = require("../models/User");
-
-
+const { sendSms  } = require("../middleware/authe");
 
 
 async function getCustomers(){
+
+
+  // SMS Message
+
+  let smsMessage = {
+    type1: `Dear Esteemed Client, <br>We appreciate the sacrifice of your patronage. <br> This is to notify you that we received your payment of`,
+  };
 
     try {
       const debtors = await User.aggregate([
@@ -111,43 +117,43 @@ async function getCustomers(){
            userEmail.push(batch.email);
          });
        } 
-
-      if (day == 20){
-       getEmails(batchA);
-      }else if(day == 21 ){
-        getEmails(batchB);
-      }else if(day == 22){
-        getEmails(batchC);
-      }else if(day == 23){
-       getEmails(batchD);
-      }else if(day == 24){
-        getEmails(batchE)
-      }else if(day == 25){
-        getEmails(batchF);
-      }else if(day == 26){
-        getEmails(batchG);
-      }else if(day == 27){
-       getEmails(batchH);
-      }else if(day== 28){
-        getEmails(batchI);
-      }else if(day == 29){
-        getEmails(batchJ);
-      }else if(day == 30){
-        getEmails(batchK);
-      }else if(day == 31){
-        getEmails(batchL);
-      }else if(day == 1){
-        getEmails(batchM);
-      }else if(day == 2){
-       getEmails(batchN);
-      }else if (day == 3){
-        getEmails(batchO);
-      }else if (day == 4){
-        getEmails(batchP);
-      }else if(day == 17){
-        getEmails(batchQ);
-      }
-
+       if(userEmail != ''){
+         if (day == 20) {
+           getEmails(batchA);
+         } else if (day == 21) {
+           getEmails(batchB);
+         } else if (day == 22) {
+           getEmails(batchC);
+         } else if (day == 23) {
+           getEmails(batchD);
+         } else if (day == 24) {
+           getEmails(batchE);
+         } else if (day == 25) {
+           getEmails(batchF);
+         } else if (day == 26) {
+           getEmails(batchG);
+         } else if (day == 27) {
+           getEmails(batchH);
+         } else if (day == 28) {
+           getEmails(batchI);
+         } else if (day == 29) {
+           getEmails(batchJ);
+         } else if (day == 30) {
+           getEmails(batchK);
+         } else if (day == 31) {
+           getEmails(batchL);
+         } else if (day == 1) {
+           getEmails(batchM);
+         } else if (day == 2) {
+           getEmails(batchN);
+         } else if (day == 3) {
+           getEmails(batchO);
+         } else if (day == 4) {
+           getEmails(batchP);
+         } else if (day == 17) {
+           getEmails(batchQ);
+         }
+       }
 
       //email options
       
@@ -167,7 +173,6 @@ async function getCustomers(){
       };
 
     
-     
       if( Object.keys(mailOptions.bcc).length !== 0 ){ 
 
         transporter.sendMail(mailOptions, (error, info) => {

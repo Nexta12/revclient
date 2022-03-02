@@ -6,12 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
         integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <script>
         $(document).ready(function () {
 
@@ -43,7 +46,7 @@
                     </div>
 
 
-                    <form action="/api/v2/assign/<%= property.id %>/assign/?_method=PUT" method="post" method="POST">
+                    <form action="/api/v2/assign/<%= property.id %>/assign/?_method=PUT" method="POST">
 
                         <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
                             <%- include('../partials/flash_messages') %>
@@ -122,18 +125,16 @@
 
                                         </div>
 
-                                        <div class="row">
-                                           
-
-                                            <div class="col">
-                                                <p><label for="p_purchase">Purpose of Purchase</label></p>
-                                                <p><input type="text" placeholder="Eg. Residential" name="p_purchase"
-                                                        value="<%= typeof p_purchase != 'undefined' ? p_purchase : '' %>"
-                                                        class="form-control">
-                                                </p>
-                                            </div>
-
+                                    <div class="row">
+                                        <div class="col-md-6 col-lg-4 py-2">
+                                            <p><label for="p_purchase">Purpose of Purchase</label></p>
+                                            <select name="p_purchase" class="form-select">
+                                                <option disabled selected>Choose Option</option>
+                                                <option value="Residential">Residential</option>
+                                                <option value="Commercial">Commercial</option>
+                                            </select>
                                         </div>
+                                    </div>
 
 
                                         <div class="row">

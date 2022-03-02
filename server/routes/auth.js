@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const { usernameToLowerCase, ensureGuest } = require("../middleware/authe");
 const passport = require("passport");
 const nodemailer = require('nodemailer')
+const { sendEmail, Registration } = require("../services/email_services");
 
 // Register Page
 router.get("/register", ensureGuest, (req, res) => {
@@ -98,40 +99,42 @@ router.post("/register", usernameToLowerCase, async (req, res) => {
               password: hashedPassword,
             });
             // send success email to user
-            let transporter = nodemailer.createTransport({
-              host: process.env.HOST,
-              port: 465,
-              secure: true, // true for 465, false for other ports
-              auth: {
-                user: process.env.USER_EMAIL, // generated ethereal user
-                pass: process.env.EMAIL_PASS, // generated ethereal password
-              },
 
-              tls: {
-                rejectUnauthorized: false,
-              },
-            });
+            sendEmail(newUser, "Successful Registration", Registration(newUser.name));
 
-             let mailOptions = {
-               from: '"Revolution Plus👻"<customercare@revclient.com>',
-               to: newUser.email,
-               subject: " Successfull Registration",
-               html: `<h3> Dear ${newUser.name}, </h3> <br>
-              <p> Your Registration Was Successful on our our client's management Portal </p>
-              <br>
-              <br>
-              <br>
-              <p>All rights reserved, Revolution Plus Properties LLC </p>
-              `, 
-             };
-              transporter.sendMail(mailOptions, (error, info) => {
-                      if (error) {
-                        console.log(error);
-                        //   throw new Error("An error occured while sending the mail");
-                      }
+            // let transporter = nodemailer.createTransport({
+            //   host: process.env.HOST,
+            //   port: 465,
+            //   secure: true, // true for 465, false for other ports
+            //   auth: {
+            //     user: process.env.USER_EMAIL, // generated ethereal user
+            //     pass: process.env.EMAIL_PASS, // generated ethereal password
+            //   },
 
-                      console.log("Message sent : %s", info.messageId);
-                    });
+            //   tls: {
+            //     rejectUnauthorized: false,
+            //   },
+            // });
+
+            //  let mailOptions = {
+            //    from: '"Revolution Plus👻"<customercare@revclient.com>',
+            //    to: newUser.email,
+            //    subject: " Successfull Registration",
+            //    html: `<h3> Dear ${newUser.name}, </h3> <br>
+            //   <p> Your Registration Was Successful on our our client's management Portal </p>
+            //   <br>
+            //   <br>
+            //   <br>
+            //   <p>All rights reserved, Revolution Plus Properties LLC </p>
+            //   `, 
+            //  };
+            //   transporter.sendMail(mailOptions, (error, info) => {
+            //           if (error) {
+            //             console.log(error);
+            //             //   throw new Error("An error occured while sending the mail");
+            //           }
+            //           console.log("Message sent : %s", info.messageId);
+            //         });
                
             req.flash(
               "success_msg",

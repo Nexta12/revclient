@@ -110,12 +110,28 @@
                                                         class="form-control">
                                                 </p>
                                             </div>
+
+
                                             <div class="col-sm-6 ">
                                                 <p><label for="p_purchase">Purpose of Purchase</label></p>
-                                                <p><input type="text" placeholder="Eg. Residential" name="p_purchase" value="<%= reqProperty.p_purchase %>"
-                                                        class="form-control">
+                                                <p>
+                                                    <select name="p_purchase" class="form-select">
+
+                                                        <option value="Residential" <%=reqProperty.p_purchase=='Residential' ? 'selected' :'' %>>Residential</option>
+                                                        <option value="Commercial" <%=reqProperty.p_purchase=='Commercial' ? 'selected' :'' %>>Commercial</option>
+                                                    </select>
                                                 </p>
+                                                <!-- stop -->
+
+
+
+
+
+
+
                                             </div>
+
+
 
                                         </div>
                                        
@@ -499,7 +515,6 @@
                                                 <td>
                                                     <p>
                                                         <select name="allocation" class="form-select">
-                                                            <option disabled selected>Choose Option</option>
                                                             <option value="Allocated"
                                                                 <%=reqProperty.allocation=='Allocated'
                                                                 ? 'selected' :'' %>>Allocated</option>

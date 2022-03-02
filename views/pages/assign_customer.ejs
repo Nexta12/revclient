@@ -117,11 +117,13 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col">
-                                                <p><label for="p_purchase">Purpose of Purchase</label></p>
-                                                <p><input type="text" placeholder="Eg. Residential" name="p_purchase"
-                                                        value="<%= typeof p_purchase != 'undefined' ? p_purchase : '' %>" class="form-control">
-                                                </p>
+                                            <div class="col-md-6 col-lg-4 py-2">
+                                            <p><label for="p_purchase">Purpose of Purchase</label></p>
+                                            <select name="p_purchase" class="form-select">
+                                                <option disabled selected>Choose Option</option>
+                                                <option value="Residential">Residential</option>
+                                                <option value="Commercial">Commercial</option>
+                                            </select>
                                             </div>
                                         </div>
 

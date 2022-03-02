@@ -37,9 +37,9 @@
                     <section class="table" >
                         
                         <div class="row py-3 mx-3 custable-height ">
-                            <%- include('../partials/flash_messages') %>
                             
                                 <div class="col overflow-auto mb-3">
+                                    <%- include('../partials/flash_messages') %>
                                     <table class="table table-stri bg-white shadow " id="customersTable">
                                         <thead>
                                             <tr>
@@ -80,9 +80,14 @@
                                                                 class="las la-edit mx-2 la-2x-size"></i></a>
                                 
                                                         <form action="/api/v2/customers/delete/<%= customer.id %>?_method=DELETE" method="POST">
+
                                                             <a class="deletConfirm"><i class="las la-trash la-2x-size"></i></a>
+
                                                             <input type="submit" value="delete" class="d-none " id="deleteInput">
+                                                            
                                                         </form>
+
+
                                                         <p> <a href="/api/v2/assign/cust/<%= customer.id %>">Assign </a></p>
                                 
                                                     </td>

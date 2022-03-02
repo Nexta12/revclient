@@ -1,3 +1,7 @@
+const axios = require('axios')
+
+const router = require('express').Router()
+
 module.exports = {
   ensureLoggedin: (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -61,6 +65,22 @@ module.exports = {
     }else{
       return num.toLocaleString()
     }
+  },
+ 
+  sendSms: async (to, msg)=>{
+    const  Api = {
+    base: 'https://www.bulksmsnigeria.com/api/v1/sms/create',
+    api_token: 'yenEakqw5sTSCJ4pYf0D77GRa3RuFbqTPCUZWk4PxO4aAmKBNQ9b8jLhDFKA',
+    from: 'RevolutionPlus Properties',
+  };
+   await axios.get(
+     `${Api.base}?api_token=${Api.api_token}&from=${Api.from}&to=${to}&body=${msg}&dnd=2`
+   ).then(data=>{
+     console.log(data)
+   }).catch(err=>{
+     console.log(err)
+   })
+
   }
 
 };

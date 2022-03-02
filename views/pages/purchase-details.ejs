@@ -34,6 +34,9 @@
                                    <small>
                                        Payment Option:  <span class="ms-5"> <%=proDetail.payOptions %> </span>
                                    </small>
+                                   <small class="mx-3">
+                                       Purpose:  <span class="mx-3"> <%=proDetail.p_purchase %> </span>
+                                   </small>
                                </p>
                                 <div class="float-end">
                                     <% if(user.role==="Admin" || user.role==="Staff" ){ %>

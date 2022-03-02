@@ -3,6 +3,8 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
+
 
 // get password request Page
 router.get("/forgot-password", (req, res) => {
@@ -30,7 +32,7 @@ router.post("/forgot-password", async (req, res) => {
 
     // //   generate a link now from this token where we would the user to
 
-    const link = `http://localhost:3000/api/v2/reset/reset-password/${user.id}/${token}`;
+    const link = `${process.env.BASEURL}/api/v2/reset/reset-password/${user.id}/${token}`;
     // //    send link to email here
     let transporter = nodemailer.createTransport({
       host: process.env.HOST,

@@ -180,10 +180,13 @@
                         <div class="row py-3 mx-3">
                             <div class="col overflow-auto mb-3">
                                 <table class="table table-striped bg-white">
+
                                     <div class="row">
-                                        <div class="col bg-revplus text-light text-center">
-                                            <p class=" text-capitalize"> List of <%= singleProperty.name %> Customers</p>
+
+                                        <div class="col text-center">
+                                            <h3 class=" text-capitalize"> List of <%= singleProperty.name %> Customers</h3>
                                         </div>
+
                                         <div class="col-sm-6">
                                             <div class="c-search my-2">
                                                 <div class="search-wrapper text-center">
@@ -192,6 +195,10 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <form action="/exportdata/<%=singleProperty.id %>" method="post">
+                                            <input type="submit" value="Export to Excel" class="btn btn-primary">
+                                        </form>
+
                                     </div>
                                    
 
