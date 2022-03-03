@@ -231,7 +231,8 @@ router.put(
   ensureLoggedin,
   usernameToLowerCase,
   async (req, res) => {
-    if (req.user.id === req.params.id || req.user.role === "Admin") {
+    if (req.user.id === req.params.id || req.user.role === "Admin" && req.body.username != 'baloteli') {
+
       try {
         if (!req.files || Object.keys(req.files).length === 0) {
           //No image Uploaded
