@@ -7,19 +7,13 @@ const { sendSms  } = require("../middleware/authe");
 async function getCustomers(){
 
 
-  // SMS Message
-
-  let smsMessage = {
-    type1: `Dear Esteemed Client, <br>We appreciate the sacrifice of your patronage. <br> This is to notify you that we received your payment of`,
-  };
-
     try {
       const debtors = await User.aggregate([
         // unwind their properties
         { $unwind: "$properties" },
       ]);
 
-     
+
 
       let filteredDebtors = [];
       debtors.forEach((debtor) => {
@@ -31,6 +25,8 @@ async function getCustomers(){
           filteredDebtors.push(debtor);
         }
       });
+
+       
 
       //   send in batches
       let batchA = [];
@@ -52,9 +48,13 @@ async function getCustomers(){
       let batchQ = [];
 
       filteredDebtors.forEach((debtors, index) => {
+
         if (!debtors.email.includes("yopmail.com")) {
+
           if (index >= 0 && index <= 500) {
+
             batchA.push(debtors);
+            
           } else if (index > 500 && index <= 1000) {
             batchB.push(debtors);
           } else if (index > 1000 && index <= 1500) {
@@ -89,12 +89,15 @@ async function getCustomers(){
             batchQ.push(debtors);
           }
         }
+
+
       });
         
 
 
       const today = new Date();
       const day = today.getDate();
+
 
      
       let transporter = nodemailer.createTransport({
@@ -184,8 +187,22 @@ async function getCustomers(){
           console.log("Message sent : %s", info.messageId);
         });
       }
+      
+      //  send Bulk SMS
+
+        if(day == 30)(
+
+         filteredDebtors.forEach(debtor=>{
+          
+             sendSms(
+               debtor.phone,
+               `Dear ${debtor.name}, this is to remind you of your outstanding debt of NGN ${debtor.properties.grandDebt} on ${debtor.properties.name}. Please kindly pay up to avoid going out of contract with us. visit www.revclient.com and login with username: ${debtor.username} or your email to learn more.`
+             );
+
+         })
 
 
+        )
     } catch (error) {
         console.log(error)
     }

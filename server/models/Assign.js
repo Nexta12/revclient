@@ -44,6 +44,7 @@ const assignSchema = new mongoose.Schema(
       enum: [
         "Outright Payment",
         "3 Months Plan",
+        "5 Months Plan",
         "6 Months Plan",
         "12 Months Plan",
         "18 Months Plan",
@@ -52,7 +53,7 @@ const assignSchema = new mongoose.Schema(
     },
     allocation: {
       type: String,
-      enum: ["Allocated", "Refunded", "Pending", "In Process"],
+      enum: ["Allocated", "Refunded", "Pending", "Out of Contract"],
     },
     plotNum: {
       type: String,
@@ -66,6 +67,9 @@ const assignSchema = new mongoose.Schema(
     document: {
       type: String,
     },
+    comment: {
+      type: String,
+    }
   },
   { timestamps: true }
 );

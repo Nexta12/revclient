@@ -71,10 +71,10 @@ app.use(methodOverride("_method"));
 
 app.use(
   session({
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     secret: process.env.SESSION_SECRETE,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   })
 );
 
@@ -136,5 +136,5 @@ app.use('/', require('./server/routes/excelhandler'))
 
 
 app.listen(PORT, ()=>{
-    console.log(`Server Running on ${process.env.BASEURL}`)
+    console.log(`Server Running on ${process.env.PORT}`)
 })

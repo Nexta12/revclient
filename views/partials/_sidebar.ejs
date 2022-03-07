@@ -63,7 +63,7 @@
             </li>
             <% } %>
 
-            <% if(user.role == "Admin" && (user.dept == "ED" || user.dept == "MD" )){ %>
+            <% if(user.role == "Admin"){ %>
             <li class="lighter">
                 <a href="/api/v2/stats/statistics">
                     <span class="icon"><span class="las la-cog"></span></span>

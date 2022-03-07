@@ -12,8 +12,6 @@ const Assign = require("../models/Assign");
 const Property = require("../models/Property");
 
 
-
-
 router.get("/customers",ensureLoggedin,mustBeAdminOrStaff, async (req, res) => {
  
     try { 

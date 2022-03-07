@@ -60,6 +60,7 @@ router.post("/exportdata/:id", async (req, res) => {
           allocation_status: a.properties.allocation,
           block_no: a.properties.blockNum,
           plot_Num: a.properties.plotNum,
+          comment: a.properties.comment
         });
       }
     });
@@ -78,6 +79,38 @@ router.post("/exportdata/:id", async (req, res) => {
 });
 
 // Excel Import page
+
+// router.post('/exportday', async (req, res) => {
+//   const wb = render.utils.book_new(); // create new workbook
+//     try {
+
+//       const userdata = await User.find().sort({createdAt: 'desc'})
+//        let temp = JSON.stringify(userdata);
+//        temp = JSON.parse(temp);
+
+//        let filteredData = [];
+
+//        temp.forEach(dat=>{
+//          filteredData.push({
+
+//            userId: dat.id,
+//            name: dat.name
+//          })
+//        })
+
+      
+//     } catch (error) {
+//       console.log(error)
+//     }
+
+// })
+
+
+
+
+
+
+
 // Excel Import Handler
 
 // import users page
@@ -129,7 +162,7 @@ router.post("/importusers", async(req, res)=>{
          role: d.role,
          branch: d.branch,
          address: d.address,
-         nameofkin: d.nameofkin,
+         nameOfKin: d.nameofkin,
          phoneOfKin: d.phoneOfKin,
          emailOfKin: d.emailOfKin,
          kinAddress: d.kinAddress,

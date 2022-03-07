@@ -55,8 +55,7 @@ router.get("/cust/:id",ensureLoggedin, mustBeAdminOrStaff, async (req, res)=>{
 
 // property assignment handler for Customer
 
-router
-  .put(
+router.put(
     "/cust/:id/assign",
     ensureLoggedin,
     mustBeAdminOrStaff,
@@ -71,7 +70,7 @@ router
       try {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-          const customer = await User.findById(req.params.id);
+           const customer = await User.findById(req.params.id);
           const property = await Property.findById(req.body.id);
           const image = property.image;
           const name = property.name;
@@ -224,21 +223,20 @@ router
                 },
               },
             });
-            await customer.updateOne({ $push: { properties: propeId } });
-            req.flash("success_msg", "Property was successfully asigned");
 
-            // const loginLink = '<a href="/api/v2/secure/login target="_blanck">Login</a>'
-            //  if (customer.phone) {
-            //     sendSms(
-            //      customer.phone,
-            //      `Dear ${customer.name}, We appreciate the sacrifice of your patronage. This is to notify you that we have received a total payment of &#x20A6; ${customer.properties[0].grandPaid} from you for ${customer.properties[0].name} to portal View more`
-            //    ); // send SMS alert to Customer
-            //    req.flash(
-            //      "success_msg",
-            //      "SMS sent to the client's Phone Number"
-            //    );
-            //  }
-              res.redirect("/api/v2/customers/customers");
+            await customer.updateOne({ $push: { properties: propeId } });
+             req.flash("success_msg", "Property was successfully asigned");
+             if (customer.phone) {
+               sendSms(
+                 customer.phone,
+                 `Dear ${customer.name}, we appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${grandPaid} for ${name} visit www.revclient.com and login with this username:${customer.username} or your email to view more`
+               ); // send SMS alert to Customer
+               req.flash(
+                 "success_msg",
+                 "SMS sent to the client's Phone Number"
+               );
+             }
+            res.redirect("/api/v2/customers/customers");
           } else {
             req.flash(
               "error_msg",
@@ -264,7 +262,8 @@ router
           title: "Error",
         });
       }
-
+     
+    
 
     }
   )
@@ -440,13 +439,16 @@ router.put(
           });
           await user.updateOne({ $push: { properties: req.params.id } });
            req.flash("success_msg", "Property was successfully asigned");
-            // if (user.phone) {
-            //   sendSms(
-            //     user.phone,
-            //     `Dear Esteemed Client, <br>We appreciate the sacrifice of your patronage. <br> This is to notify you that we received your payment of ${user.grandPaid}`
-            //   ); // send SMS alert to Customer
-            //   req.flash("success_msg", "SMS sent to the client's Phone Number");
-            // }
+             if (user.phone) {
+               sendSms(
+                 user.phone,
+                 `Dear ${user.name}, we appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${grandPaid} for ${name} visit www.revclient.com and login with this username:${user.username} or your email to view more`
+               ); // send SMS alert to Customer
+               req.flash(
+                 "success_msg",
+                 "SMS sent to the client's Phone Number"
+               );
+             }
            res.redirect("/api/v2/properties/property");
         } else {
           req.flash(
@@ -522,6 +524,8 @@ router.get(
 // Update Assigned Property Handler
 router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
     const user = await User.findById(req.params.id); // so to get the user's phone number
+    const property = await Property.findById(req.params.propeId)
+      
           
   try {
     // declare variables
@@ -665,16 +669,13 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
          (err, data) => {
            if (!err) {
              req.flash("success_msg", "Property Successfully Updated");
-            //  if (user.phone) {
-            //    sendSms(
-            //      user.phone,
-            //      `Dear Esteemed Client, <br>We appreciate the sacrifice of your patronage. <br> This is to notify you that we received your payment of ${user.grandPaid}`
-            //    ); // send SMS alert to Customer
-              //  req.flash(
-              //    "success_msg",
-              //    "SMS sent to the client's Phone Number"
-              //  );
-            //  }
+          if (user.phone) {
+            sendSms(
+              user.phone,
+              `Dear ${user.name}, we appreciate the sacrifice of your patronage, this is to notify you that we have received a total sum of NGN ${grandPaid} for ${property.name}. Pls visit www.revclient.com and login with this username:${user.username} or your email to view more`
+            ); // send SMS alert to Customer
+            req.flash("success_msg", "SMS sent to the client's Phone Number");
+          }
              res.redirect(
                `/api/v2/customers/single/${req.params.id}/${req.params.propeId}`
              );
