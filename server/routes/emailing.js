@@ -193,12 +193,18 @@ async function getCustomers(){
         if(day == 30)(
 
          filteredDebtors.forEach(debtor=>{
-          
+         
              sendSms(
                debtor.phone,
-               `Dear ${debtor.name}, this is to remind you of your outstanding debt of NGN ${debtor.properties.grandDebt} on ${debtor.properties.name}. Please kindly pay up to avoid going out of contract with us. visit www.revclient.com and login with username: ${debtor.username} or your email to learn more.`
+               `Dear ${
+                 debtor.name
+               }, this is to remind you of your outstanding debt of NGN ${debtor.properties.grandDebt.toLocaleString()} on ${
+                 debtor.properties.name
+               }. Please kindly pay up to avoid going out of contract with us. visit www.revclient.com and login with username: ${
+                 debtor.username
+               } or your email to learn more.`
              );
-
+           
          })
 
 
