@@ -191,13 +191,18 @@ header ul li a:hover {
   }
   .footeer{
       height: 80px;
-      position: absolute;
+      position: fixed;
       bottom: 0;
   }
 
-  .images {
-      display: none;
-  }
+ .images {
+     display: none;
+ }
+
+ .sci li img {
+    display: none;
+}
+
 }
 
 @media (max-width: 400px){
