@@ -18,7 +18,7 @@
                     <div class="row py-3 align-items-center">
                         <div class="col bg-revplus text-center text-capitalize fs-4">
                             <div class="d-flex justify-content-between py-3">
-                                <p>Top 5 Debtors</p> 
+                                <p>Top 8 Debtors</p> 
                                 <p>
                                <a href="/api/v2/stats/add-debtors" class="btn btn-info "> View All Debtors</a>
                             </p>
@@ -27,17 +27,19 @@
                     </div>
                 
                   </div>
+
+
                     <div class="container">
                         <div class="row">
                     
                             <% if(typeof sortedDebtors !=="undefined" ){ %>
                     
-                                <% sortedDebtors.slice(-5).forEach(sorted=>{ %>
+                                <% sortedDebtors.slice(0, 8).forEach(sorted=>{ %>
                                     <% if(sorted.properties.grandDebt != 0){ %>
 
                                         <div class=" col-sm-6 col-md-3">
                                         
-                                            <div class="card shadow card-headr-color text-white my-2">
+                                            <div class="card shadow card-headr-color my-2">
                                                 <div class="card-header">
                                                     <p class="mx-4 fs-5"> <span class="me-3">Amount:</span>&#x20A6;<%=numFomatter(sorted.properties.grandDebt) %>
                                                     </p>
@@ -69,6 +71,8 @@
                         </div>
                     </div>
 
+
+
                     <div class="container">
                         <div class="row breadcrumb-height align-items-center">
                             <div class="col bg-revplus text-center text-capitalize fs-4">
@@ -84,7 +88,7 @@
                        
                                 <div class=" col-sm-6 col-md-3">
                 
-                                    <div class="card shadow card-headr-color text-white my-2 text-center">
+                                    <div class="card shadow card-headr-color my-2 text-center">
                                        
                                         <div class="card-body">
                                             <h5 class="card-title text-capitalize">
@@ -103,7 +107,7 @@
 
                                 <div class=" col-sm-6 col-md-3">
                 
-                                    <div class="card shadow card-headr-color text-white my-2 text-center">
+                                    <div class="card shadow card-headr-color my-2 text-center">
                                        
                                         <div class="card-body">
                                             <h5 class="card-title text-capitalize">

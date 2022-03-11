@@ -95,6 +95,13 @@ router.put(
             dev_fee,
             dev_paid,
             elec_fee,
+
+           n_c_piece,
+           c_piece_price,
+           c_piece_paid,
+           comment,
+           file_num,
+
             allocation,
             payOptions,
             plotNum,
@@ -114,6 +121,9 @@ router.put(
           const landTotal = n_plots * p_p_plot;
           const landStatus = n_plots * p_p_plot - a_p_f_plots;
           const regisStatus = reg_fee - reg_paid;
+          const cornerpieceTotal = n_c_piece * c_piece_price
+          const cornerpieceStatus = n_c_piece * c_piece_price - c_piece_paid;
+
           // survey analysis
           const surveStatus = surv_fee - surv_paid;
           // legal analysis
@@ -133,6 +143,7 @@ router.put(
 
           let grandTotalToPay = [
             landTotal,
+            cornerpieceTotal,
             Number(reg_fee),
             Number(surv_fee),
             Number(legal_fee),
@@ -151,6 +162,7 @@ router.put(
 
           const grandTotalPaid = [
             Number(a_p_f_plots),
+            Number(c_piece_paid),
             Number(reg_paid),
             Number(surv_paid),
             Number(legal_paid),
@@ -184,6 +196,15 @@ router.put(
                   p_date,
                   p_p_plot,
                   a_p_f_plots,
+
+                  file_num,
+                  n_c_piece,
+                  c_piece_price,
+                  c_piece_paid,
+                  cornerpieceTotal,
+                  cornerpieceStatus,
+                  comment,
+
                   reg_fee,
                   reg_paid,
                   surv_fee,
@@ -225,11 +246,12 @@ router.put(
             });
 
             await customer.updateOne({ $push: { properties: propeId } });
+            
              req.flash("success_msg", "Property was successfully asigned");
              if (customer.phone) {
                sendSms(
                  customer.phone,
-                 `Dear ${customer.name}, we appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${grandPaid} for ${name} visit www.revclient.com and login with this username:${customer.username} or your email to view more`
+                 `Dear ${customer.name}, we appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${grandPaid.toLocaleString()} for ${name} visit www.revclient.com to view more`
                ); // send SMS alert to Customer
                req.flash(
                  "success_msg",
@@ -300,6 +322,13 @@ router.put(
           detail,
           p_p_plot,
           a_p_f_plots,
+
+          file_num,
+          n_c_piece,
+          c_piece_price,
+          c_piece_paid,
+          comment,
+
           reg_fee,
           reg_paid,
           surv_fee,
@@ -328,6 +357,11 @@ router.put(
         const landTotal = n_plots * p_p_plot;
         const landStatus = n_plots * p_p_plot - a_p_f_plots;
         const regisStatus = reg_fee - reg_paid;
+
+         const cornerpieceTotal = n_c_piece * c_piece_price;
+         const cornerpieceStatus = n_c_piece * c_piece_price - c_piece_paid;
+
+
         // survey analysis
         const surveStatus = surv_fee - surv_paid;
         // legal analysis
@@ -398,6 +432,15 @@ router.put(
                 detail,
                 p_p_plot,
                 a_p_f_plots,
+                
+                file_num,
+                n_c_piece,
+                c_piece_price,
+                c_piece_paid,
+                cornerpieceTotal,
+                cornerpieceStatus,
+                comment,
+
                 reg_fee,
                 reg_paid,
                 surv_fee,
@@ -442,7 +485,7 @@ router.put(
              if (user.phone) {
                sendSms(
                  user.phone,
-                 `Dear ${user.name}, we appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${grandPaid} for ${name} visit www.revclient.com and login with this username:${user.username} or your email to view more`
+                 `Dear ${user.name}, we appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${grandPaid.toLocaleString()} for ${name} visit www.revclient.com to view more`
                ); // send SMS alert to Customer
                req.flash(
                  "success_msg",
@@ -528,7 +571,7 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
       
           
   try {
-    // declare variables
+   // declare variables
     let {
       n_plots,
       o_branch,
@@ -550,6 +593,13 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
       payOptions,
       plotNum,
       blockNum,
+      
+      file_num,
+      n_c_piece,
+      c_piece_price,
+      c_piece_paid,
+      comment,
+
       elec_paid,
       rat_fee,
       rat_paid,
@@ -564,6 +614,10 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
     // land analysis
     const landTotal = n_plots * p_p_plot;
     const landStatus = n_plots * p_p_plot - a_p_f_plots;
+
+    const cornerpieceTotal = n_c_piece * c_piece_price;
+    const cornerpieceStatus = n_c_piece * c_piece_price - c_piece_paid;
+
     const regisStatus = reg_fee - reg_paid;
     const surveStatus = surv_fee - surv_paid;
     const serviceStatus = service_fee - service_paid;
@@ -576,6 +630,7 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
 
     const grandTotalToPay = [
       landTotal,
+      cornerpieceTotal,
       Number(reg_fee),
       Number(surv_fee),
       Number(legal_fee),
@@ -594,6 +649,7 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
 
     const grandTotalPaid = [
       Number(a_p_f_plots),
+      Number(c_piece_paid),
       Number(reg_paid),
       Number(surv_paid),
       Number(legal_paid),
@@ -617,84 +673,199 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
         { "properties.uuid": req.params.uuid },
         {
           $set: {
-                  "properties.$.propeId": req.params.propeId,
-                   "properties.$.image": req.body.image,
-                   "properties.$.p_purchase": req.body.p_purchase,
-                   "properties.$.p_date": req.body.p_date,
-                   "properties.$.detail": req.body.detail,
-                   "properties.$.o_branch": req.body.o_branch,
-                   "properties.$.n_plots": req.body.n_plots,
-                   "properties.$.p_p_plot": req.body.p_p_plot,
-                   "properties.$.a_p_f_plots": req.body.a_p_f_plots,
-                   "properties.$.reg_fee": req.body.reg_fee,
-                   "properties.$.reg_paid": req.body.reg_paid,
-                   "properties.$.allocation": req.body.allocation,
-                   "properties.$.payOptions": req.body.payOptions,
-                   "properties.$.plotNum": req.body.plotNum,
-                   "properties.$.blockNum": req.body.blockNum,
-                   "properties.$.surv_fee": req.body.surv_fee,
-                   "properties.$.surv_paid": req.body.surv_paid,
-                   "properties.$.service_fee": req.body.service_fee,
-                   "properties.$.service_paid": req.body.service_paid,
-                   "properties.$.deed_fee": req.body.deed_fee,
-                   "properties.$.deed_paid": req.body.deed_paid,
-                   "properties.$.legal_fee": req.body.legal_fee,
-                   "properties.$.legal_paid": req.body.legal_paid,
-                   "properties.$.dev_fee": req.body.dev_fee,
-                   "properties.$.dev_paid": req.body.dev_paid,
-                   "properties.$.elec_fee": req.body.elec_fee,
-                   "properties.$.elec_paid": req.body.elec_paid,
-                   "properties.$.rat_fee": req.body.rat_fee,
-                   "properties.$.rat_paid": req.body.rat_paid,
-                   "properties.$.defau_fee": req.body.defau_fee,
-                   "properties.$.defau_paid": req.body.defau_paid,
-                   "properties.$.landTotal": landTotal,
-                   "properties.$.landStatus": landStatus,
-                   "properties.$.regisStatus": regisStatus,
-                   "properties.$.surveStatus": surveStatus,
-                   "properties.$.legalStatus": legalStatus,
-                   "properties.$.develStatus": develStatus,
-                   "properties.$.electStatus": electStatus,
-                   "properties.$.ratifStatus": ratifStatus,
-                   "properties.$.defauStatus": defauStatus,
-                   "properties.$.serviceStatus": serviceStatus,
-                   "properties.$.deedStatus": deedStatus,
-                   "properties.$.grandTopay": grandTopay,
-                   "properties.$.grandPaid": grandPaid,
-                   "properties.$.grandDebt": grandDebt,
+            "properties.$.propeId": req.params.propeId,
+            "properties.$.image": req.body.image,
+            "properties.$.p_purchase": req.body.p_purchase,
+            "properties.$.p_date": req.body.p_date,
+            "properties.$.detail": req.body.detail,
+            "properties.$.o_branch": req.body.o_branch,
+            "properties.$.n_plots": req.body.n_plots,
+            "properties.$.p_p_plot": req.body.p_p_plot,
+            "properties.$.a_p_f_plots": req.body.a_p_f_plots,
+            "properties.$.n_c_piece": req.body.n_c_piece,
+
+            "properties.$.c_piece_price": req.body.c_piece_price,
+            "properties.$. c_piece_paid": req.body.c_piece_paid,
+             "properties.$.file_num": req.body.file_num,
+             
+            "properties.$.reg_fee": req.body.reg_fee,
+            "properties.$.reg_paid": req.body.reg_paid,
+            "properties.$.allocation": req.body.allocation,
+            "properties.$.payOptions": req.body.payOptions,
+            "properties.$.plotNum": req.body.plotNum,
+            "properties.$.blockNum": req.body.blockNum,
+            "properties.$.surv_fee": req.body.surv_fee,
+            "properties.$.surv_paid": req.body.surv_paid,
+            "properties.$.service_fee": req.body.service_fee,
+            "properties.$.service_paid": req.body.service_paid,
+            "properties.$.deed_fee": req.body.deed_fee,
+            "properties.$.deed_paid": req.body.deed_paid,
+            "properties.$.legal_fee": req.body.legal_fee,
+            "properties.$.legal_paid": req.body.legal_paid,
+            "properties.$.dev_fee": req.body.dev_fee,
+            "properties.$.dev_paid": req.body.dev_paid,
+            "properties.$.elec_fee": req.body.elec_fee,
+            "properties.$.elec_paid": req.body.elec_paid,
+            "properties.$.rat_fee": req.body.rat_fee,
+            "properties.$.rat_paid": req.body.rat_paid,
+            "properties.$.defau_fee": req.body.defau_fee,
+            "properties.$.defau_paid": req.body.defau_paid,
+
+
+            "properties.$.landTotal": landTotal,
+            "properties.$.cornerpieceTotal": cornerpieceTotal,
+            "properties.$.cornerpieceStatus": cornerpieceStatus,
+
+            "properties.$.landStatus": landStatus,
+            "properties.$.regisStatus": regisStatus,
+            "properties.$.surveStatus": surveStatus,
+            "properties.$.legalStatus": legalStatus,
+            "properties.$.develStatus": develStatus,
+            "properties.$.electStatus": electStatus,
+            "properties.$.ratifStatus": ratifStatus,
+            "properties.$.defauStatus": defauStatus,
+            "properties.$.serviceStatus": serviceStatus,
+            "properties.$.deedStatus": deedStatus,
+            "properties.$.grandTopay": grandTopay,
+            "properties.$.grandPaid": grandPaid,
+            "properties.$.grandDebt": grandDebt,
+            "properties.$.comment": req.body.comment
           },
         },
 
-         { new: true, useFindAndModify: false },
-         (err, data) => {
-           if (!err) {
-             req.flash("success_msg", "Property Successfully Updated");
-          if (user.phone) {
-            sendSms(
-              user.phone,
-              `Dear ${user.name}, we appreciate the sacrifice of your patronage, this is to notify you that we have received a total sum of NGN ${grandPaid} for ${property.name}. Pls visit www.revclient.com and login with this username:${user.username} or your email to view more`
-            ); // send SMS alert to Customer
-            req.flash("success_msg", "SMS sent to the client's Phone Number");
+        { new: true, useFindAndModify: false },
+        (err, data) => {
+          if (!err) {
+            req.flash("success_msg", "Property Successfully Updated");
+            if (user.phone) {
+              sendSms(
+                user.phone,
+                `Dear ${user.name}, we appreciate the sacrifice of your patronage, this is to notify you that we have received a total sum of NGN ${grandPaid.toLocaleString()} for ${property.name}. Pls visit www.revclient.com and login to view more`
+              ); // send SMS alert to Customer
+              req.flash("success_msg", "SMS sent to the client's Phone Number");
+            }
+            res.redirect(
+              `/api/v2/customers/single/${req.params.id}/${req.params.propeId}`
+            );
+          } else {
+            req.flash(
+              "error_msg",
+              "Update Failed due to System error, please try again or contact IT"
+            );
+            res.redirect(
+              `/api/v2/customers/single/${req.params.id}/${req.params.propeId}`
+            );
           }
-             res.redirect(
-               `/api/v2/customers/single/${req.params.id}/${req.params.propeId}`
-             );
-           } else {
-             req.flash(
-               "error_msg",
-               "Update Failed due to System error, please try again or contact IT"
-             );
-             res.redirect(
-               `/api/v2/customers/single/${req.params.id}/${req.params.propeId}`
-             );
-           }
-         }
-       );
+        }
+      );
   
   } catch (error) {
    console.log(error)
   }
  
 });
+
+
+//  delete assigned 
+
+// router.delete('/delete/:id/:propeId/:uuid', ensureLoggedin, mustBeAdminOrStaff, async(req, res)=>{
+   
+//   if(req.user.role == 'Admin' || req.user.role == 'Staff'){
+
+//    const property = await Property.findById(req.params.propeId)
+//     const user = await User.findById(req.params.id);
+    
+//      try {
+
+//       await User.findByIdAndDelete(req.params.uuid, {
+//         $pull: {
+//           properties: {
+//             uuid: req.params.uuid,
+//             propeId: req.params.propeId,
+//             id : user.id,
+//             name: property.name,
+//             image : property.image,
+//             n_plots,
+//             o_branch,
+//             p_purchase,
+//             p_date,
+//             detail,
+//             p_p_plot,
+//             a_p_f_plots,
+
+//             file_num,
+//             n_c_piece,
+//             c_piece_price,
+//             c_piece_paid,
+//             cornerpieceTotal,
+//             cornerpieceStatus,
+//             comment,
+
+//             reg_fee,
+//             reg_paid,
+//             surv_fee,
+//             surv_paid,
+//             legal_fee,
+//             legal_paid,
+//             dev_fee,
+//             dev_paid,
+//             elec_fee,
+//             allocation,
+//             payOptions,
+//             plotNum,
+//             blockNum,
+//             elec_paid,
+//             rat_fee,
+//             rat_paid,
+//             defau_fee,
+//             defau_paid,
+//             service_fee,
+//             service_paid,
+//             deed_fee,
+//             deed_paid,
+//             landTotal,
+//             landStatus,
+//             regisStatus,
+//             surveStatus,
+//             legalStatus,
+//             develStatus,
+//             electStatus,
+//             ratifStatus,
+//             defauStatus,
+//             serviceStatus,
+//             deedStatus,
+//             grandTopay,
+//             grandPaid,
+//             grandDebt,
+//           },
+//         },
+//       });
+
+//       await User.findByIdAndDelete(req.params.uuid, {
+//         $pull: { properties: req.params.id },
+//       });
+
+//      } catch (error) {
+
+//        console.log(error)
+//      }
+
+//   }else{
+//     req.flash(
+//       "error_msg",
+//       "Yoou're not permited to perform the action"
+//     );
+//     res.redirect(
+//       `/api/v2/customers/single/${req.params.id}/${req.params.propeId}`
+//     );
+//   }
+
+   
+
+// })
+
+
+
+
 
 module.exports = router;

@@ -60,7 +60,13 @@ router.post("/exportdata/:id", async (req, res) => {
           allocation_status: a.properties.allocation,
           block_no: a.properties.blockNum,
           plot_Num: a.properties.plotNum,
-          comment: a.properties.comment
+          comment: a.properties.comment,
+          n_c_piece: a.n_c_piece,
+          c_piece_price: a.c_piece_price,
+          c_piece_total: a.c_piece_total,
+          c_piece_paid: a.c_piece_paid,
+          c_piece_status: a.c_piece_status,
+          
         });
       }
     });

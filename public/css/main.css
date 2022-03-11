@@ -76,6 +76,11 @@ a {
     font-weight: 600;
   }
 
+  textarea {
+    padding: 2px !important;
+    letter-spacing: 1.5px;
+  }
+
 /* new home */
  .new-home-height{
    display: flex;
@@ -419,7 +424,9 @@ position: relative;
 }
 
 .card-headr-color{
-  background: var(--color-dark);
+  /* background: var(--color-dark); */
+  background: #fff;
+ 
 } 
 .bg-revplus{
   background: var(--main-color);
@@ -457,6 +464,18 @@ position: relative;
 .table-stri tr:nth-child(even) {
   background: #eee;
 }
+
+.float-end{
+  width: 250px;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  
+}
+
+
 
 .copyrit {
   font-size: 10px;
@@ -749,6 +768,9 @@ position: relative;
     margin-left: 200px;
   }
 
- 
+  .float-end{
+    display: block;
+    justify-content: center;
+  }
 
 }

@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <form action="/api/v2/assign/cust/<%= customer.id %>/assign/?_method=PUT" method="post" method="POST">
+                    <form action="/api/v2/assign/cust/<%= customer.id %>/assign/?_method=PUT" method="post" method="POST" class="col-sm-10 mx-auto">
 
                         <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
                             <%- include('../partials/flash_messages') %>
@@ -125,6 +125,16 @@
                                                 <option value="Commercial">Commercial</option>
                                             </select>
                                             </div>
+
+                                            <div class="col-md-6 col-lg-4 py-2">
+                                              <p><label for="file_num">File Number</label></p>
+                                                <p>
+                                                    <input type="text" placeholder="" name="file_num" value="<%= typeof file_num != 'undefined' ? file_num : '' %>"
+                                                        class="form-control">
+                                                </p>
+                                            </div>
+
+
                                         </div>
 
                                         <div class="row">
@@ -171,10 +181,12 @@
                                                         <option disabled selected>Choose Option</option>
                                                         <option value="Outright Payment">Outright Payment</option>
                                                         <option value="3 Months Plan ">3 Months Plan </option>
+                                                        <option value="5 Months Plan">5 Months Plan</option>
                                                         <option value="6 Months Plan">6 Months Plan</option>
                                                         <option value="12 Months Plan">12 Months Plan</option>
                                                         <option value="18 Months Plan">18 Months Plan</option>
                                                         <option value="24 Months Plan">24 Months Plan</option>
+                                                        <option value="30 Months Plan">30 Months Plan</option>
                                                     </select>
                                                 </p>
                                             
@@ -192,6 +204,43 @@
                                 </div>
 
                         </div>
+
+                        <!-- cornerpiece -->
+                        <div class="container rounded-3 shadow mx-auto bg-white my-3 p-5">
+                            <h5 class="text-center">Cornerpiece</h5>
+                        
+                            <div class="row">
+                        
+                                <div class="col-lg-4">
+                                    <p><label for="n_c_piece">How many cornerpiece ? * </label></p>
+                                    <p>
+                                        <input type="number" placeholder="" name="n_c_piece" step="0.01" id="n_c_piece"
+                                            value="<%= typeof n_c_piece != 'undefined' ? n_c_piece : '' %>" class="form-control">
+                                    </p>
+                                </div>
+                        
+                        
+                                <div class="col-lg-4">
+                                    <p><label for="c_piece_price">
+                                            cornerpiece Price
+                                        </label></p>
+                                    <p>
+                                        <input type="number" placeholder="" name="c_piece_price" id="plotp"
+                                            value="<%= typeof c_piece_price != 'undefined' ? c_piece_price : '' %>" class="form-control">
+                                    </p>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p><label for="c_piece_paid">Amount Paid for cornerpiece </label></p>
+                                    <p>
+                                        <input type="number" placeholder="" name="c_piece_paid" id="amtpd"
+                                            value="<%= typeof c_piece_paid != 'undefined' ? c_piece_paid : '' %>" class="form-control">
+                                    </p>
+                                </div>
+                        
+                            </div>
+                        </div>
+                        
+                        <!-- cornerpiece -->
 
                         <!-- statutory starts -->
                         <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
@@ -574,7 +623,7 @@
                                                             <option value="Allocated">Allocated</option>
                                                             <option value="Refunded">Refunded</option>
                                                             <option value="Pending">Pending</option>
-                                                            <option value="In Process">In Process</option>
+                                                            <option value="Out of Contract">Out of Contract</option>
                                                         </select>
                                                     </p>
                                                 </td>
@@ -612,6 +661,20 @@
 
                         </div>
                         <!-- Allocation Stops -->
+
+                        <!-- cornerpiece -->
+                        <div class="container rounded-3 shadow mx-auto bg-white my-3 p-5">
+                            <h5 class="text-center">Comment</h5>
+                        
+                            <div class="row">
+                        
+                                <textarea name="comment" class="p-0 fs-5 assign" cols="5" rows="5" placeholder="eg. 20K paid for transfer to other estate">
+                                    
+                                </textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- cornerpiece -->
 
                         <div class=" form-group modal-footer justify-content-center">
                             <a href="/api/v2/customers/customers" class="btn btn-warning">Cancel</a>

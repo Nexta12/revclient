@@ -13,7 +13,10 @@ const assignSchema = new mongoose.Schema(
     },
     p_purchase: {
       type: String,
-      enum: ["Residential", "Commercial"]
+      enum: ["Residential", "Commercial"],
+    },
+    file_num:{
+      type: String,
     },
     description: {
       type: String,
@@ -28,6 +31,21 @@ const assignSchema = new mongoose.Schema(
       type: Number,
     },
     p_p_plot: {
+      type: Number,
+    },
+    n_c_piece: {
+      type: Number,
+    },
+    c_piece_price: {
+      type: Number,
+    },
+    c_piece_total: {
+      type: Number,
+    },
+    c_piece_paid: {
+      type: Number,
+    },
+    c_piece_status: {
       type: Number,
     },
     a_p_f_plots: {
@@ -49,6 +67,7 @@ const assignSchema = new mongoose.Schema(
         "12 Months Plan",
         "18 Months Plan",
         "24 Months Plan",
+        "30 Months Plan",
       ],
     },
     allocation: {
@@ -69,7 +88,7 @@ const assignSchema = new mongoose.Schema(
     },
     comment: {
       type: String,
-    }
+    },
   },
   { timestamps: true }
 );

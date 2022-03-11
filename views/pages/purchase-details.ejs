@@ -21,47 +21,58 @@
                     <!-- New  starts here -->
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm-8 mx-auto bg-revplus">
+                            <div class="col-sm-10 mx-auto bg-white shadow">
 
                                     <div class="container">
                                         <div class="row">
-                                            <div class="col text-center bg-revplus custome-dash">
+                                            <div class="col text-center fs-5">
                                                 <img src="/img/uploads/<%= propertyOwner.profilePic %>" alt="" width="100" height="100"
                                                     class="rounded-circle bg-white mt-2">
-                                                <p class=" text-capitalize">
+                                                <p class="text-capitalize fs-5">
                                                     <%= propertyOwner.name %> <br>
                                                         <small>
                                                             <%= propertyOwner.address %>
                                                         </small> <br>
-                                                        <small>
-                                                            Outstanding Debt: <span class="mx-5 text-danger bg-light px-2 fs-5"> &#x20A6; <%=
+                                                        <small class="text-revplus">
+                                                            Outstanding Balance: <span class="mx-5 text-danger bg-light px-2 fs-5"> &#x20A6; <%=
                                                                     numFomatter(proDetail.grandDebt) %> </span>
                                                         </small>
                                                         <small>
-                                                            Payment Option: <span class="ms-5">
+                                                            Payment Option: <span class="mx-5 bg-light ">
                                                                 <%=proDetail.payOptions %>
                                                             </span>
                                                         </small>
-                                                        <small class="mx-3">
-                                                            Purpose: <span class="mx-3">
+                                                        <small class="">
+                                                            Purpose: <span class="mx-3 bg-light ">
                                                                 <%=proDetail.p_purchase %>
+                                                            </span>
+                                                        </small>
+                                                        <small class="">
+                                                            File Num: <span class="mx-3 bg-light ">
+                                                                <%=proDetail.file_num %>
                                                             </span>
                                                         </small>
                                                 </p>
                                                 <div class="float-end">
                                                     <% if(user.role==="Admin" || user.role==="Staff" ){ %>
-                                                        <div class="col mb-2">
+
+                                                        <div class="col">
                                                             <a href="/api/v2/assign/edit/<%=propertyOwner.id %>/<%= proDetail.propeId %>/<%= proDetail.uuid %>"
-                                                                class="btn btn-info">Update Details</a>
+                                                                class="btn btn-info shadow-sm text-white">Update details <i class="las la-pencil-alt"></i> </a>
                                                         </div>
+
+                                                        <div class="col mt-2">
+                                                            <a href="#" class="btn btn-danger shadow-sm">Retrieve assigned</a>
+                                                        </div>
+                                                        
                                                         <% } %>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="container text-white">
+                                    <div class="container">
                                         <div class="table-responsive">
-                                            <table class="table text-light">
+                                            <table class="table fs-5">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
@@ -100,6 +111,33 @@
                                                             <%= numFomatter(proDetail.landStatus) %>
                                                         </td>
                                                     </tr>
+                                                     <% if(proDetail.cornerpieceTotal){ %>
+
+                                                        <tr>
+                                                            <td>(i)</td>
+                                                            <td>
+                                                                Cornerpiece
+                                                            </td>
+                                                            <td>
+                                                                <%=numFomatter(proDetail.c_piece_price) %>
+                                                            </td>
+                                                            <td>
+                                                                <%= proDetail.n_c_piece %>
+                                                            </td>
+                                                            <td>
+                                                                <%= numFomatter(proDetail.cornerpieceTotal) %>
+                                                            </td>
+                                                            <td>
+                                                                <%= numFomatter(proDetail.c_piece_paid) %>
+                                                            </td>
+                                                            <td>
+                                                                <%= numFomatter(proDetail.cornerpieceStatus) %>
+                                                            </td>
+                                                        </tr>
+
+                                                    <% } %>
+                                                
+
                                                     <tr>
                                                         <td>2</td>
                                                         <td>Registration Fee</td>
@@ -272,42 +310,48 @@
                                     
                                             </table>
                                             <div class="container">
-                                                <div class="row  fs-6">
+                                                <div class="row fs-5">
                                                     <div class="col">Gross Total to Pay</div>
                                                     <div class="col text-end">&#x20A6; <%= numFomatter(proDetail.grandTopay) %>
                                                     </div>
                                                 </div>
-                                                <div class="row  fs-6">
+                                                <div class="dropdown-divider"></div>
+                                                <div class="row  fs-5">
                                                     <div class="col">Total Amount Paid</div>
                                                     <div class="col text-end">&#x20A6; <%=numFomatter(proDetail.grandPaid) %>
                                                     </div>
                                                 </div>
-                                                <div class="row  fs-6">
+                                                <div class="dropdown-divider"></div>
+                                                <div class="row  fs-5">
                                                     <div class="col">Total Debt</div>
                                                     <div class="col text-end">&#x20A6; <%= numFomatter(proDetail.grandDebt) %>
                                                     </div>
                                                 </div>
-                                                <div class="row  fs-6">
+                                                <div class="dropdown-divider"></div>
+                                                <div class="row  fs-5">
                                                     <div class="col">Payment Option </div>
                                                     <div class="col text-end">
                                                         <%= proDetail.payOptions %>
                                                     </div>
                                                 </div>
-                                                <div class="row  fs-6">
+                                                <div class="dropdown-divider"></div>
+                                                <div class="row  fs-5">
                                                     <div class="col">Allocation Status</div>
                                                     <div class="col text-end">
                                                         <%= proDetail.allocation %>
                                                     </div>
                                                 </div>
-                                                <div class="row  fs-6 mb-4">
+                                                <div class="dropdown-divider"></div>
+                                                <div class="row  fs-5 mb-4">
                                                     <div class="col">Plot Number/Block Num</div>
                                                     <div class="col text-end">
                                                         <%= proDetail.plotNum %> /<%= proDetail.blockNum %>
                                                     </div>
                                                 </div>
-                                                <div class="row  fs-6 mb-4">
+                                                <div class="dropdown-divider"></div>
+                                                <div class="row  fs-5 mb-4">
                                                     <div class="col">Comment</div>
-                                                    <div class="col text-end">
+                                                    <div class="col text-center text-italic">
                                                         <%= proDetail.comment %>
                                                     </div>
                                                 </div>

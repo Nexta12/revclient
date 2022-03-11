@@ -16,7 +16,7 @@
                     <% if(user.role != "Customer"){ %>
                     <div class="container rounded-3 shadow mx-auto bg-white mt-5 p-3">
 
-                        <form action="/api/v2/users/edit/<%=userId.id %>?_method=PUT" method="POST" class="text-dark " enctype="multipart/form-data">
+                        <form action="/api/v2/users/edit/<%=userId.id %>?_method=PUT" method="POST" class="text-dark" enctype="multipart/form-data">
                             <%- include('../partials/flash_messages') %>
                                 <h4 class="text-center text-muted fw-5">Edit Profile</h4>
 
