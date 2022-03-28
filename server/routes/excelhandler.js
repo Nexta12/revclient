@@ -4,6 +4,7 @@ const render = require("xlsx");
 const path = require("path");
 const Property = require("../models/Property");
 const crypto = require("crypto");
+const { sendEmail, sendSms } = require("../middleware/authe");
 
 // export database details to excel
 
@@ -23,50 +24,64 @@ router.post("/exportdata/:id", async (req, res) => {
     temp.forEach((a) => {
       propertyname = a.properties.name;
       if (a.role == "Customer") {
+
         filteredData.push({
-          name: a.name,
-          email: a.email,
-          address: a.address,
-          phone: a.phone,
-          branch: a.properties.o_branch,
-          property: a.properties.name,
-          quantity: a.properties.n_plots,
-          detail: a.properties.detail,
-          price_per_unit: a.properties.p_p_plot,
-          total_for_property: a.properties.landTotal,
-          amount_paid: a.properties.a_p_f_plots,
-          payment_plan: a.properties.payOptions,
-          reg_fee: a.properties.reg_fee,
-          reg_fee_paid: a.properties.reg_paid,
-          survey_fee: a.properties.surv_fee,
-          survey_paid: a.properties.surv_paid,
-          legal_fee: a.properties.legal_fee,
-          legal_paid: a.properties.legal_paid,
-          develoP_fee: a.properties.dev_fee,
-          develop_paid: a.properties.dev_paid,
-          electrif_fee: a.properties.elec_fee,
-          electrif_paid: a.properties.elec_paid,
-          service_charge: a.properties.service_fee,
-          service_paid: a.properties.service_paid,
-          deed_of_fee: a.properties.deed_fee,
-          deed_of_paid: a.properties.deed_paid,
-          ratifica_fee: a.properties.rat_fee,
-          ratifica_paid: a.properties.rat_paid,
-          defaultee_fee: a.properties.defau_fee,
-          defaultee_paid: a.properties.defau_paid,
-          all_transactions_cost: a.properties.grandTopay,
-          total_amount_paid: a.properties.grandPaid,
-          total_debt: a.properties.grandDebt,
-          allocation_status: a.properties.allocation,
-          block_no: a.properties.blockNum,
-          plot_Num: a.properties.plotNum,
-          comment: a.properties.comment,
-          n_c_piece: a.n_c_piece,
-          c_piece_price: a.c_piece_price,
-          c_piece_total: a.c_piece_total,
-          c_piece_paid: a.c_piece_paid,
-          c_piece_status: a.c_piece_status,
-          
+          Estate: a.properties.name,
+          Branch: a.properties.o_branch,
+          "Opening Date": a.properties.p_date,
+          "File Num": a.properties.file_num,
+          "Clients Name": a.name,
+          Address: a.address,
+          Phone: a.phone,
+          Email: a.email,
+          "Next of Kin": a.nameOfKin,
+          "Phone of Next of Kin": a.phoneOfKin,
+          "Purpose of Purchase": a.properties.p_purchase,
+          Quantity: a.properties.n_plots,
+          Description: a.properties.detail,
+          "Payment Plan": a.properties.payOptions,
+          "Selling Price": a.properties.p_p_plot,
+          Amount: a.properties.landTotal,
+          "Amount Paid For Land": a.properties.a_p_f_plots,
+          Cornerpiece: a.n_c_piece,
+          "Cornerpiece Price": a.c_piece_price,
+          "Cornerpiece Amount": a.c_piece_total,
+          "Cornerpiece Paid": a.c_piece_paid,
+          "Cornerpiece Balance": a.c_piece_status,
+          "Survey Fee": a.properties.surv_fee,
+          "Survey Paid": a.properties.surv_paid,
+          "Survey Balance": a.properties.surveStatus,
+          "Legal Fee": a.properties.legal_fee,
+          "Legal Paid": a.properties.legal_paid,
+          "Legal Balance": a.properties.legalStatus,
+          "Form Fee": a.properties.reg_fee,
+          "Form Paid": a.properties.reg_paid,
+          "Form Balance": a.properties.regisStatus,
+          "Development Fee": a.properties.dev_fee,
+          "Development Paid": a.properties.dev_paid,
+          "Development Fee Bal": a.properties.develStatus,
+          "Electrification Fee": a.properties.elec_fee,
+          "Electrification Paid": a.properties.elec_paid,
+          "Electrification Balance": a.properties.electStatus,
+          "Service Charge": a.properties.service_fee,
+          "Service Paid": a.properties.service_paid,
+          "Service Charge Balance": a.properties.serviceStatus,
+          "Deed Fee": a.properties.deed_fee,
+          "Deed Paid": a.properties.deed_paid,
+          "Deed Balance": a.properties.deedStatus,
+          "Ratification Fee": a.properties.rat_fee,
+          "Ratification Paid": a.properties.rat_paid,
+          "Ratification Balance": a.properties.ratifStatus,
+          "Defaultee Fee": a.properties.defau_fee,
+          "Defaultee Paid": a.properties.defau_paid,
+          "Defaultee Status": a.properties.defauStatus,
+          "Total Amount": a.properties.grandTopay,
+          "Total Paid": a.properties.grandPaid,
+          "Total Balance": a.properties.grandDebt,
+          Allocation: a.properties.allocation,
+          "Plot Number": a.properties.plotNum,
+          "Block Number": a.properties.blockNum,
+          Comment: a.properties.comment,
         });
       }
     });
@@ -104,40 +119,32 @@ router.post("/exportdata/:id", async (req, res) => {
 //          })
 //        })
 
-      
 //     } catch (error) {
 //       console.log(error)
 //     }
 
 // })
 
-
-
-
-
-
-
 // Excel Import Handler
 
 // import users page
 
-router.get('/importusers', (req, res)=>{
+router.get("/importusers", (req, res) => {
   res.render("importusers", {
-    title: 'import users'
-  })
-})
+    title: "import users",
+  });
+});
 
 // import properties page
-router.get('/importprops', (req, res)=>{
+router.get("/importprops", (req, res) => {
   res.render("importprops", {
-    title: 'import properties'
-  })
-})
+    title: "import properties",
+  });
+});
 
 // import users handler
 
-router.post("/importusers", async(req, res)=>{
-
+router.post("/importusers", async (req, res) => {
   const imported = req.files.importdata;
   const uploadpath = path.resolve(
     `public/excel_maneger/uploads/ ${imported.name}`
@@ -157,27 +164,26 @@ router.post("/importusers", async(req, res)=>{
     });
   }
 
-    data.forEach(d=>{
-       User.insertMany({
-         username: d.username,
-         email: d.email,
-         password: d.password,
-         name: d.name,
-         phone: d.phone,
-         profilePic: d.profilePic,
-         role: d.role,
-         branch: d.branch,
-         address: d.address,
-         nameOfKin: d.nameofkin,
-         phoneOfKin: d.phoneOfKin,
-         emailOfKin: d.emailOfKin,
-         kinAddress: d.kinAddress,
-       });
-    })
+  data.forEach((d) => {
+    User.insertMany({
+      username: d.username,
+      email: d.email,
+      password: d.password,
+      name: d.name,
+      phone: d.phone,
+      profilePic: d.profilePic,
+      role: d.role,
+      branch: d.branch,
+      address: d.address,
+      nameOfKin: d.nameofkin,
+      phoneOfKin: d.phoneOfKin,
+      emailOfKin: d.emailOfKin,
+      kinAddress: d.kinAddress,
+    });
+  });
 
-   res.redirect('/importusers')
-})
-
+  res.redirect("/importusers");
+});
 
 // import property Handler
 
@@ -212,16 +218,12 @@ router.post("/importprops", async (req, res) => {
       snippet: d.snippet,
       pricePerPlot: d.pricePerPlot,
       status: d.status,
-      image: d.image
+      image: d.image,
     });
   });
 
-  res.redirect('/importprops')
+  res.redirect("/importprops");
 });
-
-
-
-
 
 // Import assigned handler
 
@@ -252,7 +254,7 @@ router.put("/importdata", async (req, res) => {
       data.push(item);
     });
   }
- 
+
   try {
     data.forEach((d) => {
       User.updateMany(
@@ -267,76 +269,121 @@ router.put("/importdata", async (req, res) => {
               n_plots: d.n_plots,
               o_branch: d.o_branch,
               p_purchase: d.p_purchase,
+
+              n_c_piece: d.n_c_piece,
+              c_piece_price: d.c_piece_price,
+              c_piece_paid: d.c_piece_paid,
+
               detail: d.detail,
               p_date: d.p_date,
               image: "default Image.png",
               file_num: d.file_num,
               p_p_plot: d.p_p_plot,
-              a_p_f_plots: d.a_p_f_plots,
-              reg_fee: d.reg_fee,
-              reg_paid: d.reg_paid,
-              surv_fee: d.surv_fee,
-              surv_paid: d.surv_paid,
-              legal_fee: d.legal_fee,
-              legal_paid: d.legal_paid,
-              dev_fee: d.dev_fee,
-              dev_paid: d.dev_paid,
-              elec_fee: d.elec_fee,
-              allocation: d.allocation,
-              payOptions: d.payOptions,
-              plotNum: d.plotNum,
-              blockNum: d.blockNum,
-              elec_paid: d.elec_paid,
-              rat_fee: d.rat_fee,
-              rat_paid: d.rat_paid,
-              defau_fee: d.defau_fee,
-              defau_paid: d.defau_paid,
-              service_fee: d.service_fee,
-              service_paid: d.service_paid,
-              deed_fee: d.deed_fee,
-              deed_paid: d.deed_paid,
-              landTotal: Number(d.landTotal),
-              landStatus: Number(d.landStatus),
-              regisStatus: Number(d.regisStatus),
-              surveStatus: Number(d.surveStatus),
-              legalStatus: Number(d.legalStatus),
-              develStatus: Number(d.develStatus),
-              electStatus: Number(d.electStatus),
-              ratifStatus: Number(d.ratifStatus),
-              defauStatus: Number(d.defauStatus),
-              serviceStatus: Number(d.serviceStatus),
-              deedStatus: Number(d.deedStatus),
-              grandTopay: Number(d.grandTopay),
-              grandPaid: Number(d.grandPaid),
-              grandDebt: Number(d.grandDebt),
+              a_p_f_plots: d.a_p_f_plots ? d.a_p_f_plots : 0,
+              reg_fee: d.reg_fee ? d.reg_fee : 0,
+              reg_paid: d.reg_paid ? d.reg_paid : 0,
+              surv_fee: d.surv_fee ? d.surv_fee : 0,
+              surv_paid: d.surv_paid ? d.surv_paid : 0,
+              legal_fee: d.legal_fee ? d.legal_fee : 0,
+              legal_paid: d.legal_paid ? d.legal_paid : 0,
+              dev_fee: d.dev_fee ? d.dev_fee : 0,
+              dev_paid: d.dev_paid ? d.dev_paid : 0,
+              elec_fee: d.elec_fee ? d.elec_fee : 0,
+              allocation: d.allocation ? d.allocation : "",
+              payOptions: d.payOptions ? d.payOptions : "",
+              plotNum: d.plotNum ? d.plotNum : "",
+              blockNum: d.blockNum ? d.blockNum : "",
+              elec_paid: d.elec_paid ? d.elec_paid : 0,
+              rat_fee: d.rat_fee ? d.rat_fee : 0,
+              rat_paid: d.rat_paid ? d.rat_paid : 0,
+              defau_fee: d.defau_fee ? d.defau_fee : 0,
+              defau_paid: d.defau_paid ? d.defau_paid : 0,
+              service_fee: d.service_fee ? d.service_fee : 0,
+              service_paid: d.service_paid ? d.service_paid : 0,
+              deed_fee: d.deed_fee ? d.deed_fee : 0,
+              deed_paid: d.deed_paid ? d.deed_paid : 0,
+              landTotal: d.landTotal ? Number(d.landTotal) : 0,
+              landStatus: d.landStatus ? Number(d.landStatus) : 0,
+
+              cornerpieceTotal: d.c_piece_total ? Number(d.c_piece_total) : 0,
+              cornerpieceStatus: d.c_piece_status
+                ? Number(d.c_piece_status)
+                : 0,
+
+              regisStatus: d.regisStatus ? Number(d.regisStatus) : 0,
+              surveStatus: d.surveStatus ? Number(d.surveStatus) : 0,
+              legalStatus: d.legalStatus ? Number(d.legalStatus) : 0,
+              develStatus: d.develStatus ? Number(d.develStatus) : 0,
+              electStatus: d.electStatus ? Number(d.electStatus) : 0,
+              ratifStatus: d.ratifStatus ? Number(d.ratifStatus) : 0,
+              defauStatus: d.defauStatus ? Number(d.defauStatus) : 0,
+              serviceStatus: d.serviceStatus ? Number(d.serviceStatus) : 0,
+              deedStatus: d.deedStatus ? Number(d.deedStatus) : 0,
+              grandTopay: d.grandTopay ? Number(d.grandTopay) : 0,
+              grandPaid: d.grandPaid ? Number(d.grandPaid) : 0,
+              grandDebt: d.grandDebt ? Number(d.grandDebt) : 0,
             },
           },
-        },
-        (err, d) => {
-          if (err) return false;
-        }
-      );
-    });
 
-    data.forEach((d) => {
-      User.updateMany(
-        { _id: { $in: [d.id] } },
-        {
-          $push: {
-            properties: d.propeId,
+          $set: {
+            nameOfKin: d.nameofkin,
           },
         },
+
         (err, d) => {
           if (err) return false;
         }
       );
     });
 
-    res.redirect('/importdata')
+    res.redirect("/importdata");
   } catch (err) {
     console.log(err);
   }
+});
 
+router.get("/sendbulkpassword", (req, res) => {
+  res.render("sendbulkpassword", {
+    title: "sendbulkpassword",
+  });
+});
+
+router.post("/sendbulkpassword", async (req, res) => {
+  const clients = await User.find({ role: "Customer" });
+
+  clients.forEach((user) => {
+    if (user.email) {
+      sendEmail(
+        user.email,
+        "RevolutionPlus Login Details",
+        `Dear ${user.name}, Please use the following credentials to Login to our portal and get all information about your property and transactions with us.<br>
+          <strong> www.revclient.com </strong> </br>
+          <stron> Username: ${user.username} </strong> <br>
+          <strong> Password: revolutionpluspassword </strong> <br>
+          Please feel free to customize your username and password on your first login. <br>
+          Please Kindly Ignore this message If you've received this message before
+          <br>
+          <br>
+          <br>
+          <br>
+          All Rights reserved, RevolutionPlus property Limited
+         
+         `
+      );
+    }
+
+    if (user.phone) {
+      sendSms(
+        user.phone,
+        `Dear Esteemed client, Please visit our portal on www.revclient.com and login with the following details username: ${user.username}, password: revolutionpluspasword, to know more about your payment details. you can also call us on 012557386 `
+      );
+    }
+
+    console.log("information sent");
+  });
+
+  req.flash("success_msg", "Bulk Password Sent");
+  res.redirect("/sendbulkpassword");
 });
 
 module.exports = router;

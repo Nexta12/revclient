@@ -115,7 +115,7 @@
                                                     <span class="text-capitalize">
                                                         <%= totalBuyers%>
                                                             <% if(totalBuyers !=0){ %>
-                                                                Customers
+                                                                Clients
                                                                 <% } %>
                                                     </span>
                                                 </div>
@@ -171,7 +171,9 @@
 
 
                     <!-- customers table list -->
+              <div class="container">
 
+              
                  <% if (user.role !== "Customer" && Object.keys(singlePropertyOwners).length != 0 ){ %>
 
               
@@ -179,30 +181,24 @@
 
                         <div class="row py-3 mx-3">
                             <div class="col overflow-auto mb-3">
-                                <table class="table table-striped bg-white">
+                                <table class="table table-striped bg-white" id="customersTable" >
 
-                                    <div class="row">
-
-                                        <div class="col text-center">
-                                            <h3 class=" text-capitalize"> List of <%= singleProperty.name %> Customers</h3>
-                                        </div>
-
-                                        <div class="col-sm-6">
-                                            <div class="c-search my-2">
-                                                <div class="search-wrapper text-center">
-                                                    <input type="text" id="search-box" class="search-box" placeholder="Search">
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <form action="/exportdata/<%=singleProperty.id %>" method="post">
-                                            <input type="submit" value="Export to Excel" class="btn btn-primary">
-                                        </form>
-
-                                    </div>
+                                  
                                    
 
                                     <thead>
+                                        <div class="row">
+                                        
+                                            <div class="col text-center">
+                                                <h3 class=" text-capitalize"><%= singleProperty.name %> Clients</h3>
+                                            </div>
+                                            <div class="col">
+                                                <form action="/exportdata/<%=singleProperty.id %>" method="post">
+                                                    <input type="submit" value="Export to Excel" class="btn btn-primary">
+                                                </form>
+                                            </div>
+                                        
+                                        </div>
                                         <tr>
                                             <th>No:</th>
                                             <th>Name</th>
@@ -221,7 +217,8 @@
                                                     <%= index + 1 %>
                                                 </td>
                                                 <td>
-                                                    <%= owner.name.toUpperCase() %>
+                                                    <a href="/api/v2/customers/<%= owner._id%>"><%= owner.name.toUpperCase() %></a>
+                                                    
                                                 </td>
                                                 <td>
                                                     <%= owner.address %>
@@ -262,12 +259,16 @@
                     </section>
 
                     <% } %>
+
+                    </div>
                 </main>
 
 
 
         </div>
-
+           <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+           <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+           <script src="/js/app.js"></script>
 
         </body>
 

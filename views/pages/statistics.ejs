@@ -18,7 +18,7 @@
                     <div class="row py-3 align-items-center">
                         <div class="col bg-revplus text-center text-capitalize fs-4">
                             <div class="d-flex justify-content-between py-3">
-                                <p>Top 8 Debtors</p> 
+                                <p>Top  Debtors</p> 
                                 <p>
                                <a href="/api/v2/stats/add-debtors" class="btn btn-info "> View All Debtors</a>
                             </p>
@@ -53,7 +53,7 @@
                                         
                                         
                                                     </p>
-                                                    <a href="/api/v2/customers/single/<%= sorted._id%>/<%= sorted.properties.propeId%>"
+                                                    <a href="/api/v2/customers/single/<%= sorted._id%>/<%= sorted.properties.propeId%>/<%= sorted.properties.uuid%>"
                                                         class="btn btn-outline-secondary-button w-100 text-uppercase">View More</a>
                                                 </div>
                                         
@@ -86,7 +86,7 @@
                     <div class="row">
                 
                        
-                                <div class=" col-sm-6 col-md-3">
+                                <div class=" col-sm-6 col-md-3 my-5">
                 
                                     <div class="card shadow card-headr-color my-2 text-center">
                                        
@@ -96,7 +96,7 @@
                                             </h5>
 
                                             <p class="card-text">
-                                                <h4>&#x20A6; <%=numFomatter(allUgwo) %>
+                                                <h4>&#x20A6; <%=numFomatter(totalDebt.toPrecision(5)) %>
                                                 </h4>
                                             </p>
                                           
@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
 
-                                <div class=" col-sm-6 col-md-3">
+                                <div class=" col-sm-6 col-md-3 my-5">
                 
                                     <div class="card shadow card-headr-color my-2 text-center">
                                        

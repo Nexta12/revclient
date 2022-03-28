@@ -2,10 +2,10 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const { usernameToLowerCase, ensureGuest } = require("../middleware/authe");
+const { usernameToLowerCase, ensureGuest, sendEmail, messages } = require("../middleware/authe");
 const passport = require("passport");
 const nodemailer = require('nodemailer')
-const { sendEmail, Registration } = require("../services/email_services");
+
 
 // Register Page
 router.get("/register", ensureGuest, (req, res) => {
@@ -13,12 +13,17 @@ router.get("/register", ensureGuest, (req, res) => {
     title: "Revplus: Register",
   });
 });
+
+
+
+
 // Login Page
 router.get("/login", ensureGuest, (req, res) => {
   res.render("Login", {
     title: "Revplus: Login",
   });
 });
+
 // Forgot-Password Page
 router.get("/forgot-password", ensureGuest, (req, res) => {
   res.render("forgot-password", { title: "Revplus: Forgotten Password" });
@@ -99,43 +104,7 @@ router.post("/register", usernameToLowerCase, async (req, res) => {
               password: hashedPassword,
             });
             // send success email to user
-
-            sendEmail(newUser, "Successful Registration", Registration(newUser.name));
-
-            // let transporter = nodemailer.createTransport({
-            //   host: process.env.HOST,
-            //   port: 465,
-            //   secure: true, // true for 465, false for other ports
-            //   auth: {
-            //     user: process.env.USER_EMAIL, // generated ethereal user
-            //     pass: process.env.EMAIL_PASS, // generated ethereal password
-            //   },
-
-            //   tls: {
-            //     rejectUnauthorized: false,
-            //   },
-            // });
-
-            //  let mailOptions = {
-            //    from: '"Revolution Plus👻"<customercare@revclient.com>',
-            //    to: newUser.email,
-            //    subject: " Successfull Registration",
-            //    html: `<h3> Dear ${newUser.name}, </h3> <br>
-            //   <p> Your Registration Was Successful on our our client's management Portal </p>
-            //   <br>
-            //   <br>
-            //   <br>
-            //   <p>All rights reserved, Revolution Plus Properties LLC </p>
-            //   `, 
-            //  };
-            //   transporter.sendMail(mailOptions, (error, info) => {
-            //           if (error) {
-            //             console.log(error);
-            //             //   throw new Error("An error occured while sending the mail");
-            //           }
-            //           console.log("Message sent : %s", info.messageId);
-            //         });
-               
+             sendEmail(newUser.email, "Successful Registration", messages.Registration(newUser.name));
             req.flash(
               "success_msg",
               "Your registration was successful, Please Login"
@@ -146,15 +115,20 @@ router.post("/register", usernameToLowerCase, async (req, res) => {
           res.render("errors/500", {
             title: "Error",
           });
+          
         }
       }
     } catch (error) {
       res.render("errors/500", {
         title: "Error",
       });
+
+     
     }
   }
 });
+
+
 
 // Login Handler
 // Method POST

@@ -50,23 +50,29 @@
 
         <div class="col-lg-4 mb-3 overflow-auto w-30">
             <h5 class="text-capitalize text-center">New Customers</h5>
-            <table class="table table-borderless bg-white shadow mb-0">
+            <table class="table table-borderless bg-white shadow mb-0 table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Name</th>
+                        <th>Branch</th>
                         <th>Phone</th>
                         
                     </tr>
                 </thead>
                 <tbody>
-                    <% latestCustomers.slice(-15).forEach((customer, index)=>{ %>
+                    <% latestCustomers.slice(0, 14).forEach((customer, index)=>{ %>
                     <tr>
                         <td><%= index + 1 %></td>
-                        <td><%= customer.name %></td>
+                        <td>
+                            <a href="/api/v2/customers/<%= customer.id %>"><%= customer.name %></a>
+                        </td>
+                        <td><%= customer.branch %></td>
                         <td><%= customer.phone %></td>
                        
                     </tr>
+                   
+                    
                     <% }) %>
                 </tbody>
             </table>

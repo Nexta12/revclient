@@ -10,7 +10,7 @@
                             <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
                                 <a href="/api/v2/index/dashboard">Dashboard</a>>>
                                 <% if(user.role != "Customer"){ %>
-                                <a href="/api/v2/customers/customers">Customer</a>>>
+                                <a href="/api/v2/customers/customers/1">Customer</a>>>
                                <% }else{ %>
                                  <a href="/api/v2/customers/<%= singleUser.id %>">My Properties</a>
                               <% } %>
@@ -20,6 +20,9 @@
                             </p>
                         </div>
                     </div>
+                      <div class="col">
+                        <%- include('../partials/flash_messages') %>
+                      </div>
                    <% if(user.role != "Customer"){ %>
 
                 
@@ -157,12 +160,24 @@
 
                                 <% objJson1.forEach(prop=>{ %>
                                     <div class="col-md-5 col-lg-3 my-3">
-                                
+                                        
                                         <div class="card">
-                                            <div class="card-header d-flex justify-content-between">
-                                                <p>Outstanding Debt</p>
-                                                <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/" class="btn btn-danger"> &#x20A6;<%= prop.grandDebt !='0' ? numFomatter(prop.grandDebt) : '0' %></a>
+
+                                   <% if(prop.p_p_plot == 1){ %>
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <p></p>
+                                                    <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/<%= prop.uuid %>" class="btn btn-success">
+                                                        Free Plot </a>
+                                                </div>
+                                           <% } else{ %>
+                                                <div class="card-header d-flex justify-content-between">
+                                                <p>Outstanding Balance</p>
+                                                <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/<%= prop.uuid %>" class="btn btn-danger"> &#x20A6;<%= prop.grandDebt !='0' ? numFomatter(prop.grandDebt) : '0' %></a>
                                             </div>
+
+                                          <% } %>
+                                         
+                                           
                                             <img src="/img/uploads/<%= prop.image %>" alt="" class="card-img-top" height="150">
                                 
                                             <div class="card-body">
@@ -183,14 +198,15 @@
                                                         <%= prop.payOptions %>
                                                     </span>
                                                 </p>
-                                                <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/"
+                                                <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/<%= prop.uuid %>"
                                                     class="btn btn-outlin-revplus w-100 text-uppercase">View More</a>
                                             </div>
+                                            
                                             <div class="card-footer bg-revplus d-flex justify-content-around">
                                                 <p class="fs-6"> All rights reserved RevolutionPlus properties LLC</p>
                                             </div>
                                         </div>
-                                
+                                       
                                 
                                     </div>
                                 

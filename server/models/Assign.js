@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const domPurify = require("dompurify");
+const { JSDOM } = require("jsdom");
+const htmlPurify = domPurify(new JSDOM().window);
 const assignSchema = new mongoose.Schema(
   {
     o_branch: {
@@ -64,10 +67,15 @@ const assignSchema = new mongoose.Schema(
         "3 Months Plan",
         "5 Months Plan",
         "6 Months Plan",
+        "1 Month Plan",
+        "2 Month Plan",
+        "9 Months Plan",
         "12 Months Plan",
         "18 Months Plan",
         "24 Months Plan",
         "30 Months Plan",
+        "3 Years",
+        "5 Years",
       ],
     },
     allocation: {
@@ -92,5 +100,12 @@ const assignSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+assignSchema.pre("validate", function (next) {
+  if (this.comment) {
+    this.description = htmlPurify.sanitize(this.comment);
+  }
+  next();
+});
 
 module.exports = mongoose.model("Assign", assignSchema);

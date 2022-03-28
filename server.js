@@ -132,9 +132,15 @@ app.use("/api/v2/stats", require("./server/routes/statistics"));
 app.use('/', require('./server/routes/emailing'))
 app.use('/', require('./server/routes/excelhandler'))
 // app.use('/', require('./server/routes/dataexporter'))
+app.use((req, res)=>{
+ res.render('errors/404', {
+   title: 'Page not Found',
+   user: req.user
+ })
+})
 
 
 
 app.listen(PORT, ()=>{
-    console.log(`Server Running on ${process.env.PORT}`)
+    console.log(`Server Running on http://localhost:${process.env.PORT}`)
 })

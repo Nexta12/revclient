@@ -14,7 +14,7 @@ const initialize = function initialize(passport) {
           }
           if (!user) {
             return done(null, false, {
-              message: "This Username does not Exist.",
+              message: "Invalid Credentials.",
             });
           } else {
             // check password correctness
@@ -23,7 +23,7 @@ const initialize = function initialize(passport) {
               user.password
             );
             if (!correctPassword) {
-              return done(null, false, { message: "Password is Incorrect" });
+              return done(null, false, { message: "Invalid Credentials" });
             } else {
               return done(null, user);
             }

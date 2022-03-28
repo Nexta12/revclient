@@ -5,27 +5,42 @@ const {
   usernameToLowerCase,
   mustBeAdminOrStaff,
   numFomatter,
+  sendEmail,
+  messages
 } = require("../middleware/authe");
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const Assign = require("../models/Assign");
 const Property = require("../models/Property");
 
+router.get(
+  "/customers/:page",
+  ensureLoggedin,
+  mustBeAdminOrStaff,
+  async (req, res) => {
+    let perPage = 10;
+    let page = req.params.page || 1;
 
-router.get("/customers",ensureLoggedin,mustBeAdminOrStaff, async (req, res) => {
- 
-    try { 
-      const customers = await User.find({role: "Customer"}).sort({createdAt: "desc"})
-        res.render("customer", {
+    try {
+      const customers = await User.find({ role: "Customer" })
+        .sort({ createdAt: 'desc' })
+        .skip(perPage * page - perPage)
+        .limit(perPage);
+      const count = await User.count({ role: "Customer" });
+
+      res.render("customer", {
         layout: "../layouts/dashboardLayout",
         title: "RevolutionPlus: Customers",
         customers,
+        current: page,
+        perPage,
+        pages: Math.ceil(count / perPage),
         user: req.user,
       });
     } catch (error) {
-       res.render("errors/500", {
-         title: "Error",
-       });
+      res.render("errors/500", {
+        title: "Error",
+      });
     }
   }
 );
@@ -51,10 +66,12 @@ router.get(
   }
 );
 
-
-
 //  post or create new customer
-router.post("/add_new_customer",ensureLoggedin, mustBeAdminOrStaff, usernameToLowerCase,
+router.post(
+  "/add_new_customer",
+  ensureLoggedin,
+  mustBeAdminOrStaff,
+  usernameToLowerCase,
   [
     check("username")
       .trim()
@@ -98,7 +115,6 @@ router.post("/add_new_customer",ensureLoggedin, mustBeAdminOrStaff, usernameToLo
     //   }),
   ],
   async (req, res) => {
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const {
@@ -147,10 +163,15 @@ router.post("/add_new_customer",ensureLoggedin, mustBeAdminOrStaff, usernameToLo
           kinAddress: req.body.kinAddress,
           password: hashedPassword,
         });
+       // Send Email
+         sendEmail(
+           newUser.email,
+           "RevolutionPlus Portal Registration",
+           messages.customerRegEmail(newUser.name, newUser.username, req.body.password)
+         );
         req.flash("success_msg", "Your registration was successful");
         res.redirect("/api/v2/customers/add_new_customer");
       } catch (error) {
-
         req.flash(
           "error_msg",
           "A little Server Error, Please Refresh Browser and try again"
@@ -160,8 +181,6 @@ router.post("/add_new_customer",ensureLoggedin, mustBeAdminOrStaff, usernameToLo
     }
   }
 );
-
-
 
 // edit customer  page
 router.get(
@@ -187,30 +206,26 @@ router.get(
 );
 
 // updating a Customer detail
-router.put("/:id",ensureLoggedin, mustBeAdminOrStaff, async (req, res) => {
-  
-     try {
-       await User.findByIdAndUpdate(
-         req.params.id,
-         {
-           $set: req.body,
-         },
-         { new: true }
-       );
-        req.flash("success_msg", "Update Successfull");
-        res.redirect("/api/v2/customers/customers");
-     } catch (error) {
-       res.render("errors/500", {
-         title: "Error",
-       });
-     }
-   
+router.put("/:id", ensureLoggedin, mustBeAdminOrStaff, async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    req.flash("success_msg", "Update Successfull");
+    res.redirect("/api/v2/customers/customers/1");
+  } catch (error) {
+    res.render("errors/500", {
+      title: "Error",
+    });
   }
-);
+});
 
 // get one customer properties
 router.get("/:id", ensureLoggedin, async (req, res) => {
-
   if (
     req.user.id === req.params.id ||
     req.user.role === "Admin" ||
@@ -239,79 +254,73 @@ router.get("/:id", ensureLoggedin, async (req, res) => {
           objJson1,
           numFomatter,
         });
-      }else{
-         res.render("errors/404", {
-           title: "Error",
-         });
+      } else {
+        res.render("errors/404", {
+          title: "Error",
+        });
       }
-
     } catch (error) {
-       res.render("errors/500", {
-         title: "Error",
-       });
+      res.render("errors/500", {
+        title: "Error",
+      });
     }
-
   } else {
-     res.render("errors/403", {
-       title: "Error",
-     });
+    res.render("errors/403", {
+      title: "Error",
+    });
   }
 });
 
-
-
-
 //  get one Customer property purchase details
 
-router.get("/single/:id/:propeId", ensureLoggedin, async (req, res) => {
-
+router.get("/single/:id/:propeId/:uuid", ensureLoggedin, async (req, res) => {
   try {
-      const propeType = await Property.findById(req.params.propeId); //get type of property for display only
-      const propertyOwner = await User.findById(req.params.id); // get property owner to grant access/get his purchase details
-
-      let propOwnerProperties = propertyOwner.properties
-    
-
-     let proOwner = []; // in a case where a customer has many properties, this will filter each  property accordingly
+    const propeType = await Property.findById(req.params.propeId); //get type of property for display only
+    const propertyOwner = await User.findById(req.params.id); // get property owner to grant access/get his purchase details
      
-     for(let i=0; i<propOwnerProperties.length; i++ ){
-       if (Object.keys(propOwnerProperties[i]).includes("name")) {
-         proOwner.push(propOwnerProperties[i]);
-       }
-     }
+    let proDetail; // this will set each property purchase detail
+     propertyOwner.properties.forEach(item=>{
+      if(item.uuid == req.params.uuid){
+         proDetail = item
+      }
+     })
 
-     let proDetail; // this will set each property purchase detail
+    if (
+      req.user.id == propertyOwner.id ||
+      req.user.role == "Admin" ||
+      req.user.role == "Staff"
+    ) {
 
-     for(let j= 0; j< proOwner.length; j++){
-       if(proOwner[j].propeId == req.params.propeId){
-         proDetail = proOwner[j]
-       }
-     }
       
-  
-     if(req.user.id == propertyOwner.id || req.user.role == "Admin" || req.user.role == "Staff"){
-        res.render("purchase-details", {
-          title: "RevolutionPlus: Purchase details",
-          layout: "../layouts/dashboardLayout",
-          user: req.user,
-          propertyOwner,
-          proDetail,
-          numFomatter,
-          propeType,
-        });
-     }else{
-        res.render("errors/403", {
-          title: "Error",
-        });
-     }
+      res.render("purchase-details", {
+        title: "RevolutionPlus: Purchase details",
+        layout: "../layouts/dashboardLayout",
+        user: req.user,
+        propertyOwner,
+        proDetail,
+        numFomatter,
+        propeType,
+      });
+    } else {
+      res.render("errors/403", {
+        title: "Error",
+      });
+    }
   } catch (error) {
     res.render("errors/500", {
       title: "Error",
     });
   }
+});
 
-})
-
+router.get(
+  "/testtable",
+  ensureLoggedin,
+  mustBeAdminOrStaff,
+  async (req, res) => {
+    console.log("Hello");
+  }
+);
 
 // deleting a customer
 router.delete(
@@ -319,45 +328,34 @@ router.delete(
   ensureLoggedin,
   mustBeAdminOrStaff,
   async (req, res) => {
-
-    if(req.user.role == "Admin"){
-       try {
-         await User.findByIdAndDelete(req.params.id);
-         res.redirect("/api/v2/customers/customers");
-       } catch (error) {
-         res.render("errors/500", {
-           title: "Error",
-         });
-       }
-
-    }else{
-       res.render("errors/403", {
-         title: "Error",
-       });
+    if (req.user.role == "Admin") {
+      try {
+        await User.findByIdAndDelete(req.params.id);
+        res.redirect("/api/v2/customers/customers/1");
+      } catch (error) {
+        res.render("errors/500", {
+          title: "Error",
+        });
+      }
+    } else {
+      res.render("errors/403", {
+        title: "Error",
+      });
     }
-
   }
 );
-
 
 // searching for customers using Ajax LiveSearch
 
-router.post("/getCustomers",ensureLoggedin, mustBeAdminOrStaff, async (req, res) => {
-
-    let payload = req.body.payload.trim();  //input in the search bar
-
-    let search = await User.find({
-      role: "Customer",
-      name: { $regex: new RegExp(".*" + payload + ".*", "i") },
-    })
-      .sort({ updatedAt: -1 })
-      .exec();
-    //  limit search Result to 10
-    // search = search.slice(0, 10); //up unto to but not including 10 (I don't want to slice)
-
-    res.send({ payload: search });
-
-  }
-);
+router.post("/getCustomers", async (req, res) => {
+  let payload = req.body.payload.trim(); //input in the search bar
+  let search = await User.find({
+    role: "Customer",
+    name: { $regex: new RegExp(".*" + payload + ".*", "i") },
+  });
+  //  limit search Result to 10
+  search = search.slice(0, 10);
+  res.send({ payload: search });
+});
 
 module.exports = router;

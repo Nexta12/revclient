@@ -461,6 +461,7 @@ position: relative;
   overflow-y: auto;
 }
 
+
 .table-stri tr:nth-child(even) {
   background: #eee;
 }

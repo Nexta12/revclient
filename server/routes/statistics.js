@@ -33,47 +33,51 @@ router.get("/statistics", ensureLoggedin, mustBeAdmin, async (req, res) => {
     }
     return 0;
   });
-
+ 
   
   //.........................................................Sorting top debtors ends here
 
   // calculate total debts by all customers..............calculating sum of all debts starts here
   const users = await User.find({ role: "Customer" });
   // get all customers properties
+
+
   let debts = [];
+  let debtors = [];
   users.forEach((user) => {
-    if (Object.keys(user.properties).length !== 0) {
-      debts.push(user.properties[0]);
+    
+    if(Object.keys(user.properties).length != 0){
+      user.properties.forEach(prop=>{  // to get everyone's properties including people with 2 or more
+        debts.push(prop.grandDebt)
+        if(prop.grandDebt > 0){
+          // check for individual debtors irrespective of how many properties they have
+          debtors.push(user.username);
+        }
+        
+      })
+      
+      
     }
+
   });
+  
 
-  // get an array of all debts by all customers
-  let grandUgwo = [];
-  debts.filter((debt) => {
-    if (debt.grandDebt > 0) {
-      grandUgwo.push(debt.grandDebt);
-    }
-  });
-
-  // calculate the total debts.
-
-  let sumOfAllUgwo = 0;
-  for (let i = 0; i < grandUgwo.length; i++) {
-    sumOfAllUgwo += grandUgwo[i];
+  let totalDebt = 0;
+  for (let i = 0; i < debts.length; i++) {
+    totalDebt += debts[i];
   }
 
-  const allUgwo = sumOfAllUgwo;
-
+ 
   //  ...........................calculating sum of all debts ends here.................
 
   //  Calculate total number of Debtors.starts here........................
-  const noOfDebtors = objectLength(grandUgwo);
+  const noOfDebtors = objectLength(debtors);
 
   res.render("statistics", {
     layout: "../layouts/dashboardLayout",
     title: "RevolutionPlus: Statistic",
     user: req.user,
-    allUgwo,
+    totalDebt,
     noOfDebtors,
     sortedDebtors,
     numFomatter,

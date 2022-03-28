@@ -316,7 +316,7 @@
 
                                                 <td>
                                                     <p>
-                                                        <input type="text" placeholder="" name="reg_paid"
+                                                        <input type="number" placeholder="" name="reg_paid"
                                                             class="paid form-control"
                                                             value="<%= typeof reg_paid != 'undefined' ? reg_paid : '' %>">
                                                     </p>
@@ -695,11 +695,11 @@
                         <div class="container rounded-3 shadow mx-auto bg-white my-3 p-5">
                             <h5 class="text-center">Comment</h5>
 
-                            <div class="row">
+                            <div class="col">
 
-                                <textarea name="comment" class="p-0 fs-5 assign" cols="5" rows="5">
+                                <textarea name="comment" class="p-0 fs-5 assign">
 
-                                                        </textarea>
+                                </textarea>
                             </div>
                         </div>
 
@@ -716,7 +716,13 @@
 
 
         </div>
+   
+        <script>
+            CKEDITOR.replace("comment", {
+                Plugins: "wysiwygarea, toolbar, basicstyles, link",
+            });
 
+        </script>
 
 </body>
 

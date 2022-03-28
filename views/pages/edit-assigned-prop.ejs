@@ -9,7 +9,7 @@
                         <div class="col bg-light shadow-sm breadcrumb-height my-2">
                             <p class="text-muted text-left ms-3 py-3 align-items-center d-flex flex-wrap">
                                 <a href="/api/v2/index/dashboard">Dashboard</a>>>
-                                <a href="/api/v2/customers/<%= propertyOwner.id %>" class="text-capitalize"> 
+                                <a href="/api/v2/customers/<%= propertyOwner.id %>" class="text-capitalize">
                                     <%= propertyOwner.name %>
                                 </a>>>
                                 <a href="#"> Edit Assigned Property</a>
@@ -18,7 +18,9 @@
                     </div>
 
 
-                    <form action="/api/v2/assign/edit/<%= propertyOwner.id %>/<%=reqProperty.propeId %>/<%= reqProperty.uuid%>?_method=PUT" method="post" class="col-sm-10 mx-auto">
+                    <form
+                        action="/api/v2/assign/edit/<%= propertyOwner.id %>/<%= reqProperty.propeId%>/<%= reqProperty.uuid%>?_method=PUT"
+                        method="post" class="col-sm-10 mx-auto">
                         <div class="container rounded-3 shadow mx-auto bg-white my-3 p-3">
                             <%- include('../partials/flash_messages') %>
 
@@ -31,13 +33,13 @@
                                         class="d-none">
                                     assigned to <%= propertyOwner.name %>
                                 </p>
-   
+
                                 <div class="row">
                                     <div class="col-lg-3 text-center">
                                         <p>Property Image</p>
 
-                                        <img id="profileImage" src="/img/uploads/<%= reqProperty.image %>" alt="photo" width="120"
-                                            height="120" class="rounded-circle bg-secondary profileImage">
+                                        <img id="profileImage" src="/img/uploads/<%= reqProperty.image %>" alt="photo"
+                                            width="120" height="120" class="rounded-circle bg-secondary profileImage">
 
                                         <input id="imageUploadBtn" type="file" name="image"
                                             accept="image/jpeg, image/png, image/jpg, image/svg+xml"
@@ -81,8 +83,8 @@
                                             <div class="col-md-6 col-lg-4 py-2">
                                                 <p><label for="file_num">File Number</label></p>
                                                 <p>
-                                                    <input type="text" placeholder="" name="file_num" value="<%= reqProperty.file_num %>"
-                                                        class="form-control">
+                                                    <input type="text" placeholder="" name="file_num"
+                                                        value="<%= reqProperty.file_num %>" class="form-control">
                                                 </p>
                                             </div>
                                         </div>
@@ -99,8 +101,9 @@
                                             <div class="col-sm-6 col-lg-4">
                                                 <p><label for="n_plots"> Description </label></p>
                                                 <p>
-                                                    <input type="text" placeholder="Eg. Units of 3 bedroom" name="detail" id="detail"
-                                                        value="<%= reqProperty.detail %>" class="form-control" required>
+                                                    <input type="text" placeholder="Eg. Units of 3 bedroom"
+                                                        name="detail" id="detail" value="<%= reqProperty.detail %>"
+                                                        class="form-control" required>
                                                 </p>
                                             </div>
 
@@ -114,8 +117,7 @@
                                                 <p><label for="a_p_f_plots">Amount Paid</label></p>
                                                 <p>
                                                     <input type="number" placeholder="" name="a_p_f_plots" id="amtpd"
-                                                        value="<%= reqProperty.a_p_f_plots %>"
-                                                        class="form-control">
+                                                        value="<%= reqProperty.a_p_f_plots %>" class="form-control">
                                                 </p>
                                             </div>
 
@@ -125,8 +127,12 @@
                                                 <p>
                                                     <select name="p_purchase" class="form-select">
 
-                                                        <option value="Residential" <%=reqProperty.p_purchase=='Residential' ? 'selected' :'' %>>Residential</option>
-                                                        <option value="Commercial" <%=reqProperty.p_purchase=='Commercial' ? 'selected' :'' %>>Commercial</option>
+                                                        <option value="Residential"
+                                                            <%=reqProperty.p_purchase=='Residential' ? 'selected' :'' %>
+                                                            >Residential</option>
+                                                        <option value="Commercial"
+                                                            <%=reqProperty.p_purchase=='Commercial' ? 'selected' :'' %>
+                                                            >Commercial</option>
                                                     </select>
                                                 </p>
                                                 <!-- stop -->
@@ -136,23 +142,39 @@
                                                 <p>
                                                     <select name="payOptions" class="form-select">
 
-                                                        <option value="Outright Payment" <%=reqProperty.p_purchase=='Outright Payment' ? 'selected' :'' %>>Outright Payment</option>
+                                                        <option value="Outright Payment"
+                                                            <%=reqProperty.p_purchase=='Outright Payment' ? 'selected'
+                                                            :'' %>>Outright Payment</option>
 
-                                                        <option value="3 Months Plan" <%=reqProperty.p_purchase=='3 Months Plan' ? 'selected' :'' %>>3 Months Plan</option>
+                                                        <option value="3 Months Plan"
+                                                            <%=reqProperty.p_purchase=='3 Months Plan' ? 'selected' :''
+                                                            %>>3 Months Plan</option>
 
-                                                        <option value="5 Months Plan" <%=reqProperty.p_purchase=='5 Months Plan' ? 'selected' :'' %>>5 Months Plan</option>
+                                                        <option value="5 Months Plan"
+                                                            <%=reqProperty.p_purchase=='5 Months Plan' ? 'selected' :''
+                                                            %>>5 Months Plan</option>
 
-                                                        <option value="6 Months Plan" <%=reqProperty.p_purchase=='6 Months Plan' ? 'selected' :'' %>>6 Months Plan</option>
+                                                        <option value="6 Months Plan"
+                                                            <%=reqProperty.p_purchase=='6 Months Plan' ? 'selected' :''
+                                                            %>>6 Months Plan</option>
 
-                                                        <option value="12 Months Plan" <%=reqProperty.p_purchase=='12 Months Plan' ? 'selected' :'' %>>12 Months Plan</option>
+                                                        <option value="12 Months Plan"
+                                                            <%=reqProperty.p_purchase=='12 Months Plan' ? 'selected' :''
+                                                            %>>12 Months Plan</option>
 
-                                                        <option value="18 Months Plan" <%=reqProperty.p_purchase=='18 Months Plan' ? 'selected' :'' %>>18 Months Plan</option>
+                                                        <option value="18 Months Plan"
+                                                            <%=reqProperty.p_purchase=='18 Months Plan' ? 'selected' :''
+                                                            %>>18 Months Plan</option>
 
-                                                        <option value="24 Months Plan" <%=reqProperty.p_purchase=='24 Months Plan' ? 'selected' :'' %>>24 Months Plan</option>
+                                                        <option value="24 Months Plan"
+                                                            <%=reqProperty.p_purchase=='24 Months Plan' ? 'selected' :''
+                                                            %>>24 Months Plan</option>
 
-                                                        <option value="30 Months Plan" <%=reqProperty.p_purchase=='30 Months Plan' ? 'selected' :'' %>> 30 Months Plan</option>
+                                                        <option value="30 Months Plan"
+                                                            <%=reqProperty.p_purchase=='30 Months Plan' ? 'selected' :''
+                                                            %>> 30 Months Plan</option>
 
-                                                        
+
 
                                                     </select>
                                                 </p>
@@ -162,7 +184,7 @@
 
 
                                         </div>
-                                       
+
 
                                     </div>
 
@@ -171,44 +193,45 @@
                         </div>
 
                         <!-- cornerpiece -->
-                        <% if(reqProperty.cornerpieceTotal){ %>
 
-                            <div class="container rounded-3 shadow mx-auto bg-white my-3 p-5">
-                                <h5 class="text-center">Cornerpiece</h5>
-                            
-                                <div class="row">
-                            
-                                    <div class="col-lg-4">
-                                        <p><label for="n_c_piece">How many cornerpiece ? * </label></p>
-                                        <p>
-                                            <input type="number" name="n_c_piece" step="0.01" id="n_c_piece" value="<%= reqProperty.n_c_piece %>"
-                                                class="form-control">
-                                        </p>
-                                    </div>
-                            
-                            
-                                    <div class="col-lg-4">
-                                        <p><label for="c_piece_price">
-                                                cornerpiece Price
-                                            </label></p>
-                                        <p>
-                                            <input type="number" placeholder="" name="c_piece_price" id="plotp"
-                                                value="<%= reqProperty.c_piece_price %>" class="form-control">
-                                        </p>
-                                    </div>
+
+                        <div class="container rounded-3 shadow mx-auto bg-white my-3 p-5">
+                            <h5 class="text-center">Cornerpiece</h5>
+
+                            <div class="row">
+
+                                <div class="col-lg-4">
+                                    <p><label for="n_c_piece">How many cornerpiece ? * </label></p>
+                                    <p>
+                                        <input type="number" name="n_c_piece" step="0.01" id="n_c_piece"
+                                            value="<%= reqProperty.n_c_piece %>" class="form-control">
+                                    </p>
+                                </div>
+
+
+                                <div class="col-lg-4">
+                                    <p><label for="c_piece_price">
+                                            cornerpiece Price
+                                        </label></p>
+                                    <p>
+                                        <input type="number" placeholder="" name="c_piece_price" id="plotp"
+                                            value="<%= reqProperty.c_piece_price %>" class="form-control">
+                                    </p>
+                                </div>
+                                <!-- paid starts -->
                                     <div class="col-lg-4">
                                         <p><label for="c_piece_paid">Amount Paid for cornerpiece </label></p>
                                         <p>
-                                            <input type="number" placeholder="" name="c_piece_paid" id="amtpd"
-                                                value="<%= reqProperty.c_piece_paid %>" class="form-control">
+                                            <input type="number" name="c_piece_paid" value="<%= reqProperty.c_piece_paid %>" class="form-control">
                                         </p>
                                     </div>
-                            
-                                </div>
-                            </div>
+                               <!-- paid stops -->
 
-                       <% } %>
-                        
+                            </div>
+                        </div>
+
+
+
                         <!-- cornerpiece -->
 
                         <!-- statutory starts -->
@@ -231,7 +254,7 @@
                                                 <th>statutory Name</th>
                                                 <th>Cost</th>
                                                 <th>Amount Paid</th>
-                                               
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -249,8 +272,7 @@
                                                 <td>
                                                     <p>
                                                         <input type="number" placeholder="" name="reg_fee"
-                                                            class="fee form-control"
-                                                            value="<%= reqProperty.reg_fee %>">
+                                                            class="fee form-control" value="<%= reqProperty.reg_fee %>">
                                                     </p>
                                                 </td>
 
@@ -261,7 +283,7 @@
                                                             value="<%= reqProperty.reg_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -290,7 +312,7 @@
                                                             value="<%= reqProperty.surv_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -320,7 +342,7 @@
                                                             value="<%= reqProperty.legal_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -336,8 +358,7 @@
                                                 <td>
                                                     <p>
                                                         <input type="number" placeholder="" name="dev_fee"
-                                                            class="fee form-control"
-                                                            value="<%= reqProperty.dev_fee %>">
+                                                            class="fee form-control" value="<%= reqProperty.dev_fee %>">
                                                     </p>
                                                 </td>
 
@@ -348,7 +369,7 @@
                                                             value="<%= reqProperty.dev_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -376,7 +397,7 @@
                                                             value="<%= reqProperty.elec_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
 
                                         </tbody>
@@ -416,7 +437,7 @@
                                                 <th>statutory Name</th>
                                                 <th>Cost</th>
                                                 <th>Amount Paid</th>
-                                               
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -444,7 +465,7 @@
                                                             value="<%= reqProperty.rat_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -472,7 +493,7 @@
                                                             value="<%= reqProperty.service_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -500,7 +521,7 @@
                                                             value="<%= reqProperty.deed_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
                                             <!-- single row stops -->
                                             <!-- single Roll starts -->
@@ -528,7 +549,7 @@
                                                             value="<%= reqProperty.defau_paid %>">
                                                     </p>
                                                 </td>
-                                                
+
                                             </tr>
                                             <!-- single row stops -->
 
@@ -585,17 +606,16 @@
                                                     <p>
                                                         <select name="allocation" class="form-select">
                                                             <option value="Allocated"
-                                                                <%=reqProperty.allocation=='Allocated'
-                                                                ? 'selected' :'' %>>Allocated</option>
+                                                                <%=reqProperty.allocation=='Allocated' ? 'selected' :''
+                                                                %>>Allocated</option>
                                                             <option value="Refunded"
-                                                                <%=reqProperty.allocation=='Refunded'
-                                                                ? 'selected' :'' %>>Refunded</option>
-                                                            <option value="Pending"
-                                                                <%=reqProperty.allocation=='Pending' ? 'selected'
-                                                                :'' %>>Pending</option>
+                                                                <%=reqProperty.allocation=='Refunded' ? 'selected' :''
+                                                                %>>Refunded</option>
+                                                            <option value="Pending" <%=reqProperty.allocation=='Pending'
+                                                                ? 'selected' :'' %>>Pending</option>
                                                             <option value="In Process"
-                                                                <%=reqProperty.allocation=='In Process'
-                                                                ? 'selected' :'' %>>In Process</option>
+                                                                <%=reqProperty.allocation=='In Process' ? 'selected' :''
+                                                                %>>In Process</option>
                                                         </select>
                                                     </p>
                                                 </td>
@@ -604,16 +624,14 @@
                                                 <td>
                                                     <p>
                                                         <input type="text" placeholder="" name="plotNum"
-                                                            class="form-control"
-                                                            value="<%= reqProperty.plotNum %>">
+                                                            class="form-control" value="<%= reqProperty.plotNum %>">
                                                     </p>
                                                 </td>
                                                 <td>
                                                     <p>
 
                                                         <input type="text" placeholder="" name="blockNum"
-                                                            class="form-control"
-                                                            value="<%= reqProperty.blockNum %>">
+                                                            class="form-control" value="<%= reqProperty.blockNum %>">
 
                                                     </p>
                                                 </td>
@@ -636,19 +654,20 @@
                         <!-- Allocation Stops -->
 
                         <!-- comment -->
-                        <div class="container rounded-3 shadow mx-auto bg-white my-3 p-5">
+                        <div class="container shadow bg-white p-5">
                             <h5 class="text-center">Comment</h5>
-                        
-                            <div class="row">
-                        
-                                <textarea name="comment" class="p-0 fs-5 assign" cols="5" rows="5">
+
+                            <div class="col">
+                               
+                                <textarea name="comment" class="p-0 fs-5 assign">
 
                                     <%= reqProperty.comment %>
                         
-                                                                                </textarea>
+                                 </textarea>
+
                             </div>
                         </div>
-                        
+
                         <!-- comment -->
 
 
@@ -663,7 +682,12 @@
 
 
         </div>
+            <script>
+                CKEDITOR.replace("comment", {
+                    Plugins: "wysiwygarea, toolbar, basicstyles, link",
+                });
 
+            </script>
 
         </body>
 

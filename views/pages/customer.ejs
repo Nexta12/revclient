@@ -5,105 +5,146 @@
             <%- include('../partials/_main_content_header') %>
 
                 <main>
-                    <div class="conatiner">
-                        <div class="col bg-light shadow-sm breadcrumb-height my-2">
-                            <p class="text-muted text-left py-3 mx-5 align-items-center d-flex flex-wrap">
-                                <a href="/api/v2/index/dashboard">Dashboard</a>>>
-                                <a href="/api/v2/customers/customers">Customer</a>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="conatiner customer-search-header mt-3  bg-white p-3 mx-4 fixed">
-                        <div class="c-title">
-                            <h5 class="text-capitalize text-center">All Customers</h5>
-                        </div>
-                        <div class="c-search">
-                            <div class="search-wrapper text-center">
-                                <input type="text" id="search-box" class="search-box" placeholder="Search customers">
-                                <!-- <span class="las la-search"></span> -->
-                            </div>
-                        </div>
-                        <div class="c-add-new text-center">
-                            <a href="/api/v2/customers/add_new_customer"
-                                class="btn btn-outline-secondary-button w-50 py-2"> <i class="las la-plus"></i> Add
-                                New</a>
-                        </div>
-                    </div>
-
+                   
                     <!-- customers table list -->
+                   
+                    <!-- start -->
 
+                    <section class="table ">
+                       
+                        <div class="row py-3 mx-3 custable-heights">
+                            <%- include('../partials/flash_messages') %>
+                            <div class="col overflow-auto mb-3">
+                               
+                                <table class="table bg-white shadow table-stri" id="customersTable2">
+                                    <thead>
+                                        <div class="row justify-content-between my-2">
 
-                    <section class="table" >
-                        <%- include('../partials/flash_messages') %>
-                        <div class="row py-3 mx-3 custable-height ">
-                            
-                                <div class="col overflow-auto mb-3">
-                                    
-                                    <table class="table table-stri bg-white shadow " id="customersTable">
-                                        <thead>
+                                        <div class="col-md-4"><h2>All Customers</h2></div>
+
+                                        <div class="col-md-4"><div class="c-search-">
+                                            <div class="search-wrapper text-center">
+                                                <input type="text" id="search-box" class="search-box" placeholder="Search customer">
+                                                <!-- <span class="las la-search"></span> -->
+                                            </div>
+                                        </div> </div>
+
+                                        <div class="col-md-4 text-end my-2"><a href="/api/v2/customers/add_new_customer" class="btn btn-info px-5">+ Add New</a></div>
+                                        </div>
+                                          
+                                        <tr>
                                             <tr>
                                                 <th>No</th>
                                                 <th>Name</th>
                                                 <th>Address</th>
                                                 <th>Email</th>
+                                                <th>Branch</th>
                                                 <th>Phone</th>
-                                                <th>Status</th>
+                                               <th>Action</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% customers.forEach((customer, index)=>{ %>
-                                                <tr>
-                                                    <td>
-                                
-                                                        <%= (index + 1) %>
-                                
-                                                    </td>
-                                                    <td class="text-uppercase">
-                                                        <a href="/api/v2/customers/<%= customer.id%>">
-                                                            <%= customer.name %>
-                                                        </a>
-                                
-                                                    </td>
-                                                    <td>
-                                                        <%= customer.address %>
-                                                    </td>
-                                                    <td>
-                                                        <%= customer.email %>
-                                                    </td>
-                                                    <td>
-                                                        <%= customer.phone %>
-                                                    </td>
-                                                    <td class="d-flex justify-content-around">
-                                                        <a href="/api/v2/customers/<%= customer.id %>"><i class="las la-eye la-2x-size"></i></a>
-                                                        <a href="/api/v2/customers/edit/<%= customer.id %>"><i
-                                                                class="las la-edit mx-2 la-2x-size"></i></a>
-                                
-                                                        <form action="/api/v2/customers/delete/<%= customer.id %>?_method=DELETE" method="POST">
+                                        </tr>
+                                   
+                                    </thead>
+                                    <tbody id="dataTable">
 
-                                                            <a class="deletConfirm"><i class="las la-trash la-2x-size"></i></a>
+                                        <% customers.forEach((customer, index)=>{ %>
+                                            <tr>
+                                                <td>
+                                                    <%= (index + (perPage * (current - 1) )) + 1%>
+                                                    
+                                                </td>
+                                                <td>
+                                                    <a href="/api/v2/customers/<%= customer.id%>">
+                                                        <%= customer.name.toUpperCase() %>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <%= customer.address ? customer.address : 'No Address'  %> 
+                                                </td>
+                                                <td>
+                                                    <%= customer.email ? customer.email : 'No Email' %>
+                                                </td>
+                                                <td>
+                                                    <%= customer.branch %>
+                                                </td>
+                                                <td>
+                                                    <%= customer.phone ? customer.phone : 'No Phone' %>
+                                                </td>
+                                               
+                                                <td class="d-flex justify-content-around">
+                                                    <a href="/api/v2/customers/<%= customer.id %>"><i class="las la-eye la-2x-size"></i></a>
+                                                    <a href="/api/v2/customers/edit/<%= customer.id %>"><i class="las la-edit mx-2 la-2x-size"></i></a>
+                                        
+                                                    <form action="/api/v2/customers/delete/<%= customer.id %>?_method=DELETE" method="POST">
+                                        
+                                                        <a class="deletConfirm"><i class="las la-trash la-2x-size"></i></a>
+                                        
+                                                        <input type="submit" value="delete" class="d-none " id="deleteInput">
+                                        
+                                                    </form>
+                                        
+                                        
+                                                    <p> <a href="/api/v2/assign/cust/<%= customer.id %>">Assign </a></p>
+                                        
+                                                </td>
+                                            </tr>
+                                        
+                                            <% }) %>
+                                           
+                                    </tbody>
+                                </table>
 
-                                                            <input type="submit" value="delete" class="d-none " id="deleteInput">
-                                                            
-                                                        </form>
 
-
-                                                        <p> <a href="/api/v2/assign/cust/<%= customer.id %>">Assign </a></p>
-                                
-                                                    </td>
-                                                </tr>
-                                
-                                                <% }) %>
-                                
-                                        </tbody>
-                                    </table>
-                                
-                                
-                                </div>
+                                 <div class="text-center fs-5 mb-5">
+                                 <% if (pages> 0) { %>
+                                    <ul class="pagination text-center">
+                <% if (current== '') { %>
+                    <li class="disabled page-item"><a class="page-link">First</a></li>
+                    <% } else { %>
+                        <li class="page-item"><a href="/api/v2/customers/customers/1" class="page-link">First</a></li>
+                        <% } %>
+                            <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
+                                <% if (i !==1) { %>
+                                    <li class="disabled page-item"><a class="page-link">...</a></li>
+                                    <% } %>
+                                        <% for (; i <=(Number(current) + 4) && i <=pages; i++) { %>
+                                            <% if (i==current) { %>
+                                                <li class="active page-item"><a class="page-link">
+                                                        <%= i %>
+                                                    </a></li>
+                                                <% } else { %>
+                                                    <li class="page-item"><a class="page-link" href="/api/v2/customers/customers/<%= i %>">
+                                                            <%= i %>
+                                                        </a></li>
+                                                    <% } %>
+                                                        <% if (i==Number(current) + 4 && i < pages) { %>
+                                                            <li class="disabled page-item"><a class="page-link">...</a></li>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <% if (current==pages) { %>
+                                                                        <li class="disabled page-item"><a class="page-link">Last</a></li>
+                                                                        <% } else { %>
+                                                                            <li class="page-item"><a class="page-link"
+                                                                                    href="/api/v2/customers/customers/<%= pages %>">Last</a>
+                                                                            </li>
+                                                                            <% } %>
+                                    </ul>
+                                 <% } %>
+                             </div>
+                            </div>
+                    
+                    
                         </div>
-
+                    
                     </section>
 
+                    <!-- stop -->
+
+
+
+                  
+               
+                  
                     
                 </main>
 
@@ -111,6 +152,10 @@
 
         </div>
 
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="/js/app.js"></script>
 
         </body>
 
