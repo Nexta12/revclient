@@ -62,7 +62,7 @@
                                             <p class="text-black text-uppercase small-screen-font">Email:</p>
                                          </div>
                                          <div class="col">
-                                            <span class="text-capitalize small-screen-font">
+                                            <span class="small-screen-font">
                                                 <%= singleUser.email %>
                                             </span>
                                          </div>
@@ -139,13 +139,15 @@
  
                   <% }else{ %>
 
-                    <div class="container">
-                        <div class="row breadcrumb-height align-items-center justify-content-center">
-                            <div class="col-sm-8 bg-revplus text-center text-capitalize fs-4">
-                                <p>Purchased Properties</p>
+                    <div class="container px-5">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <div class=" bg-secondary py-3 text-center">
+                                    <h3 class="text-white">Properties Purchased</h3>
+                                </div>
+                    
                             </div>
                         </div>
-                    
                     </div>
 
                  <% } %>
@@ -159,7 +161,7 @@
                             <% if(typeof objJson1 !== "undefined"){ %>
 
                                 <% objJson1.forEach(prop=>{ %>
-                                    <div class="col-md-5 col-lg-3 my-3">
+                                    <div class="col-md-5 col-lg-3 my-3 p-4">
                                         
                                         <div class="card">
 
@@ -172,7 +174,7 @@
                                            <% } else{ %>
                                                 <div class="card-header d-flex justify-content-between">
                                                 <p>Outstanding Balance</p>
-                                                <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/<%= prop.uuid %>" class="btn btn-danger"> &#x20A6;<%= prop.grandDebt !='0' ? numFomatter(prop.grandDebt) : '0' %></a>
+                                                <a href="/api/v2/customers/single/<%= prop.id %>/<%= prop.propeId %>/<%= prop.uuid %>" class="btn btn-danger"> &#x20A6;<%= prop.grandDebt !='0' ? numFomatter(prop.grandDebt.toFixed()) : '0' %></a>
                                             </div>
 
                                           <% } %>
@@ -203,7 +205,7 @@
                                             </div>
                                             
                                             <div class="card-footer bg-revplus d-flex justify-content-around">
-                                                <p class="fs-6"> All rights reserved RevolutionPlus properties LLC</p>
+                                                <p class="fs-6"> RevolutionPlus property ltd</p>
                                             </div>
                                         </div>
                                        

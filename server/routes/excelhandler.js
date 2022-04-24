@@ -4,7 +4,15 @@ const render = require("xlsx");
 const path = require("path");
 const Property = require("../models/Property");
 const crypto = require("crypto");
-const { sendEmail, sendSms } = require("../middleware/authe");
+const axios = require('axios')
+var cron = require("node-cron");
+const validator = require("email-validator");
+const {
+  sendEmail,
+  sendSms,
+  sendBulkEmail,
+  sendESms,
+} = require("../middleware/authe");
 
 // export database details to excel
 
@@ -24,7 +32,6 @@ router.post("/exportdata/:id", async (req, res) => {
     temp.forEach((a) => {
       propertyname = a.properties.name;
       if (a.role == "Customer") {
-
         filteredData.push({
           Estate: a.properties.name,
           Branch: a.properties.o_branch,
@@ -349,41 +356,30 @@ router.get("/sendbulkpassword", (req, res) => {
 });
 
 router.post("/sendbulkpassword", async (req, res) => {
-  const clients = await User.find({ role: "Customer" });
+ 
+   try {
 
-  clients.forEach((user) => {
-    if (user.email) {
-      sendEmail(
-        user.email,
-        "RevolutionPlus Login Details",
-        `Dear ${user.name}, Please use the following credentials to Login to our portal and get all information about your property and transactions with us.<br>
-          <strong> www.revclient.com </strong> </br>
-          <stron> Username: ${user.username} </strong> <br>
-          <strong> Password: revolutionpluspassword </strong> <br>
-          Please feel free to customize your username and password on your first login. <br>
-          Please Kindly Ignore this message If you've received this message before
-          <br>
-          <br>
-          <br>
-          <br>
-          All Rights reserved, RevolutionPlus property Limited
-         
-         `
-      );
-    }
+     const clients = await User.find({role: "Customer"});
+     clients.forEach((client) => {
+       sendESms(
+        client.phone,
+       `Dear ${client.name}, Please visit RevolutionPlus portal on www.revclient.com and login with these details username: ${client.username}, password: revolutionpluspasword, to know more about your payment details. You can also call us on 012557386 for more information `
+       );
+     });        
+      //     // cron.schedule("*/2 * * * *", () => {
+           
 
-    if (user.phone) {
-      sendSms(
-        user.phone,
-        `Dear Esteemed client, Please visit our portal on www.revclient.com and login with the following details username: ${user.username}, password: revolutionpluspasword, to know more about your payment details. you can also call us on 012557386 `
-      );
-    }
+      //     //   console.log('SMS Sent')
+      //     // });
 
-    console.log("information sent");
-  });
+      // })
 
-  req.flash("success_msg", "Bulk Password Sent");
-  res.redirect("/sendbulkpassword");
+      req.flash("success_msg", "Bulk Password Sent");
+      res.redirect("/sendbulkpassword");
+   } catch (error) {
+     console.log(error)
+   }
+ 
 });
 
 module.exports = router;

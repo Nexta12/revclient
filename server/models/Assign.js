@@ -35,6 +35,7 @@ const assignSchema = new mongoose.Schema(
     },
     p_p_plot: {
       type: Number,
+      default: 0
     },
     n_c_piece: {
       type: Number,
@@ -74,6 +75,7 @@ const assignSchema = new mongoose.Schema(
         "18 Months Plan",
         "24 Months Plan",
         "30 Months Plan",
+        "48 Months Plan",
         "3 Years",
         "5 Years",
       ],

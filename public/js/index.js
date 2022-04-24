@@ -44,10 +44,16 @@ searchBox.forEach((box) => {
    for (let i = 0; i < dataBase.length; i++) {
      let row = ` <tr> 
                  <td> ${i + 1} </td>
-                 <td><a href="/api/v2/customers/${dataBase[i]._id}">${dataBase[i].name.toUpperCase()}</a></td>
-                 <td>${dataBase[i].address ? dataBase[i].address : 'No Address' }</td>       
-                 <td>${dataBase[i].email ? dataBase[i].email : 'No Email' }</td>       
-                 <td>${dataBase[i].phone ? dataBase[i].phone : 'No Phone'}</td> 
+                 <td><a href="/api/v2/customers/${dataBase[i]._id}">${dataBase[
+       i
+     ].name.toUpperCase()}</a></td>
+                 <td>${
+                   dataBase[i].address ? dataBase[i].address : "No Address"
+                 }</td>       
+                 <td>${
+                   dataBase[i].email ? dataBase[i].email : "No Email"
+                 }</td>       
+                 <td>${dataBase[i].phone ? dataBase[i].phone : "No Phone"}</td> 
                  <td class="d-flex justify-content-around">
 
                  <a href="/api/v2/customers/${
@@ -58,9 +64,10 @@ searchBox.forEach((box) => {
                  }"><i class="las la-edit mx-2 la-2x-size"></i></a>
 
                  <form action="/api/v2/customers/delete/${dataBase[i]._id}?_method=DELETE" method="POST">
-                  <a onClick="doSomething()"><i class="las la-trash la-2x-size"></i></a>
-                 <input type="submit" value="delete" class="d-none" id="searchDelete">
+                  <a onClick="doSomething(this)"><i class="las la-trash la-2x-size"></i></a>
+                  <input type="submit" value="delete" class="d-none" id="searchDelete">
                  </form>
+
                  <p> <a href="/api/v2/assign/cust/${
                    dataBase[i]._id
                  }">Assign </a></p>
@@ -96,7 +103,7 @@ for (let i = 0; i < deleBtn.length; i++) {
   });
 }
 
- function doSomething(){
+ function doSomething(e){
    Swal.fire({
      title: "Are you sure?",
      text: "You won't be able to revert this!",
@@ -108,10 +115,8 @@ for (let i = 0; i < deleBtn.length; i++) {
      confirmButtonText: "Yes, delete it!",
    }).then((result) => {
      if (result.isConfirmed) {
-       let searchInput = document.getElementById("searchDelete");
-       searchInput.click()
-       Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      
+      e.nextElementSibling.click()
+      Swal.fire("Deleted!", "Your file has been deleted.", "success");
      }
    });
  }

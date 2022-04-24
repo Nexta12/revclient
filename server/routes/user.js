@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const { mustBeAdminOrStaff, mustBeAdmin, ensureLoggedin, usernameToLowerCase  } = require('../middleware/authe');
+const { mustBeAdminOrStaff, mustBeAdmin, ensureLoggedin, usernameToLowerCase } = require('../middleware/authe');
 const { check, validationResult } = require("express-validator");
 const path = require("path");
 const bcrypt = require("bcrypt");
@@ -46,72 +46,53 @@ router.post(
   "/add_new_staff",
   ensureLoggedin,
   mustBeAdmin,
-  [
-    check("username")
-      .trim()
-      .toLowerCase()
-      .notEmpty()
-      .withMessage("Username cannot be empty !!! ")
-      .custom((value, { req }) => {
-        return User.findOne({ username: req.body.username }).then((user) => {
-          if (user) {
-            return Promise.reject("This Username Already Exists");
-          }
-        });
-      })
-      .isLength({ min: 4 })
-      .withMessage("Username is too Short"),
-    check("email")
-      .trim()
-      .toLowerCase()
-      .isEmail()
-      .normalizeEmail()
-      .custom((value, { req }) => {
-        return User.findOne({ email: req.body.email }).then((user) => {
-          if (user) {
-            return Promise.reject("This Email is Already Registered");
-          }
-        });
-      }),
-    check("password")
-      .notEmpty()
-      .withMessage("Please Provide Password")
-      .isLength({ min: 6 })
-      .withMessage("Password must be at least 6 Characters Long")
-      .trim(),
-      check("password2")
-        .exists()
-        .custom((value, { req }) => {
-          if (value !== req.body.password) {
-            throw new Error("The passwords is not same!!!");
-          }
-          return true;
-        }),
-    check("firstname")
-      .trim()
-      .notEmpty()
-      .withMessage("Please Provide First Name"),
-    check("lastname").trim().notEmpty().withMessage("Please Provide Last Name"),
-    check("role").notEmpty().withMessage("Please Select Register As"),
-  ],
+  // [
+  //   check("username")
+  //     .trim()
+  //     .toLowerCase()
+  //     .notEmpty()
+  //     .withMessage("Username cannot be empty !!! ")
+  //     .custom((value, { req }) => {
+  //       return User.findOne({ username: req.body.username }).then((user) => {
+  //         if (user) {
+  //           return Promise.reject("This Username Already Exists");
+  //         }
+  //       });
+  //     }),
+  //   check("email")
+  //     .trim()
+  //     .toLowerCase()
+  //     .isEmail()
+  //     .normalizeEmail()
+  //     .custom((value, { req }) => {
+  //       return User.findOne({ email: req.body.email }).then((user) => {
+  //         if (user) {
+  //           return Promise.reject("This Email is Already Registered");
+  //         }
+  //       });
+  //     }),
+  //   check("password")
+  //     .notEmpty()
+  //     .withMessage("Please Provide Password")
+  //     .trim(),
+  //     check("password2")
+  //       .exists()
+  //       .custom((value, { req }) => {
+  //         if (value !== req.body.password) {
+  //           throw new Error("The passwords is not same!!!");
+  //         }
+  //         return true;
+  //       }),
+  //   check("firstname")
+  //     .trim()
+  //     .notEmpty()
+  //     .withMessage("Please Provide First Name"),
+  //   check("role").notEmpty().withMessage("Please Select Register As"),
+  // ],
   usernameToLowerCase,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const {
-        username,
-        firstname,
-        lastname,
-        othernames,
-        email,
-        password,
-        dept,
-        position,
-        phone,
-        role,
-        branch,
-        profilePic,
-      } = req.body;
       const errorAlert = errors.array();
       res.render("add_new_staff", {
         layout: "../layouts/dashboardLayout",
@@ -121,62 +102,64 @@ router.post(
       });
     } else {
       try {
+          // Image processing
+      
+         
+        // password Hashing
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+        // New Staff Particulars
+        const newStaff = {
+          username: req.body.username,
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          othernames: req.body.othernames,
+          email: req.body.email,
+          password: hashedPassword,
+          dept: req.body.dept,
+          position: req.body.position,
+          phone: req.body.phone,
+          role: req.body.role,
+          branch: req.body.branch,
+        };
+
+        //No file uploaded
         if (!req.files || Object.keys(req.files).length === 0) {
-          //No file uploaded
-          const salt = await bcrypt.genSalt(10);
-          const hashedPassword = await bcrypt.hash(req.body.password, salt);
-           await User.create({
-            username: req.body.username,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            othernames: req.body.othernames,
-            email: req.body.email,
-            password: hashedPassword,
-            dept: req.body.dept,
-            position: req.body.position,
-            phone: req.body.phone,
-            role: req.body.role,
-            branch: req.body.branch,
-          });
+          await User.create(newStaff);
           req.flash("success_msg", "Your registration was successful");
           res.redirect("/api/v2/users/staff");
-        }{
-          //  File/ image is uploaded
+
+        }else{
+          // File image is uploaded
           const file = req.files.profilePic;
-
           const fileName = new Date().getTime().toString() + path.extname(file.name);
-           
           const savePath = path.resolve("public/img/uploads/" + fileName);
-          if (file.truncated) {
-            throw new Error("Uploaded File is too big, should not be morethan 8 MB");
-          }
 
-          if (
-            file.mimetype !== ("image/jpeg" || "image/png" || "image/svg+xml")
-          ) {
+          if (file.truncated) {
             throw new Error(
-              "Uploaded file type unsupported, only jpeg, jpg, png"
+              "Uploaded File is too big, should not be morethan 8 MB"
             );
+          }else{
+             await file.mv(savePath);
+             await User.create({
+               username: req.body.username,
+               firstname: req.body.firstname,
+               lastname: req.body.lastname,
+               othernames: req.body.othernames,
+               email: req.body.email,
+               password: hashedPassword,
+               dept: req.body.dept,
+               position: req.body.position,
+               phone: req.body.phone,
+               role: req.body.role,
+               branch: req.body.branch,
+               profilePic: fileName,
+             });
+             req.flash("success_msg", "Your registration was successful");
+             res.redirect("/api/v2/users/staff");
           }
-          await file.mv(savePath);
-          const salt = await bcrypt.genSalt(10);
-          const hashedPassword = await bcrypt.hash(req.body.password, salt);
-            await User.create({
-            username: req.body.username,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            othernames: req.body.othernames,
-            email: req.body.email,
-            password: hashedPassword,
-            dept: req.body.dept,
-            position: req.body.position,
-            phone: req.body.phone,
-            role: req.body.role,
-            branch: req.body.branch,
-            profilePic: fileName,
-          });
-          req.flash("success_msg", "Your registration was successful");
-          res.redirect("/api/v2/users/staff");
+         
         }
       } catch (error) {
        req.flash("error_msg", error.message);

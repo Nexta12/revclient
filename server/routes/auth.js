@@ -32,101 +32,101 @@ router.get("/forgot-password", ensureGuest, (req, res) => {
 // Register Hander
 // Method Post
 
-router.post("/register", usernameToLowerCase, async (req, res) => {
-  const { username, name, email, password, password2 } = req.body;
-  // Validate fields
-  let errors = [];
-  if (!username || !password || !email || !name) {
-    errors.push({ msg: "Please Fill All Empty Fields" });
-  }
+// router.post("/register", usernameToLowerCase, async (req, res) => {
+//   const { username, name, email, password, password2 } = req.body;
+//   // Validate fields
+//   let errors = [];
+//   if (!username || !password || !email || !name) {
+//     errors.push({ msg: "Please Fill All Empty Fields" });
+//   }
 
-  if (username.length < 4) {
-    errors.push({ msg: "Username is too Short" });
-  }
-  //  check Password Match
-  if (password != password2 && username != "" && !username.length < 4) {
-    errors.push({ msg: "Passwords do not match" });
-  }
-  //  check for password Length
-  if (password.length < 6 && username != "" && !username.length < 4) {
-    errors.push({ msg: "Password should be at least Six or More Characters" });
-  }
-  //  check for valid email
+//   if (username.length < 4) {
+//     errors.push({ msg: "Username is too Short" });
+//   }
+//   //  check Password Match
+//   if (password != password2 && username != "" && !username.length < 4) {
+//     errors.push({ msg: "Passwords do not match" });
+//   }
+//   //  check for password Length
+//   if (password.length < 6 && username != "" && !username.length < 4) {
+//     errors.push({ msg: "Password should be at least Six or More Characters" });
+//   }
+//   //  check for valid email
 
-  // Check for Password Strength
+//   // Check for Password Strength
 
-  if (errors.length > 0) {
-    res.render("register", {
-      title: "RevolutionPlus: Register",
-      errors,
-      username,
-      name,
-      password,
-      password2,
-    });
-  } else {
-    try {
-      const userExists = await User.findOne({ username: username });
-      if (userExists) {
-        let errors = [];
-        errors.push({ msg: "This Username Already Exists" });
-        res.render("register", {
-          title: "RevolutionPlus: Register",
-          errors,
-          username,
-          name,
-          email,
-          password,
-          password2,
-        });
-      } else {
-        try {
-          const emailSearch = await User.findOne({ email: email });
-          if (emailSearch) {
-            let errors = [];
-            errors.push({ msg: "This Email Already Exists" });
-            res.render("register", {
-              title: "RevolutionPlus: Register",
-              errors,
-              username,
-              name,
-              email,
-              password,
-              password2,
-            });
-          } else {
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
-            const newUser = await User.create({
-              username,
-              name,
-              email,
-              password: hashedPassword,
-            });
-            // send success email to user
-             sendEmail(newUser.email, "Successful Registration", messages.Registration(newUser.name));
-            req.flash(
-              "success_msg",
-              "Your registration was successful, Please Login"
-            );
-            res.redirect("/api/v2/secure/login");
-          }
-        } catch (error) {
-          res.render("errors/500", {
-            title: "Error",
-          });
+//   if (errors.length > 0) {
+//     res.render("register", {
+//       title: "RevolutionPlus: Register",
+//       errors,
+//       username,
+//       name,
+//       password,
+//       password2,
+//     });
+//   } else {
+//     try {
+//       const userExists = await User.findOne({ username: username });
+//       if (userExists) {
+//         let errors = [];
+//         errors.push({ msg: "This Username Already Exists" });
+//         res.render("register", {
+//           title: "RevolutionPlus: Register",
+//           errors,
+//           username,
+//           name,
+//           email,
+//           password,
+//           password2,
+//         });
+//       } else {
+//         try {
+//           const emailSearch = await User.findOne({ email: email });
+//           if (emailSearch) {
+//             let errors = [];
+//             errors.push({ msg: "This Email Already Exists" });
+//             res.render("register", {
+//               title: "RevolutionPlus: Register",
+//               errors,
+//               username,
+//               name,
+//               email,
+//               password,
+//               password2,
+//             });
+//           } else {
+//             const salt = await bcrypt.genSalt(10);
+//             const hashedPassword = await bcrypt.hash(password, salt);
+//             const newUser = await User.create({
+//               username,
+//               name,
+//               email,
+//               password: hashedPassword,
+//             });
+//             // send success email to user
+//              sendEmail(newUser.email, "Successful Registration", messages.Registration(newUser.name));
+//             req.flash(
+//               "success_msg",
+//               "Your registration was successful, Please Login"
+//             );
+//             res.redirect("/api/v2/secure/login");
+//           }
+//         } catch (error) {
+//           res.render("errors/500", {
+//             title: "Error",
+//           });
           
-        }
-      }
-    } catch (error) {
-      res.render("errors/500", {
-        title: "Error",
-      });
+//         }
+//       }
+//     } catch (error) {
+//       res.render("errors/500", {
+//         title: "Error",
+//       });
 
      
-    }
-  }
-});
+//     }
+//   }
+// });
 
 
 

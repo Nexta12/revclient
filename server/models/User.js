@@ -77,7 +77,7 @@ const userSchema = new mongoose.Schema(
         "IT Department",
         "Accounts",
         "Customer Care",
-        "Logistics",
+        "General Manager",
         "Others",
       ],
     },

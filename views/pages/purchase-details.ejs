@@ -40,7 +40,7 @@
                                                        <% }else{ %>
                                                         <small class="text-revplus">
                                                             Outstanding Balance: <span class="mx-5 text-danger bg-light px-2 fs-5"> &#x20A6; <%=
-                                                                    numFomatter(proDetail.grandDebt) %> </span>
+                                                                    numFomatter(proDetail.grandDebt.toFixed()) %> </span>
                                                         </small>
                                                         <% } %>
                                                         <small>
@@ -62,9 +62,9 @@
                                                 <div class="float-end">
                                                     <% if(user.role==="Admin" || user.role==="Staff" ){ %>
 
-                                                        <div class="col">
+                                                        <div class="col my-3">
                                                             <a href="/api/v2/assign/edit/<%=propertyOwner.id %>/<%= proDetail.propeId %>/<%= proDetail.uuid %>"
-                                                                class="btn btn-info shadow-sm text-white">Update details <i class="las la-pencil-alt"></i> </a>
+                                                                class="btn btn-info shadow-sm text-white ">Update details <i class="las la-pencil-alt"></i> </a>
                                                         </div>
 
                                                        
@@ -347,13 +347,13 @@
                                                 <div class="dropdown-divider"></div>
                                                 <div class="row  fs-5  py-3">
                                                     <div class="col">Total Amount Paid</div>
-                                                    <div class="col text-end">&#x20A6; <%=numFomatter(proDetail.grandPaid) %>
+                                                    <div class="col text-end">&#x20A6; <%=numFomatter(proDetail.grandPaid.toFixed()) %>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown-divider"></div>
                                                 <div class="row  fs-5  py-3">
                                                     <div class="col">Total Balance</div>
-                                                    <div class="col text-end">&#x20A6; <%= numFomatter(proDetail.grandDebt) %>
+                                                    <div class="col text-end">&#x20A6; <%= numFomatter(proDetail.grandDebt.toFixed()) %>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown-divider"></div>

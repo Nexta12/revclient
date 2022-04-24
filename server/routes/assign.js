@@ -760,7 +760,7 @@ router.put("/edit/:id/:propeId/:uuid", async (req, res) => {
             sendSms(
               user.phone,
               messages.PropAssignsms(
-                customer.name,
+                user.name,
                 grandPaid.toLocaleString(),
                 property.name
               )

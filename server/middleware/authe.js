@@ -80,26 +80,48 @@ module.exports = {
     }
   },
 
-  sendSms: async (to, msg) => {
+  sendESms: (to, msg) => {
+    const api = {
+      base: "http://api.ebulksms.com:8080/sendsms?",
+      username: "ernestez12@gmail.com",
+      apikey: "84b7d2e56ebb1ecaa7626ba4f7b3c2452ff28d9f",
+      sender: "RevolutionP",
+    };
+
+    axios
+      .get(
+        `${api.base}username=${api.username}&apikey=${api.apikey}&sender=${api.sender}&messagetext=${msg}&flash=0&recipients=${to}`
+      )
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  sendSms: (to, msg) => {
     const api = {
       base: "https://www.bulksmsnigeria.com/api/v1/sms/create?",
       api_token: "yenEakqw5sTSCJ4pYf0D77GRa3RuFbqTPCUZWk4PxO4aAmKBNQ9b8jLhDFKA",
-      from: "RevolutionPlus",
+      from: "RevolutionP",
     };
 
-    try {
-      await axios.post(
+    axios
+      .post(
         `${api.base}api_token=${api.api_token}&from=${api.from}&to=${to}&body=${msg}&dnd=2`
-      );
-      console.log("Sms Sent");
-    } catch (error) {
-      throw new Error(error);
-    }
+      )
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((err) => {
+        console.log("Too much error");
+      });
   },
 
   sendEmail: (to_email, subject, message, cc) => {
     let mailOptions = {
-      from: '"RevolutionPlus"<customercare@revclient.com>',
+      from: '"RevolutionPlus"<info@revolutionplusproperty.com>',
       to: to_email,
       bcc: cc,
       subject: subject,
@@ -107,11 +129,16 @@ module.exports = {
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
+      if (error.code == "EENVELOPE") {
+        console.log("Invalid Email Detected");
         //   throw new Error("An error occured while sending the mail");
+      } else if (error.code == "EDNS") {
+        console.log(
+          "No Internet Services, please connect to internet to send emails"
+        );
+      } else {
+        console.log("Message sent : %s", info.messageId);
       }
-      console.log("Message sent : %s", info.messageId);
     });
   },
 
@@ -137,36 +164,75 @@ module.exports = {
         `;
     },
     PropAssignemail: (name, payment, propname) => {
-      return ` <h3> Dear ${name},</h3> <br>
+      return `
+        <div class="container">
+                          <div class="row">
+                              <div class="col">
+                                <div style="background-color: #632264; padding-top: 3px; padding-bottom: 3px;">
+                                    <h3 style="color: white; text-align: center;">Payment Confirmation !!!</h3>
+                                </div>
 
-         We appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${payment.toLocaleString()} for ${propname} please visit our client's portal www.revclient.com to view more
+                              </div>
+                          </div>
+                      </div>
+      
+      <h3> Dear ${name},</h3> <br>
+
+        <p style="font-size: 18px; word-spacing: 1px;"> We appreciate the sacrifice of your patronage, this is to notify you that we received your payment of <strong> NGN ${payment.toLocaleString()} </strong> for <strong>${propname} </strong> please visit our client's portal www.revclient.com to view more details about your payment.</p>
               <br>
                <br>
                <br>
-               Customer Care dept<br>
-               RevolutionPlus property Limited
+               <div class="container">
+                          <div class="row">
+                              <div class="col">
+                                <div style="background-color: #6C757D; padding-top: 3px; padding-bottom: 3px;">
+                                    <h3 style="color: white; text-align: center;">
+               Customer Service Department<br>
+               For: RevolutionPlus property</h3>
+                                </div>
 
-               <br>
-               <p>All rights reserved, Revolution Plus Properties LLC </p>
+                              </div>
+                          </div>
+                      </div>
         `;
     },
 
     payReminder: (name, debt, propname, username) => {
-      return ` <h3> Dear ${name},</h3> <br>
-        <p> We do honestly appreciate your patronage, we wish to remind you of your outstanding balance of <strong> NGN ${debt} </strong> on <strong> ${propname} </strong>. Kindly pay up to retain your contract with us. <br>Visit our portal on www.revclient.com and login with the following details.
-        <br> <strong> Username:  ${username} <br> pasword: revolutionpluspassword </strong></p>
-        to know more about your payment details.
+      return ` 
+           <div class="container">
+                          <div class="row">
+                              <div class="col">
+                                <div style="background-color: #632264; padding-top: 3px; padding-bottom: 3px;">
+                                    <h3 style="color: white; text-align: center;">Payment Reminder !!!</h3>
+                                </div>
 
-        <p> Kindly note The above password is only valid if you haven't previously changed it </p>. <br>
-          For more information, please send us a mail on info@revolutionplusproperty.com or resolution@revolutionplusproperty.com <br> You can also call us on 012557386.
+                              </div>
+                          </div>
+                      </div>
+        <h3> Dear ${name},</h3> <br>
+        <p style="font-size: 18px; word-spacing: 1px;" > We do honestly appreciate your patronage, we wish to remind you of your outstanding balance of <strong> NGN ${debt} </strong> on <strong> ${propname} </strong>. Kindly pay up to retain your contract with us. <br>Visit our portal on www.revclient.com and login with the following details.
+        <br> <strong> Username:  ${username} <br> pasword: revolutionpluspassword </strong> <br>
+        to know more about your payment details. </p>
+
+        <p style="font-size: 18px; word-spacing: 1px;" > Kindly note The above password is only valid if you haven't previously changed it </p>. <br>
+
+         <p style="font-size: 18px; word-spacing: 1px;"> For more information, please send us a mail on info@revolutionplusproperty.com or resolution@revolutionplusproperty.com <br> You can also call us on 012557386. </p>
               <br>
-
-              <p> Thank you for choosing RevolutionPlus Property. We hope to continue bringing your real estate dream to realization.</p>
-              Warm Regard. 
+              <p style="font-size: 18px; word-spacing: 1px;"> Thank you for choosing RevolutionPlus Property. We hope to continue bringing your real estate dream to realization.</p>Warm Regards. 
                <br>
                <br>
+                <div class="container">
+                          <div class="row">
+                              <div class="col">
+                                <div style="background-color: #6C757D; padding-top: 3px; padding-bottom: 3px;">
+                                    <h3 style="color: white; text-align: center;">
                Customer Service Department<br>
-               For: RevolutionPlus property
+               For: RevolutionPlus property</h3>
+                                </div>
+
+                              </div>
+                          </div>
+                      </div>
         `;
     },
 
@@ -178,23 +244,55 @@ module.exports = {
     },
     customerRegEmail: (name, username, password) => {
       return `
+           <div class="container">
+                          <div class="row">
+                              <div class="col">
+                                <div style="background-color: #632264; padding-top: 3px; padding-bottom: 3px;">
+                                    <h3 style="color: white; text-align: center;">Portal Registration !!!</h3>
+                                </div>
+
+                              </div>
+                          </div>
+                      </div>
              <h4> Dear ${name}, </h4>
-            <p> You have been registered on the RevolutionPlus property Portal, www.revclient.com please login anytime with the following details. </p>
-            username: ${username}, <br>
-            password: ${password} 
-            <p> Thank you for choosing RevolutionPlus Property. We hope to continue bringing your real estate dream to realization.</p>
+            <p style="font-size: 18px; word-spacing: 1px;"> You have been registered on the RevolutionPlus property Portal, www.revclient.com please login anytime with the following details. </p>
+           <strong> username: ${username}, <br>
+            password: ${password} </strong>
+            <p style="font-size: 18px; word-spacing: 1px;"> Thank you for choosing RevolutionPlus Property. We hope to continue bringing your real estate dream to realization.</p>
               Warm Regard. 
                <br>
                <br>
-               Customer Service Department<br>
-               For: RevolutionPlus property
+                  <div class="container">
+                          <div class="row">
+                              <div class="col">
+                                <div style="background-color: #6C757D; padding-top: 3px; padding-bottom: 3px;">
+                                    <h3 style="color: white; text-align: center;">Customer Service Department<br>
+               For: RevolutionPlus property</h3>
+                                </div>
+
+                              </div>
+                          </div>
+                      </div>
          
          `;
     },
-    customerRegSms: (username, password)=>{
+    customerRegSms: (username, password) => {
       return ` 
         Dear Esteemed client, you've been registered of our portal, www.revclient.com please login with the following details username: ${username}, password: ${password}, to know more about your payment details. you can also call us on 012557386 
       `;
+    },
+
+    easterEmail: (user) => {
+      return `
+              Dear ${user}, <br> Easter is the time to spread the joy and happiness that Christ has brought about into our lives through his death and resurrection. Wishing all our esteemed customers a beautiful Easter celebrations. 
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              
+               From all of us at RevolutionPlus Property Ltd.
+       `;
     },
   },
 };

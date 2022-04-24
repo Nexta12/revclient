@@ -10,13 +10,17 @@
                    
                     <!-- start -->
 
-                    <section class="table ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="mx-auto">
+                            
+                    <section class="table p-5">
                        
                         <div class="row py-3 mx-3 custable-heights">
                             <%- include('../partials/flash_messages') %>
                             <div class="col overflow-auto mb-3">
                                
-                                <table class="table bg-white shadow table-stri" id="customersTable2">
+                                <table class="table bg-white shadow table-stri p-5 fs-5" id="customersTable2">
                                     <thead>
                                         <div class="row justify-content-between my-2">
 
@@ -72,12 +76,12 @@
                                                 </td>
                                                
                                                 <td class="d-flex justify-content-around">
-                                                    <a href="/api/v2/customers/<%= customer.id %>"><i class="las la-eye la-2x-size"></i></a>
-                                                    <a href="/api/v2/customers/edit/<%= customer.id %>"><i class="las la-edit mx-2 la-2x-size"></i></a>
+                                                    <a href="/api/v2/customers/<%= customer.id %>"><i class="las la-eye la-2x-size" title="View"></i></a>
+                                                    <a href="/api/v2/customers/edit/<%= customer.id %>"><i class="las la-edit mx-2 la-2x-size" title="Edit"></i></a>
                                         
                                                     <form action="/api/v2/customers/delete/<%= customer.id %>?_method=DELETE" method="POST">
                                         
-                                                        <a class="deletConfirm"><i class="las la-trash la-2x-size"></i></a>
+                                                        <a class="deletConfirm"><i class="las la-trash la-2x-size" title="Delete"></i></a>
                                         
                                                         <input type="submit" value="delete" class="d-none " id="deleteInput">
                                         
@@ -137,6 +141,9 @@
                         </div>
                     
                     </section>
+                        </div>
+                        </div>
+                        </div>
 
                     <!-- stop -->
 

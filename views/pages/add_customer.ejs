@@ -15,17 +15,20 @@
                         </div>
                     </div>
 
-                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-10 mx-auto">
 
                    <div class="container py-3 mt-2">
-                    <form action="/api/v2/customers/add_new_customer" method="POST" class="shadow bg-white form-detail" >
-                        <%- include('../partials/flash_messages') %>
+                    <form action="/api/v2/customers/add_new_customer" method="POST" class="shadow bg-white form-detail p-5" >
+                          
                        <!-- Start -->
 
                         <h4 class="text-center text-muted fw-5">Register A Customer </h4>
                         
                         <div class="row">
                             <div class="col-lg-3 text-center">
+                                
                                 
                                 <img id="profileImage" src="/img/man.png" alt="photo" width="120" height="120"
                                     class="rounded-circle bg-secondary profileImage">
@@ -38,6 +41,7 @@
                             </div>
                         
                             <div class="col-lg-9">
+                                <%- include('../partials/flash_messages') %>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-4 col-lg-4 ">
                                         <p><label for="username">Username*</label></p>
@@ -122,17 +126,17 @@
                                     </div>
                                 </div>
                         
-                    
+                                <div class="d-flex py-4">
+                                
+                                    <a href="/api/v2/customers/customers/1" class="btn btn-warning w-50 me-2">Cancel</a>
+                                
+                                    <button type="submit" class="btn btn-outline-secondary-button w-50 ms-2">Submit</button>
+                                
+                                </div>
                                 
                             </div>
 
-                            <div class="d-flex py-4">
-                                
-                             <a href="/api/v2/customers/customers" class="btn btn-warning w-50 me-2">Cancel</a>
-                               
-                             <button type="submit" class="btn btn-outline-secondary-button w-50 ms-2">Submit</button>
-                            
-                            </div>
+                           
                         
                         </div>
                        <!-- Stop -->
@@ -140,7 +144,9 @@
 
                     </form>
                    </div>
-
+                </div>
+                </div>
+                </div>
 
 
                 </main>
