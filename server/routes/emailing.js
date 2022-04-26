@@ -94,7 +94,7 @@ async function getCustomers() {
       });
 
       if (day == 25 && broadCastTime == 20) {
-        task.stop();
+        const stoppedTask =  task.stop();
       }
       // Monthly Test Message
       // filteredDebtors.forEach((debtor) => {
