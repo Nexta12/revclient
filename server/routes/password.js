@@ -48,7 +48,7 @@ router.post("/forgot-password", async (req, res) => {
 
     // send mail with defined transport object
     let mailOptions = await transporter.sendMail({
-      from: '"RevolutionPlus 👻"<tech@revclient.com>', // sender address
+      from: '"RevolutionPlus"<tech@revclient.com>', // sender address
       to: user.email, // list of receivers
       subject: "Password Reset Request", // Subject line
       text: "", // plain text body
