@@ -1,5 +1,4 @@
 const axios = require("axios");
-const router = require("express").Router();
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
@@ -115,13 +114,13 @@ module.exports = {
         console.log(result.data);
       })
       .catch((err) => {
-        console.log("Too much error");
+        console.log('An error occured')
       });
   },
 
   sendEmail: (to_email, subject, message, cc) => {
     let mailOptions = {
-      from: '"RevolutionPlus"<info@revolutionplusproperty.com>',
+      from: '"RevolutionPlus"<tech@revclient.com>',
       to: to_email,
       bcc: cc,
       subject: subject,
@@ -137,26 +136,13 @@ module.exports = {
           "No Internet Services, please connect to internet to send emails"
         );
       } else {
-        console.log("Message sent : %s", info.messageId);
+        console.log("Message sent");
       }
     });
   },
 
   messages: {
-    Registration: (name) => {
-      return `<h3> Dear ${name} </h3> <br>
-               <p>Thank you for your Interest in RevolutionPlus property Limited, We are glad to be of service to you, kindly login and check out our fast selling estates and lands across te country. </p>
-               <br>
-               <br>
-               <br>
-               Customer Care dept<br>
-               RevolutionPlus property Limited
-
-               <br>
-               <p>All rights reserved, Revolution Plus Properties LLC </p>
-               `;
-    },
-
+  
     PropAssignsms: (name, payment, propname) => {
       return `  
          Dear ${name}, We appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${payment} for ${propname}. Please visit our portal on www.revclient.com to view more
@@ -276,23 +262,6 @@ module.exports = {
          
          `;
     },
-    customerRegSms: (username, password) => {
-      return ` 
-        Dear Esteemed client, you've been registered of our portal, www.revclient.com please login with the following details username: ${username}, password: ${password}, to know more about your payment details. you can also call us on 012557386 
-      `;
-    },
-
-    easterEmail: (user) => {
-      return `
-              Dear ${user}, <br> Easter is the time to spread the joy and happiness that Christ has brought about into our lives through his death and resurrection. Wishing all our esteemed customers a beautiful Easter celebrations. 
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              
-               From all of us at RevolutionPlus Property Ltd.
-       `;
-    },
+ 
   },
 };

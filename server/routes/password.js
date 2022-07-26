@@ -5,7 +5,6 @@ const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
-
 // get password request Page
 router.get("/forgot-password", (req, res) => {
   res.render("forgot-password", {
@@ -16,14 +15,13 @@ router.get("/forgot-password", (req, res) => {
 // post requested password handler
 router.post("/forgot-password", async (req, res) => {
   // get user based on posted email
-  
+
   try {
     const user = await User.findOne({ email: req.body.email });
 
-     if(!user){
-       throw new Error("This Email doesn't exist on this Portal");
-      
-     }
+    if (!user) {
+      throw new Error("This Email doesn't exist on this Portal");
+    }
     // user exists
     // // generate random reset token
     const secret = process.env.PASSWORD_SECRE + user.password;
@@ -50,40 +48,35 @@ router.post("/forgot-password", async (req, res) => {
 
     // send mail with defined transport object
     let mailOptions = await transporter.sendMail({
-      from: '"RevolutionPlus 👻"<techsupport@revclient.com>', // sender address
+      from: '"RevolutionPlus 👻"<tech@revclient.com>', // sender address
       to: user.email, // list of receivers
       subject: "Password Reset Request", // Subject line
       text: "", // plain text body
-      html: `<h3> Please Click on the link Below to reset your password </h3> <br>
-              ${link}
+      html: `<p> Please Click this:<b> <a href="${link}">Password Reset Link</a> </b> to change your password</p> <br>
+            
 
               <p>All rights reserved, Revolution Plus Properties LLC </p>
       `, // html body
     });
 
     transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        throw new Error("An error occured while sending the mail");
+      }
 
-     if (error) {
-       throw new Error("An error occured while sending the mail");
-     }
+      // console.log("Message sent");
 
-     console.log("Message sent : %s", info.messageId);
-     console.log("Preview URL : %s", nodemailer.getTestMessageUrl(info));
-     
-     res.render("forgot-password", {
-       title: "RevolutionPlus: Forgot password ",
-       msg: "Reset Password Link sent to your email",
-     });
-     
+      res.render("forgot-password", {
+        title: "RevolutionPlus: Forgot password ",
+        msg: "Reset Password Link sent to your email",
+      });
     });
-
   } catch (error) {
     res.render("forgot-password", {
       title: "RevolutionPlus: Forgot password ",
       msgerror: error.message,
     });
   }
-
 });
 
 // get Reset page
@@ -185,7 +178,7 @@ router.post("/reset-password/:id/:token", async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    res.send(error.message);
+ 
   }
 });
 

@@ -153,12 +153,15 @@ router.post("/login", usernameToLowerCase, (req, res, next) => {
 });
 
 // logout Handler
-router.get("/logout", async (req, res) => {
-  req.logOut();
-  req.flash("success_msg", "You're now logged out");
-  res.redirect("/api/v2/secure/login");
+router.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+     req.flash("success_msg", "You're now logged out");
+     res.redirect("/api/v2/secure/login");
 
-
+  });
 });
 
 module.exports = router;

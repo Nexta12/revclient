@@ -14,28 +14,32 @@
                         <div class="row">
                             <div class="mx-auto">
                             
-                    <section class="table p-5">
-                       
+                    <section class="table ">
+                        <div class="row justify-content-between my-5">
+                        
+                            <div class="col-md-4">
+                                <h2>All Customers</h2>
+                            </div>
+                        
+                            <div class="col-md-4">
+                                <div class="c-search-">
+                                    <div class="search-wrapper text-center">
+                                        <input type="text" id="search-box" class="search-box" placeholder="Search customer">
+                                        <!-- <span class="las la-search"></span> -->
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-md-4 text-end my-2"><a href="/api/v2/customers/add_new_customer" class="btn btn-info px-5">+ Add
+                                    New</a></div>
+                        </div>
                         <div class="row py-3 mx-3 custable-heights">
                             <%- include('../partials/flash_messages') %>
                             <div class="col overflow-auto mb-3">
-                               
-                                <table class="table bg-white shadow table-stri p-5 fs-5" id="customersTable2">
+
+                                <table class="table bg-white shadow table-stri p-5" id="customersTable2">
                                     <thead>
-                                        <div class="row justify-content-between my-2">
-
-                                        <div class="col-md-4"><h2>All Customers</h2></div>
-
-                                        <div class="col-md-4"><div class="c-search-">
-                                            <div class="search-wrapper text-center">
-                                                <input type="text" id="search-box" class="search-box" placeholder="Search customer">
-                                                <!-- <span class="las la-search"></span> -->
-                                            </div>
-                                        </div> </div>
-
-                                        <div class="col-md-4 text-end my-2"><a href="/api/v2/customers/add_new_customer" class="btn btn-info px-5">+ Add New</a></div>
-                                        </div>
-                                          
+                                        
                                         <tr>
                                             <tr>
                                                 <th>No</th>
@@ -146,12 +150,6 @@
                         </div>
 
                     <!-- stop -->
-
-
-
-                  
-               
-                  
                     
                 </main>
 

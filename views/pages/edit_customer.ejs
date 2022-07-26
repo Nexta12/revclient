@@ -60,9 +60,14 @@
                                             <input type="text" id="phone" class="form-control" name="phone" value="<%= singleUserContent.phone %>">
                                         </div>
                                     </div>
+                                    <% if(user.role == 'Admin'){ %>
                                     <div class="col-md-6">
-                                       
+                                        <div>
+                                            <label for="username">Change Password</label>
+                                            <input type="text" id="password" class="form-control" name="password" value="">
+                                        </div>
                                     </div>
+                                    <% } %>
                                 </div>
                                 <div class="row my-2">
                                     <div class="col text-center text-muted fw-4">

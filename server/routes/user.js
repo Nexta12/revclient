@@ -209,12 +209,10 @@ router.get("/edit/:id", ensureLoggedin, async (req, res) => {
 });
 
 // create Updating a User account/edit profile
-router.put(
-  "/edit/:id",
-  ensureLoggedin,
-  usernameToLowerCase,
-  async (req, res) => {
-    if (req.user.id === req.params.id || req.user.role === "Admin" && req.body.username != 'baloteli') {
+router.put("/edit/:id",ensureLoggedin,usernameToLowerCase, async (req, res) => {
+  //  validate the user
+    if (req.user.id === req.params.id || req.user.role === "Admin") {
+
 
       try {
         if (!req.files || Object.keys(req.files).length === 0) {
@@ -311,6 +309,8 @@ router.put(
        req.flash("error_msg", error.message);
        res.redirect("/api/v2/users/edit-profile");
       }
+
+
     } else {
       req.flash("error_msg", "You're not authorized to perform this action");
       res.redirect("/api/v2/users/edit-profile");

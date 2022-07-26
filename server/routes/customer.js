@@ -207,6 +207,11 @@ router.get(
 
 // updating a Customer detail
 router.put("/:id", ensureLoggedin, mustBeAdminOrStaff, async (req, res) => {
+ 
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      req.body.password = await bcrypt.hash(req.body.password, salt);
+    }
   try {
     await User.findByIdAndUpdate(
       req.params.id,
@@ -218,10 +223,9 @@ router.put("/:id", ensureLoggedin, mustBeAdminOrStaff, async (req, res) => {
     req.flash("success_msg", "Update Successfull");
     res.redirect("/api/v2/customers/customers/1");
   } catch (error) {
-    res.render("errors/500", {
-      title: "Error",
-    });
+    console.log(error)
   }
+
 });
 
 // get one customer properties

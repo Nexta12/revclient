@@ -1,19 +1,12 @@
 const router = require("express").Router();
-const nodemailer = require("nodemailer");
 const User = require("../models/User");
 const cron = require("node-cron");
 const validator = require("email-validator");
-const {
-  sendSms,
-  sendEmail,
-  sendESms,
-  objectLength,
-  messages,
-  numFomatter,
-} = require("../middleware/authe");
+const {sendEmail,sendESms,objectLength,messages,numFomatter} = require("../middleware/authe");
 
 async function getCustomers() {
-  //    read latest registered customers within one month
+
+  //read latest registered customers within one month
   const date = new Date();
   const lastMonth = new Date(date.setMonth(date.getMonth() - 1)); //last month date
   const previoustMonth = new Date(
@@ -37,8 +30,7 @@ async function getCustomers() {
   ];
   let thisMonth = month[today.getMonth()];
   let thisYear = today.getFullYear();
-  let broadCastTime = today.getHours(); // get exact time to broadcast
-  let broadcastMin = today.getMinutes();
+  
 
   //  extract email batch
   const extractEmail = function getRandom(arr, n) {
@@ -55,84 +47,75 @@ async function getCustomers() {
     return result.forEach((item) => {
       const validEmail = validator.validate(item.email);
       if (validEmail == true) {
-        sendEmail(
-          item.email,
-          "Payment Reminder",
-          messages.payReminder(
-            item.name,
-            item.properties.grandDebt.toLocaleString(),
-            item.properties.name,
-            item.username
-          )
-        );
+            sendEmail(
+              item.email,
+              "Payment Reminder !!!",
+              messages.payReminder(item.name)
+            );
+            
+
       }
     });
   };
 
+
   try {
+    const estatesToRemind = [
+      "Dream City House",
+      "Dream City",
+      "Victory Park and garden",
+      "Graceland Estate",
+      "Anfield Garden",
+      "HIGHBURY BEACHFRONT",
+      "Royalty Park and Garden",
+      "Silver Spring Court",
+      "Oxford Park",
+      "Newcastle Estate",
+      "California City Estate",
+      "RUBY'S COURT",
+      "Royalty Garden Shimawa",
+      "Legend Smart City",
+      "Richmond Court and Garden 2",
+      "Lekki Crystal",
+    ];
+
     const debtors = await User.aggregate([
       // unwind their properties
       { $unwind: "$properties" },
     ]);
 
+
+    // Send to only choosen Estates from Ikeja Clients
     let filteredDebtors = [];
     debtors.forEach((debtor) => {
       if (
         Object.keys(debtor.properties).includes("propeId") &&
-        debtor.properties.grandDebt > 1
+        debtor.properties.grandDebt > 1 &&
+        estatesToRemind.includes(debtor.properties.name)
       ) {
         // filter of unnecessary Objects unwound together
         filteredDebtors.push(debtor);
+       
       }
     });
-
+  
+     
     //   send in batches 
   
-    if (day == 25 && broadCastTime == 6) {
-      let task = cron.schedule("* * * * * ", () => {
-         extractEmail(filteredDebtors, 8);
+    cron.schedule("30 10 28 * * ", ()=>{ // 1/2 past past 10 am 28th of every month
+
+      cron.schedule("01-16 10 * * * ", () => { // from 1st minute to 16th minute of 10 am send 5 per minute
+        extractEmail(filteredDebtors, 5);
+
       });
+    })
 
-      if (day == 25 && broadCastTime == 20) {
-        task.stop();
-      }
-      // Monthly Test Message
-      // filteredDebtors.forEach((debtor) => {
-      //   //  send SMS
-      //   if (!/^[0-9]{11}$/.test(debtor.phone)) {
-      //     // get only valid nigerian numbers with RegEx
-      //     return false;
-      //   } else {
-
-      //     sendESms(
-      //       debtor.phone,
-      //       messages.payReminderSms(
-      //         debtor.name,
-      //         debtor.properties.grandDebt.toLocaleString(),
-      //         debtor.properties.name,
-      //         debtor.username
-      //       )
-      //     );
-      //   }
-      // });
-    }
+   
   } catch (error) {
     console.log(error);
   }
 
-  // Monthly Mails to MD and ED
-  // Total Debt✅
-  // Total Debtors ✅
-  // Highest Debtors ✅
-  // Estate with Highest Debt
-  // Total Sales by Estate
-  // Total Email Sent ✅
-  // Total SMS Sent✅
-  // Total Estates
-  // Total Customers ✅
-  // New Customers ✅
-  // Total Allocated
-  // Total pending Allocation
+
 
   // sort.ng for Top Debtsors starts here.....................
   const topDebtors = await User.aggregate([
@@ -203,7 +186,7 @@ async function getCustomers() {
 
   // Weekly Run down get ED and MD Details
 
-  cron.schedule("15 16 * * 5",async ()=>{  // Fire at 15 mins after 4pm every Friday
+  cron.schedule("42 16 * * 5",async ()=>{  // Fire at 15 mins after 4pm every Friday
       
     const admin = await User.find({ role: "Admin" });
     admin.forEach((adm) => {
@@ -289,23 +272,13 @@ async function getCustomers() {
                       </div>
                      `
         );
-        if (adm.phone) {
-          sendESms(
-            adm.phone,
-            `Weekly Update,
-        Total Clients:${totalCustomers.toLocaleString()},
-        Debtors:${noOfDebtors.toLocaleString()},
-        Total Debt: NGN ${numFomatter(totalDebt.toPrecision(5))}
-        Check Email for more
-         `
-          );
-        }
+
       }
     });
 
   })
 
-  if (day == 28 && broadCastTime == 11) {
+  if (day == 29) {
     const admin = await User.find({ role: "Admin" });
     admin.forEach((adm) => {
       if (
@@ -346,9 +319,9 @@ async function getCustomers() {
                     <li>
                       4. Total Emails Sent => ${totalSentEmails.toLocaleString()} ✅
                     </li>
-                    <li>
-                      5. Total SMS Sent => ${totalPhonNum.toLocaleString()} ✅
-                    </li>
+                    // <li>
+                    //   5. Total SMS Sent => ${totalPhonNum.toLocaleString()} ✅
+                    // </li>
                     <li>
                       6. Total Debt by all clients =>  <strong> &#x20A6; ${numFomatter(
                         totalDebt.toPrecision(5)
@@ -398,20 +371,11 @@ async function getCustomers() {
                       </div>
                      `
         );
-        if (adm.phone) {
-          sendESms(
-            adm.phone,
-            `Update ${thisMonth},${thisYear},
-        Total Clients:${totalCustomers.toLocaleString()},
-        Debtors:${noOfDebtors.toLocaleString()},
-        Total Debt: NGN ${numFomatter(totalDebt.toPrecision(5))}
-        Check Email for more
-         `
-          );
-        }
+      
       }
     });
   }
+  
 }
 getCustomers();
 
