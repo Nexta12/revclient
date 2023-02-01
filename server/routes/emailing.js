@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const cron = require("node-cron");
 const validator = require("email-validator");
-const {sendEmail,sendESms,objectLength,messages,numFomatter} = require("../middleware/authe");
+const {sendEmail,objectLength,messages,numFomatter} = require("../middleware/authe");
 
 async function getCustomers() {
 
@@ -33,60 +33,37 @@ async function getCustomers() {
   
 
   //  extract email batch
-  const extractEmail = function getRandom(arr, n) {
-    var result = new Array(n),
-      len = arr.length,
-      taken = new Array(len);
-    if (n > len)
-      throw new RangeError("getRandom: more elements taken than available");
-    while (n--) {
-      var x = Math.floor(Math.random() * len);
-      result[n] = arr[x in taken ? taken[x] : x];
-      taken[x] = --len in taken ? taken[len] : len;
-    }
-    return result.forEach((item) => {
-      const validEmail = validator.validate(item.email);
-      if (validEmail == true) {
-            sendEmail(
-              item.email,
-              "Payment Reminder !!!",
-              messages.payReminder(item.name)
-            );
-            
-
-      }
-    });
-  };
-
+ 
 
   try {
-    const estatesToRemind = [
-      "Dream City House",
-      "Dream City",
-      "Victory Park and garden",
-      "Graceland Estate",
-      "Anfield Garden",
-      "HIGHBURY BEACHFRONT",
-      "Royalty Park and Garden",
-      "Silver Spring Court",
-      "Oxford Park",
-      "Newcastle Estate",
-      "California City Estate",
-      "RUBY'S COURT",
-      "Royalty Garden Shimawa",
-      "Legend Smart City",
-      "Richmond Court and Garden 2",
-      "Lekki Crystal",
-    ];
+
+        const estatesToRemind = [
+          "Dream City",
+          "Victory Park and garden",
+          "Graceland Estate",
+          "Anfield Garden",
+          "HIGHBURY BEACHFRONT",
+          "Royalty Park and Garden",
+          "Silver Spring Court",
+          "Oxford Park",
+          "Newcastle Estate",
+          "California City Estate",
+          "RUBY'S COURT",
+          "Royalty Garden Shimawa",
+          "Legend Smart City",
+          "Richmond Court and Garden 2",
+          "Lekki Crystal",
+        ];
 
     const debtors = await User.aggregate([
       // unwind their properties
       { $unwind: "$properties" },
     ]);
-
+    
 
     // Send to only choosen Estates from Ikeja Clients
     let filteredDebtors = [];
+
     debtors.forEach((debtor) => {
       if (
         Object.keys(debtor.properties).includes("propeId") &&
@@ -98,17 +75,52 @@ async function getCustomers() {
        
       }
     });
-  
+
      
-    //   send in batches 
-  
-    cron.schedule("30 10 28 * * ", ()=>{ // 1/2 past past 10 am 28th of every month
+       let validUserEmail = [];
 
-      cron.schedule("01-16 10 * * * ", () => { // from 1st minute to 16th minute of 10 am send 5 per minute
-        extractEmail(filteredDebtors, 5);
+       filteredDebtors.forEach((user) => {
+         const validEmail = validator.validate(user.email); // validate emails
+         if (validEmail == true) {
+           validUserEmail.push(user);
+         }
+       });
 
-      });
-    })
+       cron.schedule(" 30 10 23 * *", () => { // 1/2 past past 10 am 23th of every month
+
+          cron.schedule("* * * * *", () => { // fire every 1 minute
+
+            if (validUserEmail.length > 0) {
+              const currentClient = Math.floor(
+                Math.random() * validUserEmail.length
+              );
+              const selectedUsers = validUserEmail.splice(currentClient, 3);
+
+              sendBulkValidEmail(selectedUsers);
+            }
+          });
+
+
+       });
+    
+
+     function sendBulkValidEmail(selectedUsers) {
+      
+       selectedUsers.forEach((user) => {
+          //Send Email to randomly selected Users
+         sendEmail(
+           user.email,
+           "Payment Reminder !!!",
+            messages.payReminder(
+             user.name,
+             user.properties.grandDebt,
+             user.properties.name
+           )
+         );
+      
+         
+       });
+     }
 
    
   } catch (error) {

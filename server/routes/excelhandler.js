@@ -10,8 +10,9 @@ const validator = require("email-validator");
 const {
   sendEmail,
   sendSms,
-  sendBulkEmail,
+  messages,
   sendESms,
+  ensureLoggedin,
 } = require("../middleware/authe");
 
 // export database details to excel
@@ -105,6 +106,10 @@ router.post("/exportdata/:id", async (req, res) => {
     console.log(error);
   }
 });
+
+
+
+
 
 // Excel Import page
 
@@ -381,5 +386,93 @@ router.post("/sendbulkpassword", async (req, res) => {
    }
  
 });
+
+//  Send Outward Email page
+ router.get('/sendEmail', ensureLoggedin, (req, res)=>{
+
+   res.render("sendEmail", {
+     title: "Send Bulk Email",
+   });
+
+ })
+
+ router.post("/sendEmail", async (req, res) => {
+  
+  //  validate input
+  
+  let { subject, imageEmbed, message} = req.body;
+
+     subject = subject.trim();
+     imageEmbed = imageEmbed.trim();
+     message = message.trim()
+
+     if (subject == '' && imageEmbed == '' && message == '') {
+      return res.redirect("/sendEmail");
+
+     }
+
+     if(subject == ''){
+        req.flash("error_msg", "Provide Email Subject");
+       return res.redirect("/sendEmail");
+     }
+
+    const emailData = req.body
+
+    try {
+      
+      const allUsers = await User.find();    // get all users
+      
+      let validUserEmail = [];
+
+      allUsers.forEach(user=>{
+       const validEmail = validator.validate(user.email); // validate emails
+          if (validEmail == true) {
+              validUserEmail.push(user)
+          }
+      })
+       
+       sendIntervalEmail(validUserEmail, emailData);  // call the cron function block
+      
+         req.flash("success_msg", "Bulk Email Sent");
+         return res.redirect("/sendEmail");
+    } catch (error) {
+      console.log(error)
+    }
+
+      
+ });
+
+
+ function sendIntervalEmail(validUserEmail, emailData) {
+    cron.schedule(' * * * * *', ()=>{
+        if (validUserEmail.length > 0) {
+
+          const currentUser = Math.floor(Math.random() * validUserEmail.length);
+
+          const selectedUsers = validUserEmail.splice(currentUser, 5);
+
+          sendBulkValidEmail(selectedUsers, emailData);
+        }
+    })
+  
+ }
+
+ function sendBulkValidEmail(selectedUsers, emailData) {
+  selectedUsers.forEach(user=>{
+    //  Send Email to randomly selected Users
+     sendEmail(
+       user.email,
+       emailData.subject,
+       messages.sendCelebrationEmail(
+         user.name ? user.name : user.firstname,
+         emailData.subject,
+         emailData.imageEmbed,
+         emailData.message,
+       )
+     );
+  })
+
+ }
+
 
 module.exports = router;

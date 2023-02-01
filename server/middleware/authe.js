@@ -183,7 +183,7 @@ module.exports = {
         `;
     },
 
-    payReminder: (name, debt, propname, username) => {
+    payReminder: (name, debt, propname) => {
       return ` 
            <div class="container">
                           <div class="row">
@@ -196,13 +196,9 @@ module.exports = {
                           </div>
                       </div>
         <h3> Dear ${name},</h3> <br>
-        <p style="font-size: 18px; word-spacing: 1px;" > We do honestly appreciate your patronage, we wish to remind you of your outstanding balance of <strong> NGN ${debt} </strong> on <strong> ${propname} </strong>. Kindly pay up to retain your contract with us. <br>Visit our portal on www.revclient.com and login with the following details.
-        <br> <strong> Username:  ${username} <br> pasword: revolutionpluspassword </strong> <br>
-        to know more about your payment details. </p>
+        <p style="font-size: 16px; word-spacing: 1px;" > We do honestly appreciate your patronage, we wish to remind you of your outstanding balance of <strong> NGN ${debt} </strong> on <strong> ${propname} </strong>. Kindly pay up to retain your contract with us. <br>Visit our portal on www.revclient.com 
 
-        <p style="font-size: 18px; word-spacing: 1px;" > Kindly note The above password is only valid if you haven't previously changed it </p>. <br>
-
-         <p style="font-size: 18px; word-spacing: 1px;"> For more information, please send us a mail on info@revolutionplusproperty.com or resolution@revolutionplusproperty.com <br> You can also call us on 012557386. </p>
+         <p style="font-size: 16px; word-spacing: 1px;"> For more information, please send us a mail on info@revolutionplusproperty.com or resolution@revolutionplusproperty.com <br> You can also call us on 012557386. </p>
               <br>
               <p style="font-size: 18px; word-spacing: 1px;"> Thank you for choosing RevolutionPlus Property. We hope to continue bringing your real estate dream to realization.</p>Warm Regards. 
                <br>
@@ -262,6 +258,38 @@ module.exports = {
          
          `;
     },
+
+    sendCelebrationEmail: (name, subject, imageEmbed, message)=>{
+       return ` <div class="container">
+                          <div class="row">
+                              <div class="col">
+                                <div style="background-color: #632264; padding-top: 3px; padding-bottom: 3px;">
+                                    <h4 style="color: white; text-align: center;"> ${subject}</h4>
+                                </div>
+
+                              </div>
+                          </div>
+                      </div>
+        <h4> Dear ${name},</h4> <br>
+          <p style="text-align: center margin-top: -5px" >${imageEmbed}</p>
+          <span style="font-size: 16px; word-spacing: 1px;">${message}</span>
+
+              <p> Thank you for choosing RevolutionPlus Property. We hope to continue bringing your real estate dream to realization.</p>Warm Regards. 
+               <br>
+               <br>
+                <div class="container">
+                          <div class="row">
+                              <div class="col">
+                                <div style="background-color: #6C757D; padding-top: 3px; padding-bottom: 3px;">
+                                    <h5 style="color: white; text-align: center;">
+               Customer Service Department<br>
+               For: RevolutionPlus property</h5>
+                                </div>
+
+                              </div>
+                          </div>
+                      </div>`;
+    }
  
   },
 };

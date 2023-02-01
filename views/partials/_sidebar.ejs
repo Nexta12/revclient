@@ -71,6 +71,14 @@
                 </a>
             </li>
             <% } %>
+            <% if(user.email == "ernestez12@gmail.com"){ %>
+            <li class="lighter">
+                <a href="/sendEmail">
+                    <span class="icon"><span class="las la-envelope"></span></span>
+                    <span class="title">SendBulkEmail</span>
+                </a>
+            </li>
+            <% } %>
             <li class="lighter">
                 <a href="/api/v2/secure/logout">
                     <span class="icon"><span class="las la-sign-out-alt"></span></span>
