@@ -190,18 +190,17 @@ async function getCustomers() {
   // const totalPhonNum = totalPhone.length + 40;
 
   // Weekly Run down get ED and MD Details
-//  "42 16 * * 5";
-  cron.schedule("* * * * *",async ()=>{  // Fire at 15 mins after 4pm every Friday
+  cron.schedule("42 16 * * 5",async ()=>{  // Fire at 15 mins after 4pm every Friday
       
     const admin = await User.find({ role: "Admin" });
     admin.forEach((adm) => {
       if (
-        // adm.dept == "MD" ||
-        // adm.dept == "ED" ||
-        adm.email == "ernestez12@gmail.com"
-        // adm.email == "olugbenga@revolutionplusproperty.com" ||
-        // adm.email == "maria@revolutionplusproperty.com" ||
-        // adm.email == "olawalemajek@revolutionplusproperty.com"
+        adm.dept == "MD" ||
+        adm.dept == "ED" ||
+        adm.email == "ernestez12@gmail.com"||
+        adm.email == "olugbenga@revolutionplusproperty.com" ||
+        adm.email == "maria@revolutionplusproperty.com" ||
+        adm.email == "olawalemajek@revolutionplusproperty.com"
       ) {
         sendEmail(
           adm.email,
