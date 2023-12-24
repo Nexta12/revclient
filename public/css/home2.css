@@ -60,6 +60,8 @@ header ul li a {
     font-weight: 500;
     color: #bdbdbd;
     letter-spacing: 1px;
+    font-size: 18px;
+ 
 }
 
 header ul li a:hover {

@@ -14,12 +14,13 @@
   font-size: 70%;
 }
 
+
 body {
   background: var(--main-color);
 }
 
 label {
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: var(--main-color);
 }
 
@@ -35,22 +36,71 @@ form {
   transform: translate(-50%, -50%);
 }
 
+.form-group {
+  position: relative;
+}
+
+.form-group input {
+ padding: 8px 5px;
+ font-size: 15px;
+ margin-bottom: 15px;
+ border-radius: 5px;
+ background-color: transparent;
+}
+.form-group input:focus {
+  border-color: none;
+  box-shadow: none;
+  background-color: #fff;
+  border: 1px solid var(--main-color);
+  
+}
 
 form .icon {
   position: absolute;
-  right: 35px;
+  right: 8px;
+  top: 5px;
   font-size: 26px;
-  margin-top: -28px;
   color: #777;
   cursor: pointer;
 }
 form .icon:hover {
   color: var(--main-color);
 }
+.btns-auth {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 
-.form-control:focus {
-  border: 2px solid var(--main-color);
-  background: #eee;
+}
+.auth-btn {
+  border-radius: 5px;
+  border: 1px solid var(--main-color);
+  text-align: center;
+  font-size: 15px;
+  padding: 5px 15px;
+  transition: all 0.5s ease;
+}
+.auth-btn:hover {
+ background-color: var(--main-color2);
+ color: #fff;
+}
+
+
+
+.btn-warning-auth {
+  flex: 1;
+ margin-right: 5px;
+ background-color: var(--main-color);
+ color: #fff;
+}
+
+.btn-outline-auth {
+  flex: 1;
+  transition: all 0.5s ease;
+ 
+}
+.btn-outline-auth:hover{
+  border: none;
 }
 
 /* responsive */
@@ -75,6 +125,7 @@ form .icon:hover {
 
 @media only screen and (max-width: 560px) {
   form {
-    width: 80% !important;
+    width: 95% !important;
+    padding: 10px;
   }
 }

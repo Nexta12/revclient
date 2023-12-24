@@ -114,7 +114,7 @@ module.exports = {
         console.log(result.data);
       })
       .catch((err) => {
-        console.log('An error occured')
+        console.log("An error occured");
       });
   },
 
@@ -142,13 +142,13 @@ module.exports = {
   },
 
   messages: {
-  
     PropAssignsms: (name, payment, propname) => {
       return `  
          Dear ${name}, We appreciate the sacrifice of your patronage, this is to notify you that we received your payment of NGN ${payment} for ${propname}. Please visit our portal on www.revclient.com to view more
         
         `;
     },
+
     PropAssignemail: (name, payment, propname) => {
       return `
         <div class="container">
@@ -185,36 +185,103 @@ module.exports = {
 
     payReminder: (name, debt, propname) => {
       return ` 
-           <div class="container">
-                          <div class="row">
-                              <div class="col">
-                                <div style="background-color: #632264; padding-top: 3px; padding-bottom: 3px;">
-                                    <h3 style="color: white; text-align: center;">Payment Reminder !!!</h3>
-                                </div>
+                    
+<!doctype html>
+<html lang="en-US">
 
-                              </div>
-                          </div>
-                      </div>
-        <h3> Dear ${name},</h3> <br>
-        <p style="font-size: 16px; word-spacing: 1px;" > We do honestly appreciate your patronage, we wish to remind you of your outstanding balance of <strong> NGN ${debt} </strong> on <strong> ${propname} </strong>. Kindly pay up to retain your contract with us. <br>Visit our portal on www.revclient.com 
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>RevolutionPlus: Payment Reminder</title>
+    <meta name="description" content="RevolutionPlus Payment Reminder.">
+    <style type="text/css">
+        a:hover {
+            text-decoration: underline !important;
+        }
+    </style>
+</head>
 
-         <p style="font-size: 16px; word-spacing: 1px;"> For more information, please send us a mail on info@revolutionplusproperty.com or resolution@revolutionplusproperty.com <br> You can also call us on 012557386. </p>
-              <br>
-              <p style="font-size: 18px; word-spacing: 1px;"> Thank you for choosing RevolutionPlus Property. We hope to continue bringing your real estate dream to realization.</p>Warm Regards. 
-               <br>
-               <br>
-                <div class="container">
-                          <div class="row">
-                              <div class="col">
-                                <div style="background-color: #6C757D; padding-top: 3px; padding-bottom: 3px;">
-                                    <h3 style="color: white; text-align: center;">
-               Customer Service Department<br>
-               For: RevolutionPlus property</h3>
-                                </div>
+<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+    <!-- 100% body table -->
+    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
+        style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
+        <tr>
+            <td>
+                <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0"
+                    align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="height:80px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <a href="https://revclient.com" title="logo" target="_blank">
+                                <img width="150px" src="https://revclient.com/img/RevolutionPlusLogo.png" title="logo"
+                                    alt="logo">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                style="max-width:670px; background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                                <tr>
+                                    <td style="height:40px;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0 35px;">
+                                      
+                                        <p style="font-size:15px; color:#455056; margin:8px 0 0; line-height:24px;">
+                                            <span style='text-align: left'> Dear ${name} </span> <br>
 
-                              </div>
-                          </div>
-                      </div>
+                                            We do honestly appreciate your patronage, we wish to remind you of your
+                                            outstanding balance of <strong> NGN ${debt} </strong> on <strong>
+                                                ${propname} </strong>. 
+                                            <br> Kindly pay up to retain your contract with us.
+                                            <br>
+                                        </p>
+                                      
+                                        <br>
+
+                                        <span
+                                            style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                                            <p> For More information :<br>
+                                                Visit our portal on www.revclient.com <br>
+                                                Email: info@revolutionplusproperty.com <br>
+                                                or resolution@revolutionplusproperty.com <br>
+                                                Call: 012557386.<br>
+                                            </p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height:40px;">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <p
+                                style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">
+                                &copy; <strong>RevolutionPlus Property LLC</strong> </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:80px;">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!--/100% body table-->
+</body>
+
+</html>
         `;
     },
 
@@ -259,37 +326,92 @@ module.exports = {
          `;
     },
 
-    sendCelebrationEmail: (name, subject, imageEmbed, message)=>{
-       return ` <div class="container">
-                          <div class="row">
-                              <div class="col">
-                                <div style="background-color: #632264; padding-top: 3px; padding-bottom: 3px;">
-                                    <h4 style="color: white; text-align: center;"> ${subject}</h4>
-                                </div>
+    sendCelebrationEmail: (imageEmbed, message) => {
 
-                              </div>
-                          </div>
-                      </div>
-        <h4> Dear ${name},</h4> <br>
-          <p style="text-align: center margin-top: -5px" >${imageEmbed}</p>
-          <span style="font-size: 16px; word-spacing: 1px;">${message}</span>
+      return `
 
-              <p> Thank you for choosing RevolutionPlus Property. We hope to continue bringing your real estate dream to realization.</p>Warm Regards. 
-               <br>
-               <br>
-                <div class="container">
-                          <div class="row">
-                              <div class="col">
-                                <div style="background-color: #6C757D; padding-top: 3px; padding-bottom: 3px;">
-                                    <h5 style="color: white; text-align: center;">
-               Customer Service Department<br>
-               For: RevolutionPlus property</h5>
-                                </div>
+      <!doctype html>
+    <html lang="en-US">
 
-                              </div>
-                          </div>
-                      </div>`;
-    }
- 
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>RevolutionPlus: New Message</title>
+    <meta name="description" content="RevolutionPlus Email Messages.">
+    <style type="text/css">
+        a:hover {
+            text-decoration: underline !important;
+        }
+    </style>
+</head>
+
+<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+    <!-- 100% body table -->
+    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
+        style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
+        <tr>
+            <td>
+                <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0"
+                    align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="height:80px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <a href="https://revclient.com" title="logo" target="_blank">
+                                <img width="150px" src="https://revclient.com/img/revolutionplus-logo.png" title="logo"
+                                    alt="logo">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                style="max-width:670px; background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                                <tr>
+                                    <td style="height:40px;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0 35px;">
+
+                                                <p style="text-align: center; margin-top: -5px">${imageEmbed}</p>
+                                                <p style="font-size:15px; color:#455056; margin:8px 0 0; line-height:24px;">${message}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height:40px;">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <p
+                                style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">
+                                &copy; <strong>RevolutionPlus Property LLC</strong> </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:80px;">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+   
+</body>
+
+</html>
+        
+
+      `;
+    
+    },
+  
   },
 };

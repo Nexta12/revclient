@@ -421,20 +421,11 @@ router.post("/sendbulkpassword", async (req, res) => {
     try {
       
       const allUsers = await User.find();    // get all users
-      
-      let validUserEmail = [];
-
-      allUsers.forEach(user=>{
-       const validEmail = validator.validate(user.email); // validate emails
-          if (validEmail == true) {
-              validUserEmail.push(user)
-          }
-      })
-       
+      const validUserEmail = allUsers.filter((user) => validator.validate(user.email));
        sendIntervalEmail(validUserEmail, emailData);  // call the cron function block
       
-         req.flash("success_msg", "Bulk Email Sent");
-         return res.redirect("/sendEmail");
+       req.flash("success_msg", "Bulk Email Sent");
+       return res.redirect("/sendEmail");
     } catch (error) {
       console.log(error)
     }
@@ -464,8 +455,6 @@ router.post("/sendbulkpassword", async (req, res) => {
        user.email,
        emailData.subject,
        messages.sendCelebrationEmail(
-         user.name ? user.name : user.firstname,
-         emailData.subject,
          emailData.imageEmbed,
          emailData.message,
        )
