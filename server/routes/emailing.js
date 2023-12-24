@@ -190,18 +190,18 @@ async function getCustomers() {
   // const totalPhonNum = totalPhone.length + 40;
 
   // Weekly Run down get ED and MD Details
-
-  cron.schedule("42 16 * * 5",async ()=>{  // Fire at 15 mins after 4pm every Friday
+//  "42 16 * * 5";
+  cron.schedule("* * * * *",async ()=>{  // Fire at 15 mins after 4pm every Friday
       
     const admin = await User.find({ role: "Admin" });
     admin.forEach((adm) => {
       if (
-        adm.dept == "MD" ||
-        adm.dept == "ED" ||
-        adm.email == "ernestez12@gmail.com" ||
-        adm.email == "olugbenga@revolutionplusproperty.com" ||
-        adm.email == "maria@revolutionplusproperty.com" ||
-        adm.email == "olawalemajek@revolutionplusproperty.com"
+        // adm.dept == "MD" ||
+        // adm.dept == "ED" ||
+        adm.email == "ernestez12@gmail.com"
+        // adm.email == "olugbenga@revolutionplusproperty.com" ||
+        // adm.email == "maria@revolutionplusproperty.com" ||
+        // adm.email == "olawalemajek@revolutionplusproperty.com"
       ) {
         sendEmail(
           adm.email,
@@ -228,10 +228,7 @@ async function getCustomers() {
             <td>
                 <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0"
                     align="center" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
-                    </tr>
-                    <tr>
+                  
                         <td style="text-align:center;">
                             <a href="https://revclient.com" title="logo" target="_blank">
                                 <img width="150px" src="https://revclient.com/img/revolutionplus-logo.png" title="logo"

@@ -209,8 +209,9 @@ module.exports = {
                 <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0"
                     align="center" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td style="height:80px;">&nbsp;</td>
+                        <td style="height:30px;">&nbsp;</td>
                     </tr>
+                  
                     <tr>
                         <td style="text-align:center;">
                             <a href="https://revclient.com" title="logo" target="_blank">
@@ -225,7 +226,7 @@ module.exports = {
                     <tr>
                         <td>
                             <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
-                                style="max-width:670px; background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                                style="max-width:670px; background:#fff; border-radius:3px;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
                                 <tr>
                                     <td style="height:40px;">&nbsp;</td>
                                 </tr>
@@ -233,7 +234,7 @@ module.exports = {
                                     <td style="padding:0 35px;">
                                       
                                         <p style="font-size:15px; color:#455056; margin:8px 0 0; line-height:24px;">
-                                            <span style='text-align: left'> Dear ${name} </span> <br>
+                                            <span style='text-align: left'> Dear <b>${name}</b> </span> <br>
 
                                             We do honestly appreciate your patronage, we wish to remind you of your
                                             outstanding balance of <strong> NGN ${debt} </strong> on <strong>
@@ -246,7 +247,7 @@ module.exports = {
 
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                            <p> For More information :<br>
+                                            <p style="font-size: 12px; font-style: italic;"> For More information :<br>
                                                 Visit our portal on www.revclient.com <br>
                                                 Email: info@revolutionplusproperty.com <br>
                                                 or resolution@revolutionplusproperty.com <br>
@@ -256,7 +257,7 @@ module.exports = {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="height:40px;">&nbsp;</td>
+                                    <td style="height:20px;">&nbsp;</td>
                                 </tr>
                             </table>
                         </td>
@@ -272,7 +273,7 @@ module.exports = {
                         </td>
                     </tr>
                     <tr>
-                        <td style="height:80px;">&nbsp;</td>
+                        <td style="height:20px;">&nbsp;</td>
                     </tr>
                 </table>
             </td>
@@ -352,8 +353,8 @@ module.exports = {
             <td>
                 <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0"
                     align="center" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
+                      <tr>
+                        <td style="height:20px;">&nbsp;</td>
                     </tr>
                     <tr>
                         <td style="text-align:center;">
@@ -397,7 +398,7 @@ module.exports = {
                         </td>
                     </tr>
                     <tr>
-                        <td style="height:80px;">&nbsp;</td>
+                        <td style="height:20px;">&nbsp;</td>
                     </tr>
                 </table>
             </td>
